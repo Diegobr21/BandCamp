@@ -15,7 +15,7 @@ public class Login {
 		boolean bandera = true;
 		Scanner scanner = new Scanner(System.in);
 		
-		System.out.print("Ingresa tu correo electronico: ");
+		System.out.print("Ingresa tu correo electrónico: ");
 		String correo = scanner.nextLine();
 		System.out.print("Ingresa tu contraseña: ");
 		String contraseña = scanner.nextLine();
@@ -38,13 +38,13 @@ public class Login {
 			}
 		}
 		
-		System.out.println("Ingresa tu nombre de usuario: ");
+		System.out.print("Ingresa tu nombre de usuario: ");
 		String nombre = scanner.nextLine();
-		System.out.println("Ingresa el genero que interpretas: ");
+		System.out.print("Ingresa el género que interpretas: ");
 		String genero = scanner.nextLine();
-		System.out.println("Que instrumento tocas: ");
+		System.out.print("¿Qué instrumento tocas?: ");
 		String instrumento = scanner.nextLine();
-		System.out.println("A que facultad perteneces: ");
+		System.out.print("¿A qué facultad perteneces?: ");
 		String facultad = scanner.nextLine();
 		
 		//Se declara e instancia un nuevo objeto de tipo Usuario, despues se utilizan los metodos de acceso para obtener los datos e imprimirlos.
