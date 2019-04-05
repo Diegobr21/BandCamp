@@ -50,8 +50,6 @@ public class Registrar {
 		System.out.print("A que facultad perteneces: ");
 		String facultad = scanner.nextLine();
 		
-		scanner.close();
-		
 		//Se declara e instancia un nuevo objeto de tipo Usuario, despues se utilizan los metodos de acceso para obtener los datos e imprimirlos.
 		return new Usuario(id, correo, contraseña, tipo, nombre, genero, instrumento, facultad);
 	}

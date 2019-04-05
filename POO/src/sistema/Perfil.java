@@ -33,8 +33,6 @@ public class Perfil {
 		String facultad = scanner.nextLine();
 		cuenta.setFac_usu(facultad);
 		
-		scanner.close();
-		
 		return cuenta;
 	}
 }

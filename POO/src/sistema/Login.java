@@ -20,8 +20,6 @@ public class Login {
 //			System.out.println("Correo correcto y contraseña correcta");
 //		}
 		
-		scanner.close();
-		
 		return null;
 	}
 }
