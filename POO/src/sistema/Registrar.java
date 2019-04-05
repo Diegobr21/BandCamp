@@ -10,16 +10,16 @@ public class Registrar {
 		String tipo_usuario = "";
 		Scanner scanner = new Scanner(System.in);
 		
-		System.out.println("Ingresa tu correo electronico: ");
+		System.out.print("Ingresa tu correo electronico: ");
 		String correo = scanner.nextLine();
 		
-		System.out.println("Ingresa tu contraseña: ");
+		System.out.print("Ingresa tu contraseña: ");
 		String contraseña = scanner.nextLine();
 		
 		boolean bandera = true;
 		//Ciclo while, permite al usuario reingresar los datos en caso de que no se ingrese un valor aceptable.
 		while (bandera) {
-			System.out.println("Ingresa una opción: 1.- Artista 2.-Banda");
+			System.out.print("Ingresa una opción: 1.- Artista 2.-Banda: ");
 			tipo = Integer.parseInt(scanner.nextLine());
 			
 			//Switch, basicamente convierte el valor entero que ingreso el usuario para que se guarde como un string en otra variable.
@@ -38,16 +38,16 @@ public class Registrar {
 			}
 		}
 		
-		System.out.println("Ingresa tu nombre de usuario: ");
+		System.out.print("Ingresa tu nombre de usuario: ");
 		String nombre = scanner.nextLine();
 		
-		System.out.println("Ingresa el genero que interpretas: ");
+		System.out.print("Ingresa el genero que interpretas: ");
 		String genero = scanner.nextLine();
 		
-		System.out.println("Que instrumento tocas: ");
+		System.out.print("Que instrumento tocas: ");
 		String instrumento = scanner.nextLine();
 		
-		System.out.println("A que facultad perteneces: ");
+		System.out.print("A que facultad perteneces: ");
 		String facultad = scanner.nextLine();
 		
 		scanner.close();
