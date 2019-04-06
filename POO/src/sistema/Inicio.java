@@ -1,21 +1,19 @@
 package sistema;
 
-import java.util.Scanner;
+import javax.swing.JOptionPane;
+
+import validaciones.ValidNum;
 
 public class Inicio {
-
 	public static void main(String[] args) {
 		Usuario cuenta = null;
-		
 		Registrar registro = new Registrar();
 		Login login = new Login();
 		Perfil perfil = new Perfil();
-		boolean bandera = true;
-		Scanner scanner = new Scanner(System.in);
 		
+		boolean bandera = true;
 		while (bandera) {
-			System.out.println("Que opcion desea realizar.");
-			int opcion = Integer.parseInt(scanner.nextLine());
+			int opcion = ValidNum.validInt("Opción: ", "Menú");
 			
 			switch (opcion) {
 				case 1:
@@ -30,13 +28,15 @@ public class Inicio {
 					// editar cuenta
 					cuenta = perfil.editar(cuenta);
 					break;
-				default:
+				case 4:
 					registro.imprimir(cuenta);
 					bandera = false;
 					break;
+				default:
+					JOptionPane.showMessageDialog(null, "Seleccionar solo opciones disponibles.",
+							"Error", JOptionPane.WARNING_MESSAGE);
+					break;
 			}
 		}
-		
-		scanner.close();
 	}
 }
