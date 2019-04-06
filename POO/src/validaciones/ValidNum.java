@@ -2,7 +2,25 @@ package validaciones;
 
 import javax.swing.JOptionPane;
 
-public class ValidNum extends BoolIsNumber {
+/**
+ * Clase con métodos para validar si un <code>String</code> representa un tipo <code>int</code> válido.
+ */
+public class ValidNum {
+	
+	/**
+	 * Método booleando que valida si un <code>String</code> representa un <code>int</code>.
+	 * @param input <code>String</code> de entrada que será parseado a <code>int</code>.
+	 * @return <code>true</code> si el <code>String</code> representa un <code>int</code> válido.
+	 */
+	private static boolean isInt(String input) {
+		try {
+			Integer.parseInt(input);
+			return true;
+		}
+		catch (NumberFormatException error) {
+			return false;
+		}
+	}
 	
 	/**
 	 * Pide una entrada de tipo <code>String</code> para luego

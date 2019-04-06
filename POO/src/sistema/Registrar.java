@@ -2,6 +2,8 @@ package sistema;
 
 import java.util.Scanner;
 
+import validaciones.Password;
+
 public class Registrar {
 	//Metodo "capturar" permite al usuario registrar una nueva cuenta. Por cambiar: TODO.
 	public Usuario capturar() {
@@ -15,6 +17,7 @@ public class Registrar {
 		
 		System.out.print("Ingresa tu contraseña: ");
 		String contraseña = scanner.nextLine();
+		System.out.println(Password.isValidPassword(contraseña));
 		
 		boolean bandera = true;
 		//Ciclo while, permite al usuario reingresar los datos en caso de que no se ingrese un valor aceptable.
