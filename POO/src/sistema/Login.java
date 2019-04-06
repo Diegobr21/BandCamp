@@ -8,14 +8,15 @@ public class Login {
 	public Usuario ingresar() {
 		Scanner scanner = new Scanner(System.in);
 		
-		System.out.println("Ingresa tu correo electronico: ");
+		System.out.print("Correo electrónico: ");
 		String correo = scanner.nextLine();
 		
-		System.out.println("Ingresa tu contraseña: ");
+		System.out.print("Contraseña: ");
 		String contraseña = scanner.nextLine();
 		
 		//Validacion en base de datos
 		// aquí se harán los queries para comprobar que el correo y la contraseña coinciden
+		
 //		if (cuenta.getCor_usu().equals(correo) && cuenta.getPas_usu().equals(contraseña)) {
 //			System.out.println("Correo correcto y contraseña correcta");
 //		}
