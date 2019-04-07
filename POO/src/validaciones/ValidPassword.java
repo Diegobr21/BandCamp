@@ -5,7 +5,7 @@ import javax.swing.JOptionPane;
 /**
  * Clase para validar si la contraseña ingresada cumple con los requisitos mencionados en su método.
  */
-public class Password {
+public class ValidPassword {
 	
 	/**
 	 * Método que valida mediante expresiones regulares si el <code>String</code> de entrada cumple con:

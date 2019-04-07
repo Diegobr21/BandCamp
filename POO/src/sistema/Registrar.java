@@ -4,7 +4,8 @@ import java.util.Scanner;
 
 import javax.swing.JOptionPane;
 
-import validaciones.Password;
+import validaciones.MD5;
+import validaciones.ValidPassword;
 
 public class Registrar {
 	//Metodo "capturar" permite al usuario registrar una nueva cuenta. Por cambiar: TODO.
@@ -21,14 +22,19 @@ public class Registrar {
 		while (true) {
 			System.out.print("\nNueva contraseña: ");
 			password = scanner.nextLine();
-			if (!Password.isValidPassword(password)) {
+			if (!ValidPassword.isValidPassword(password)) {
 				continue;
 			}
 			
 			System.out.print("Verificar contraseña: ");
 			String duplicate = scanner.nextLine();
 			if (password.equals(duplicate)) {
-				break;
+				
+				// se obtiene el hash de la contraseña
+				password = MD5.hashPassword(password);
+				if (password != null) {
+					break;
+				}
 			}
 			else {
 				JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -69,7 +75,9 @@ public class Registrar {
 		System.out.print("¿A cuál facultad perteneces?: ");
 		String facultad = scanner.nextLine().toUpperCase();
 		
-		//Se declara e instancia un nuevo objeto de tipo Usuario, despues se utilizan los metodos de acceso para obtener los datos e imprimirlos.
+		//Se declara e instancia un nuevo objeto de tipo Usuario, despues se utilizan los metodos de acceso
+		// para obtener los datos e imprimirlos.
+		// la variable password almacena el hash de la contraseña del usuario.
 		return new Usuario(id, correo, password, tipo, nombre, genero, instrumento, facultad);
 	}
 	
