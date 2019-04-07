@@ -113,8 +113,8 @@ public class Feed extends JFrame implements ActionListener {
 			JOptionPane.showMessageDialog(null, "Links de ayuda: \n www.help.mx \n www.oracle.com");
 			
 		}else if (command.contentEquals("PerfilUser")) {
-			UserLogin frameLogin = new UserLogin();
-			frameLogin.setVisible(true);
+			Perfil profileframe = new Perfil();
+			profileframe.setVisible(true);
 			Feed.this.dispose();
 		}else if (command.contentEquals("Cerrar")) {
 			UserLogin frameLogin = new UserLogin();
