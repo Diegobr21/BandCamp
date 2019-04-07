@@ -16,6 +16,8 @@ public class Inicio {
 			int opcion = ValidNum.validInt("Opción: ", "Menú");
 			
 			switch (opcion) {
+				case 0:
+					return;
 				case 1:
 					// registro
 					cuenta = registro.capturar();

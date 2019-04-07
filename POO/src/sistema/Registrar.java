@@ -2,6 +2,10 @@ package sistema;
 
 import java.util.Scanner;
 
+import javax.swing.JOptionPane;
+
+import validaciones.Password;
+
 public class Registrar {
 	//Metodo "capturar" permite al usuario registrar una nueva cuenta. Por cambiar: TODO.
 	public Usuario capturar() {
@@ -10,16 +14,31 @@ public class Registrar {
 		String tipo_usuario = "";
 		Scanner scanner = new Scanner(System.in);
 		
-		System.out.print("Ingresa tu correo electronico: ");
+		System.out.print("Correo electrónico: ");
 		String correo = scanner.nextLine();
 		
-		System.out.print("Ingresa tu contraseña: ");
-		String contraseña = scanner.nextLine();
+		String password;
+		while (true) {
+			System.out.print("\nNueva contraseña: ");
+			password = scanner.nextLine();
+			if (!Password.isValidPassword(password)) {
+				continue;
+			}
+			
+			System.out.print("Verificar contraseña: ");
+			String duplicate = scanner.nextLine();
+			if (password.equals(duplicate)) {
+				break;
+			}
+			else {
+				JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden.", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+		}
 		
 		boolean bandera = true;
 		//Ciclo while, permite al usuario reingresar los datos en caso de que no se ingrese un valor aceptable.
 		while (bandera) {
-			System.out.print("Ingresa una opción: 1.- Artista 2.-Banda: ");
+			System.out.print("¿Artista (1) o Banda (2)?: ");
 			tipo = Integer.parseInt(scanner.nextLine());
 			
 			//Switch, basicamente convierte el valor entero que ingreso el usuario para que se guarde como un string en otra variable.
@@ -38,20 +57,20 @@ public class Registrar {
 			}
 		}
 		
-		System.out.print("Ingresa tu nombre de usuario: ");
+		System.out.print("Nombre de usuario: ");
 		String nombre = scanner.nextLine();
 		
-		System.out.print("Ingresa el genero que interpretas: ");
+		System.out.print("¿Qué género interpretas?: ");
 		String genero = scanner.nextLine();
 		
-		System.out.print("Que instrumento tocas: ");
+		System.out.print("¿Qué instrumento tocas?: ");
 		String instrumento = scanner.nextLine();
 		
-		System.out.print("A que facultad perteneces: ");
-		String facultad = scanner.nextLine();
+		System.out.print("¿A cuál facultad perteneces?: ");
+		String facultad = scanner.nextLine().toUpperCase();
 		
 		//Se declara e instancia un nuevo objeto de tipo Usuario, despues se utilizan los metodos de acceso para obtener los datos e imprimirlos.
-		return new Usuario(id, correo, contraseña, tipo, nombre, genero, instrumento, facultad);
+		return new Usuario(id, correo, password, tipo, nombre, genero, instrumento, facultad);
 	}
 	
 	//Metodo "imprimir", hace lo que tiene que hacer, imprimir.
