@@ -69,32 +69,12 @@ public class Registro extends JFrame implements ActionListener {
 		
 		comboBoxFacultades = new JComboBox<String>();
 		comboBoxFacultades.setModel(new DefaultComboBoxModel<String>(
-				new String[] {"FIME", "FCQ", "FACPYA", "FCFM", "FARQ", "FACDYC"}));
+				new String[] {"FIME", "FCQ", "FACPYA", "FCFM", "FARQ", "FACDYC", "FIC", "FAV", "FOD"}));
 		comboBoxFacultades.setBounds(358, 81, 158, 20);
 		contentPane.add(comboBoxFacultades);
 					//Event handler comboBoxes--
 		comboBoxFacultades.setEditable(false);
-		comboBoxFacultades.addActionListener(new ActionListener() {
-			private boolean found = false;
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String s = (String) comboBoxFacultades.getSelectedItem();
-				for (int i = 0; i < comboBoxFacultades.getItemCount(); i++) {
-					if (comboBoxFacultades.getItemAt(i).toString().equals(s)) {
-						found = true;
-						//chequeo de funcionamiento
-						System.out.print(comboBoxFacultades.getItemAt(i));
-						//todo bien
-						break;
-					}
-				}
-				if (!found) {
-					JOptionPane.showMessageDialog(null, "Agregado: "+s);
-					comboBoxFacultades.addItem(s);
-				}
-				found = false;
-			}
-		});
+		comboBoxFacultades.addActionListener(this);
 		//---End
 		
 		JLabel lblFacultad = new JLabel("\u00BFA qu\u00E9 facultad perteneces?");
@@ -110,7 +90,7 @@ public class Registro extends JFrame implements ActionListener {
 		comboBoxGeneros.setBounds(358, 206, 158, 20);
 		contentPane.add(comboBoxGeneros);
 		//Event handler comboBoxes--
-				comboBoxGeneros.setEditable(true);
+				comboBoxGeneros.setEditable(false);
 				comboBoxGeneros.addActionListener(new ActionListener() {
 					private boolean found = false;
 					@Override
@@ -139,11 +119,11 @@ public class Registro extends JFrame implements ActionListener {
 		
 		comboBoxInstrumentos = new JComboBox<String>();
 		comboBoxInstrumentos.setModel(new DefaultComboBoxModel<String>(
-				new String[] {"Guitarra", "Bater\u00EDa", "Piano", "Xilofono", "Flauta", "Viol\u00EDn", "Trompeta", "Oboe", "Ocarina"}));
+				new String[] {"Guitarra", "Bater\u00EDa", "Piano", "Xilófono", "Flauta", "Viol\u00EDn", "Trompeta", "Oboe", "Ocarina"}));
 		comboBoxInstrumentos.setBounds(358, 274, 158, 20);
 		contentPane.add(comboBoxInstrumentos);
 				//Event handler comboBoxes--
-		comboBoxInstrumentos.setEditable(true);
+		comboBoxInstrumentos.setEditable(false);
 		comboBoxInstrumentos.addActionListener(new ActionListener() {
 			private boolean found = false;
 			@Override
