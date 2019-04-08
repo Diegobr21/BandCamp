@@ -25,7 +25,7 @@ public class Inicio {
 					break;
 				case 2:
 					// incio de sesión
-					cuenta = login.ingresar();
+					//cuenta = login.ingresar();
 					break;
 				case 3:
 					// editar cuenta

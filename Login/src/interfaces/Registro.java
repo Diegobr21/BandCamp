@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -19,8 +20,6 @@ import javax.swing.JToggleButton;
 import javax.swing.border.EmptyBorder;
 
 import sistema.Registrar;
-import validaciones.MD5;
-import javax.swing.ImageIcon;
 
 @SuppressWarnings("serial")
 public class Registro extends JFrame implements ActionListener {
@@ -119,7 +118,8 @@ public class Registro extends JFrame implements ActionListener {
 		
 		comboBoxInstrumentos = new JComboBox<String>();
 		comboBoxInstrumentos.setModel(new DefaultComboBoxModel<String>(
-				new String[] {"Guitarra", "Bater\u00EDa", "Piano", "Xilófono", "Flauta", "Viol\u00EDn", "Trompeta", "Oboe", "Ocarina"}));
+				new String[] {"Guitarra", "Bater\u00EDa", "Piano", "Xilófono", "Flauta",
+						"Viol\u00EDn", "Trompeta", "Oboe", "Ocarina", "Bajo"}));
 		comboBoxInstrumentos.setBounds(358, 274, 158, 20);
 		contentPane.add(comboBoxInstrumentos);
 				//Event handler comboBoxes--
@@ -268,27 +268,23 @@ public class Registro extends JFrame implements ActionListener {
 		}
 		
 		else if (command.contentEquals("Crear")) {
-			String correo = txtCorreo.getText();
-			String nombre = txtNombre.getText();
 			String[] passwords = new String[2];
 			passwords[0] = String.valueOf(pswdPassword.getPassword());
 			passwords[1] = String.valueOf(pswdDuplicate.getPassword());
 			
-			Registrar registro = new Registrar();
-			if (registro.isFormComplete(new String[] {correo, nombre, passwords[0], passwords[1]})) {
-				if (registro.matchPasswords(passwords)) {
-					String genero = comboBoxGeneros.getSelectedItem().toString().toLowerCase();
-					String instrumento = comboBoxInstrumentos.getSelectedItem().toString().toLowerCase();
-					String facultad = comboBoxFacultades.getSelectedItem().toString();
-					MD5 hasher = new MD5();
-					registro.createAccount(correo, hasher.hashPassword(passwords[0]), tipo, nombre, genero, instrumento, facultad);
-					
-					JOptionPane.showMessageDialog(this, "Se ha registrado correctamente.",
-							"Cuenta creada", JOptionPane.INFORMATION_MESSAGE);
-					UserLogin frameLogin = new UserLogin();
-					frameLogin.setVisible(true);
-					Registro.this.dispose();
-				}
+			String correo = txtCorreo.getText();
+			String nombre = txtNombre.getText();
+			String genero = comboBoxGeneros.getSelectedItem().toString().toLowerCase();
+			String instrumento = comboBoxInstrumentos.getSelectedItem().toString().toLowerCase();
+			String facultad = comboBoxFacultades.getSelectedItem().toString();
+			
+			boolean success = new Registrar().createAccount(correo, passwords, tipo, nombre, genero, instrumento, facultad);
+			if (success) {
+				JOptionPane.showMessageDialog(null, "Se ha registrado correctamente.",
+						"Cuenta creada", JOptionPane.INFORMATION_MESSAGE);
+				UserLogin frameLogin = new UserLogin();
+				frameLogin.setVisible(true);
+				Registro.this.dispose();	
 			}
 		}
 		else if (command.contentEquals("Regresar")) {

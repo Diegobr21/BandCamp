@@ -1,25 +1,28 @@
 package interfaces;
 
+import java.awt.Color;
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JTextField;
-import java.awt.Color;
 import javax.swing.JButton;
-import javax.swing.border.BevelBorder;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.border.BevelBorder;
+
+import sistema.Login;
+import sistema.Usuario;
 
 @SuppressWarnings("serial")
 public class UserLogin extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
-	private JTextField correotxt;
+	private JTextField txtCorreo;
 	private JPasswordField passwordField;
 
 	/**
@@ -71,11 +74,11 @@ public class UserLogin extends JFrame implements ActionListener {
 		lblContrasea.setBounds(101, 130, 75, 14);
 		contentPane.add(lblContrasea);
 		
-		correotxt = new JTextField();
-		correotxt.setBounds(186, 90, 217, 20);
-		contentPane.add(correotxt);
-		correotxt.setColumns(10);
-		correotxt.addActionListener(this);
+		txtCorreo = new JTextField();
+		txtCorreo.setBounds(186, 90, 217, 20);
+		contentPane.add(txtCorreo);
+		txtCorreo.setColumns(10);
+		txtCorreo.addActionListener(this);
 		
 		JButton Iniciarbtn = new JButton("Iniciar sesi\u00F3n");
 		Iniciarbtn.setFont(new Font("Verdana", Font.BOLD, 12));
@@ -97,17 +100,23 @@ public class UserLogin extends JFrame implements ActionListener {
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent a) {
-		//---textfields
-		String correo_usu = correotxt.getText();
-		String pass_usu= Character.toString(passwordField.getEchoChar());	
-		
+	public void actionPerformed(ActionEvent event) {		
 		//---botones
-		String command= a.getActionCommand();
-		if(command.contentEquals("Inicio")) {
-			Feed framefeed = new Feed();
-			framefeed.setVisible(true);
-			UserLogin.this.dispose();
+		String command = event.getActionCommand();
+		if (command.contentEquals("Inicio")) {
+			String correo = txtCorreo.getText();
+			String password = String.valueOf(passwordField.getPassword());
+			
+			Usuario sesionIniciada = new Login().ingresar(correo, password);
+			if (sesionIniciada == null) {
+				JOptionPane.showMessageDialog(this, "El correo y la contraseña ingresados no coinciden con los registros.",
+						"Error", JOptionPane.ERROR_MESSAGE);
+			}
+			else {
+				Feed framefeed = new Feed();
+				framefeed.setVisible(true);
+				UserLogin.this.dispose();
+			}
 		}
 		else if(command.contentEquals("Registro")) {
 		    Registro frameregistro = new Registro();

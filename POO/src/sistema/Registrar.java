@@ -2,28 +2,41 @@ package sistema;
 
 import javax.swing.JOptionPane;
 
+import validaciones.MD5;
 import validaciones.ValidPassword;
 
 public class Registrar {
 	/**
-	 * Recibe los atributos de un objeto tipo {@link Usuario} para instanciar uno y enviarlo
+	 * Recibe los atributos de un objeto tipo {@link Usuario} desde la interfaz de registro 
+	 * para validar la información, si es correcta instanciar uno y enviarlo 
 	 * a un nuevo registro en la base de datos.
 	 * @param correo <code>String</code> del correo electrónico.
-	 * @param password <code>String</code> de la contraseña encriptada con MD5 (hash).
+	 * @param password Arreglo tipo <code>String</code> de las contraseñas ingresadas.
 	 * @param tipo <code>int</code> del tipo de usuario (artista = 1 ; banda = 2).
 	 * @param nombre <code>String</code> del nombre de usuario.
 	 * @param genero <code>String</code> del género musical.
 	 * @param instrumento <code>String</code> del instrumento.
 	 * @param facultad <code>String</code> de la facultad.
+	 * @return <code>true</code> si la cuenta fue creada, de lo contrario <code>false</code>.
 	 * @see validaciones.MD5#hashPassword(String)
 	 */
-	public void createAccount(String correo, String password, int tipo,
+	public boolean createAccount(String correo, String[] passwords, int tipo,
 			String nombre, String genero, String instrumento, String facultad) {
-		// modificar ID
-		Usuario newAccount = new Usuario(0, correo, password, tipo, nombre, genero, instrumento, facultad);
+		
+		if (isFormComplete(new String[] {correo, nombre, passwords[0], passwords[1]})) {
+			if (matchPasswords(passwords)) {
+				MD5 hasher = new MD5();
+				passwords[1] = hasher.hashPassword(passwords[0]);
+			}
+			else return false;
+		}
+		else return false;
+		
+		// ID ?
+		Usuario newAccount = new Usuario(0, correo, passwords[1], tipo, nombre, genero, instrumento, facultad);
 		imprimir(newAccount);
 		// enviar objeto newAccount a un registro de la base de datos
-		return;
+		return true;
 	}
 	
 	/**
@@ -33,7 +46,7 @@ public class Registrar {
 	 * @return <code>true</code> si la contraseña cumple con los requisitos y además ambas entradas
 	 * coinciden. De lo contrario <code>false</code>.
 	 */
-	public boolean matchPasswords(String[] passwords) {
+	private boolean matchPasswords(String[] passwords) {
 		if (ValidPassword.isValidPassword(passwords[0])) {
 			if (passwords[0].equals(passwords[1])) {
 				return true;
@@ -50,7 +63,7 @@ public class Registrar {
 	 * @return <code>false</code> si algún campo está vacío. Si todos han sido llenados,
 	 * retorna <code>true</code>.
 	 */
-	public boolean isFormComplete(String[] textFields) {
+	private boolean isFormComplete(String[] textFields) {
 		for (String string : textFields) {
 			if (string.equals("")) {
 				JOptionPane.showMessageDialog(null, "Favor de llenar todos los campos",
@@ -65,7 +78,7 @@ public class Registrar {
 	 * Método que imprime los atributos de un usuario.
 	 * @param cuenta objeto de tipo <code>Usuario</code> que contiene los atributos a imprimir.
 	 */
-	public void imprimir(Usuario cuenta) {
+	private void imprimir(Usuario cuenta) {
 		System.out.println(cuenta.getId());
 		System.out.println(cuenta.getCor_usu());
 		System.out.println(cuenta.getPas_usu());
