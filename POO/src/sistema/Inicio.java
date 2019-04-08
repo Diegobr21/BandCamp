@@ -21,7 +21,7 @@ public class Inicio {
 					return;
 				case 1:
 					// registro
-					registro.main(null);
+					//cuenta = registro.main(null);
 					break;
 				case 2:
 					// incio de sesión
