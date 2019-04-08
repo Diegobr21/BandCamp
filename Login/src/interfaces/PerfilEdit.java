@@ -39,10 +39,10 @@ public class PerfilEdit extends JFrame implements ActionListener{
 		});
 	}
 
+	private Usuario cuenta;
 	/**
 	 * Create the frame.
 	 */
-	private Usuario cuenta;
 	public PerfilEdit(Usuario sesion) {
 		// cuenta de ejemplo, cuando el argumento es null
 		if (sesion == null) {

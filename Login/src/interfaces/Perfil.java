@@ -38,10 +38,10 @@ public class Perfil extends JFrame implements ActionListener {
 		});
 	}
 
+	Usuario cuenta;
 	/**
 	 * Create the frame.
 	 */
-	Usuario cuenta;
 	public Perfil(Usuario sesion) {
 		// cuenta de ejemplo, cuando el argumento es null
 		if (sesion == null) {

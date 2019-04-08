@@ -34,10 +34,10 @@ public class Feed extends JFrame implements ActionListener {
 		});
 	}
 
+	private Usuario cuenta;
 	/**
 	 * Create the frame.
 	 */
-	private Usuario cuenta;
 	public Feed(Usuario sesion) {
 		cuenta = sesion;
 		
