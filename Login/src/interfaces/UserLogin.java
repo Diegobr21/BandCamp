@@ -1,4 +1,5 @@
 package interfaces;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -30,7 +31,8 @@ public class UserLogin extends JFrame implements ActionListener {
 				try {
 					UserLogin frame = new UserLogin();
 					frame.setVisible(true);
-				} catch (Exception e) {
+				}
+				catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
@@ -41,6 +43,7 @@ public class UserLogin extends JFrame implements ActionListener {
 	 * Create the frame.
 	 */
 	public UserLogin() {
+		setTitle("Bandcamp - Iniciar sesión");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 593, 414);
 		contentPane = new JPanel();

@@ -1,24 +1,18 @@
 package interfaces;
-import java.awt.BorderLayout;
+
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
-import javax.swing.JSeparator;
-import javax.swing.WindowConstants;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
-import javax.swing.JCheckBoxMenuItem;
 
+@SuppressWarnings("serial")
 public class Feed extends JFrame implements ActionListener {
-
 	private JPanel contentPane;
 
 	/**
@@ -67,7 +61,6 @@ public class Feed extends JFrame implements ActionListener {
 		btnCerrarSesin.setActionCommand("Cerrar");
 		btnCerrarSesin.addActionListener(this);
 		
-		
 		JButton btnAyuda = new JButton("Ayuda");
 		menuBar.add(btnAyuda);
 		btnAyuda.setActionCommand("Ayuda");
@@ -78,7 +71,6 @@ public class Feed extends JFrame implements ActionListener {
 		ayuda.getContentPane();
 		ayuda.pack();
 		Feed muro = new Feed();
-		
 		
 		btnAyuda.addActionListener(new ActionListener() { 	
 			public void actionPerformed(ActionEvent e) { 	
@@ -101,23 +93,20 @@ public class Feed extends JFrame implements ActionListener {
 		ayuda.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); 
 		muro.setVisible(true); 	*/
 		
-	
-		
-	
-
 	@Override
 	public void actionPerformed(ActionEvent i) {
-		
 				//--botones
 		String command= i.getActionCommand();
 		if(command.contentEquals("Ayuda")){
 			JOptionPane.showMessageDialog(null, "Links de ayuda: \n www.help.mx \n www.oracle.com");
 			
-		}else if (command.contentEquals("PerfilUser")) {
+		}
+		else if (command.contentEquals("PerfilUser")) {
 			Perfil profileframe = new Perfil();
 			profileframe.setVisible(true);
 			Feed.this.dispose();
-		}else if (command.contentEquals("Cerrar")) {
+		}
+		else if (command.contentEquals("Cerrar")) {
 			UserLogin frameLogin = new UserLogin();
 			frameLogin.setVisible(true);
 			Feed.this.dispose();

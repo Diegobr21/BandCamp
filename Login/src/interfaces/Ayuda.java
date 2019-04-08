@@ -1,4 +1,5 @@
 package interfaces;
+
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
@@ -6,12 +7,10 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.SoftBevelBorder;
-import javax.swing.border.BevelBorder;
 import javax.swing.JTextArea;
 
+@SuppressWarnings("serial")
 public class Ayuda extends JDialog {
-
 	private final JPanel contentPanel = new JPanel();
 
 	/**

@@ -1,25 +1,23 @@
 package interfaces;
-import java.awt.BorderLayout;
+
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.Image;
-
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
 import java.awt.TextArea;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import java.awt.Font;
-import java.awt.Color;
 import javax.swing.JFormattedTextField;
-import javax.swing.JSpinner;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
+@SuppressWarnings("serial")
 public class Perfil extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
@@ -44,10 +42,11 @@ public class Perfil extends JFrame implements ActionListener {
 	 * Create the frame.
 	 */
 	public Perfil() {
+		setTitle("Perfil");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 630, 420);
 		contentPane = new JPanel();
-		contentPane.setBackground(Color.BLACK);
+		contentPane.setBackground(Color.DARK_GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -103,6 +102,8 @@ public class Perfil extends JFrame implements ActionListener {
 		btnVer.setBackground(Color.WHITE);
 		btnVer.setBounds(32, 321, 120, 35);
 		contentPane.add(btnVer);
+		btnVer.setActionCommand("Favoritos");
+		btnVer.addActionListener(this);
 	}
 
 	@Override
@@ -110,12 +111,19 @@ public class Perfil extends JFrame implements ActionListener {
 		//---botones
 		String command= o.getActionCommand();
 		if(command.contentEquals("Editar")){
+			PerfilEdit edit = new PerfilEdit();
+			edit.setVisible(true);
+			Perfil.this.dispose();
 			
 			JOptionPane.showMessageDialog(null, "Tipo de Usuario: Artista");
-		}else if(command.contentEquals("Regresar")) {
+		}
+		else if(command.contentEquals("Regresar")) {
 			Feed feedframe = new Feed();
 			feedframe.setVisible(true);
 			Perfil.this.dispose();
+		}
+		else if(command.contentEquals("Favoritos")) {
+			JOptionPane.showMessageDialog(null, "Lista de favoritos: ");
 		}
 		
 	}
