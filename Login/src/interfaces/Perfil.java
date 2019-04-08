@@ -9,16 +9,16 @@ import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import sistema.Usuario;
+
 @SuppressWarnings("serial")
 public class Perfil extends JFrame implements ActionListener {
-
 	private JPanel contentPane;
 
 	/**
@@ -28,9 +28,10 @@ public class Perfil extends JFrame implements ActionListener {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Perfil frame = new Perfil();
+					Perfil frame = new Perfil(null);
 					frame.setVisible(true);
-				} catch (Exception e) {
+				}
+				catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
@@ -40,7 +41,14 @@ public class Perfil extends JFrame implements ActionListener {
 	/**
 	 * Create the frame.
 	 */
-	public Perfil() {
+	Usuario cuenta;
+	public Perfil(Usuario sesion) {
+		// cuenta de ejemplo, cuando el argumento es null
+		if (sesion == null) {
+			sesion = new Usuario(0, "correo", "pswd", 1, "HAVOK", "Metal", "Guitarra", "FIME");
+		}
+		cuenta = sesion;
+		
 		setTitle("Perfil");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 630, 420);
@@ -80,21 +88,12 @@ public class Perfil extends JFrame implements ActionListener {
 		btnRegresar.setActionCommand("Regresar");
 		btnRegresar.addActionListener(this);
 		
-		JLabel lblNombreUsuariobanda = new JLabel("Nombre Usuario/Banda");
-		lblNombreUsuariobanda.setFont(new Font("Verdana", Font.ITALIC, 16));
-		lblNombreUsuariobanda.setBackground(Color.WHITE);
-		lblNombreUsuariobanda.setForeground(Color.YELLOW);
-		lblNombreUsuariobanda.setBounds(250, 26, 205, 21);
-		contentPane.add(lblNombreUsuariobanda);
-		
-		JFormattedTextField Facultad_usu = new JFormattedTextField();
-		Facultad_usu.setBounds(260, 58, 61, 21);
-		contentPane.add(Facultad_usu);
-		Facultad_usu.setActionCommand("Facultad");
-		
-		JFormattedTextField Ins_usu = new JFormattedTextField();
-		Ins_usu.setBounds(359, 58, 78, 21);
-		contentPane.add(Ins_usu);
+		JLabel lblNombre = new JLabel(sesion.getNom_usu());
+		lblNombre.setFont(new Font("Verdana", Font.BOLD, 16));
+		lblNombre.setBackground(Color.WHITE);
+		lblNombre.setForeground(new Color(255, 255, 0));
+		lblNombre.setBounds(327, 11, 128, 21);
+		contentPane.add(lblNombre);
 		
 		JButton btnVer = new JButton("Favoritos");
 		btnVer.setFont(new Font("Verdana", Font.BOLD, 12));
@@ -102,28 +101,43 @@ public class Perfil extends JFrame implements ActionListener {
 		btnVer.setBounds(32, 321, 120, 35);
 		contentPane.add(btnVer);
 		btnVer.setActionCommand("Favoritos");
+		
+		JLabel lblFacultad = new JLabel(sesion.getFac_usu());
+		lblFacultad.setForeground(Color.LIGHT_GRAY);
+		lblFacultad.setFont(new Font("Tahoma", Font.ITALIC, 12));
+		lblFacultad.setBounds(409, 125, 46, 14);
+		contentPane.add(lblFacultad);
+		
+		JLabel lblGenero = new JLabel(sesion.getGen_usu());
+		lblGenero.setForeground(Color.WHITE);
+		lblGenero.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblGenero.setBounds(367, 44, 88, 21);
+		contentPane.add(lblGenero);
+		
+		JLabel lblInstrumento = new JLabel(sesion.getIns_usu());
+		lblInstrumento.setForeground(Color.WHITE);
+		lblInstrumento.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblInstrumento.setBounds(367, 76, 88, 27);
+		contentPane.add(lblInstrumento);
 		btnVer.addActionListener(this);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent o) {
 		//---botones
-		String command= o.getActionCommand();
+		String command = o.getActionCommand();
 		if(command.contentEquals("Editar")){
-			PerfilEdit edit = new PerfilEdit();
+			PerfilEdit edit = new PerfilEdit(cuenta);
 			edit.setVisible(true);
 			Perfil.this.dispose();
-			
-			JOptionPane.showMessageDialog(null, "Tipo de Usuario: Artista");
 		}
 		else if(command.contentEquals("Regresar")) {
-			Feed feedframe = new Feed();
+			Feed feedframe = new Feed(cuenta);
 			feedframe.setVisible(true);
 			Perfil.this.dispose();
 		}
 		else if(command.contentEquals("Favoritos")) {
-			JOptionPane.showMessageDialog(null, "Lista de favoritos: ");
+			JOptionPane.showMessageDialog(this, "Lista de favoritos: ");
 		}
-		
 	}
 }

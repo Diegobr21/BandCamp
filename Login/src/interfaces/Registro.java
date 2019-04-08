@@ -32,7 +32,8 @@ public class Registro extends JFrame implements ActionListener {
 				try {
 					Registro frame = new Registro();
 					frame.setVisible(true);
-				} catch (Exception e) {
+				}
+				catch (Exception e) {
 					e.printStackTrace();
 				}
 			}

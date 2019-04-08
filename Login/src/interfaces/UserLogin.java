@@ -21,10 +21,6 @@ import sistema.Usuario;
 @SuppressWarnings("serial")
 public class UserLogin extends JFrame implements ActionListener {
 
-	private JPanel contentPane;
-	private JTextField txtCorreo;
-	private JPasswordField passwordField;
-
 	/**
 	 * Launch the application.
 	 */
@@ -41,7 +37,11 @@ public class UserLogin extends JFrame implements ActionListener {
 			}
 		});
 	}
-
+	
+	private JPanel contentPane;
+	private JTextField txtCorreo;
+	private JPasswordField passwordField;
+	
 	/**
 	 * Create the frame.
 	 */
@@ -113,7 +113,7 @@ public class UserLogin extends JFrame implements ActionListener {
 						"Error", JOptionPane.ERROR_MESSAGE);
 			}
 			else {
-				Feed framefeed = new Feed();
+				Feed framefeed = new Feed(sesionIniciada);
 				framefeed.setVisible(true);
 				UserLogin.this.dispose();
 			}

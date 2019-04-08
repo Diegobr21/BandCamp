@@ -6,6 +6,9 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import sistema.Usuario;
+
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
 import javax.swing.JMenuBar;
@@ -22,7 +25,7 @@ public class Feed extends JFrame implements ActionListener {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Feed frame = new Feed();
+					Feed frame = new Feed(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -34,7 +37,10 @@ public class Feed extends JFrame implements ActionListener {
 	/**
 	 * Create the frame.
 	 */
-	public Feed() {
+	private Usuario cuenta;
+	public Feed(Usuario sesion) {
+		cuenta = sesion;
+		
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 640, 419);
@@ -99,10 +105,9 @@ public class Feed extends JFrame implements ActionListener {
 		String command= i.getActionCommand();
 		if(command.contentEquals("Ayuda")){
 			JOptionPane.showMessageDialog(null, "Links de ayuda: \n www.help.mx \n www.oracle.com");
-			
 		}
 		else if (command.contentEquals("PerfilUser")) {
-			Perfil profileframe = new Perfil();
+			Perfil profileframe = new Perfil(cuenta);
 			profileframe.setVisible(true);
 			Feed.this.dispose();
 		}

@@ -16,6 +16,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import sistema.Usuario;
+
 @SuppressWarnings("serial")
 public class PerfilEdit extends JFrame implements ActionListener{
 	private JPanel contentPane;
@@ -27,9 +29,10 @@ public class PerfilEdit extends JFrame implements ActionListener{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					PerfilEdit frame = new PerfilEdit();
+					PerfilEdit frame = new PerfilEdit(null);
 					frame.setVisible(true);
-				} catch (Exception e) {
+				}
+				catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
@@ -39,7 +42,14 @@ public class PerfilEdit extends JFrame implements ActionListener{
 	/**
 	 * Create the frame.
 	 */
-	public PerfilEdit() {
+	private Usuario cuenta;
+	public PerfilEdit(Usuario sesion) {
+		// cuenta de ejemplo, cuando el argumento es null
+		if (sesion == null) {
+			sesion = new Usuario(0, "correo", "pswd", 1, "HAVOK", "Metal", "Guitarra", "FIME");
+		}
+		cuenta = sesion;
+		
 		setTitle("Editar Perfil");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 633, 406);
@@ -71,7 +81,7 @@ public class PerfilEdit extends JFrame implements ActionListener{
 		btnRegresar.setActionCommand("Regresar");
 		btnRegresar.addActionListener(this);
 		
-		JLabel lblNombreUsuariobanda = new JLabel("Nombre Usuario/Banda");
+		JLabel lblNombreUsuariobanda = new JLabel(sesion.getNom_usu());
 		lblNombreUsuariobanda.setFont(new Font("Verdana", Font.ITALIC, 16));
 		lblNombreUsuariobanda.setBackground(Color.WHITE);
 		lblNombreUsuariobanda.setForeground(Color.YELLOW);
@@ -79,11 +89,13 @@ public class PerfilEdit extends JFrame implements ActionListener{
 		contentPane.add(lblNombreUsuariobanda);
 		
 		JFormattedTextField Facultad_usu = new JFormattedTextField();
+		Facultad_usu.setText(sesion.getFac_usu());
 		Facultad_usu.setBounds(307, 43, 52, 21);
 		contentPane.add(Facultad_usu);
 		Facultad_usu.setActionCommand("Facultad");
 		
 		JFormattedTextField Ins_usu = new JFormattedTextField();
+		Ins_usu.setText(sesion.getIns_usu());
 		Ins_usu.setBounds(387, 43, 74, 21);
 		contentPane.add(Ins_usu);
 		
@@ -99,17 +111,16 @@ public class PerfilEdit extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent u) {
 		//---botones
-		String command= u.getActionCommand();
+		String command = u.getActionCommand();
 		if(command.contentEquals("Guardar")){
-			JOptionPane.showMessageDialog(null, "Cambios Guardados");
-		
-			
-			JOptionPane.showMessageDialog(null, "Tipo de Usuario: Artista");
+			JOptionPane.showMessageDialog(this, "Cambios Guardados");
 		}
 		else if(command.contentEquals("Regresar")) {
-			Perfil perfil = new Perfil();
-			perfil.setVisible(true);
-			PerfilEdit.this.dispose();
+
 		}
+		
+		Perfil perfil = new Perfil(cuenta);
+		perfil.setVisible(true);
+		PerfilEdit.this.dispose();
 	}
 }
