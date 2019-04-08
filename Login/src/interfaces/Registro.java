@@ -295,13 +295,13 @@ public class Registro extends JFrame implements ActionListener {
 			passwords[1] = String.valueOf(pswdDuplicate.getPassword());
 			
 			Registrar registro = new Registrar();
-			
 			if (registro.isFormComplete(new String[] {correo, nombre, passwords[0], passwords[1]})) {
 				if (registro.matchPasswords(passwords)) {
 					String genero = comboBoxGeneros.getSelectedItem().toString().toLowerCase();
 					String instrumento = comboBoxInstrumentos.getSelectedItem().toString().toLowerCase();
 					String facultad = comboBoxFacultades.getSelectedItem().toString();
-					registro.createAccount(correo, MD5.hashPassword(passwords[0]), tipo, nombre, genero, instrumento, facultad);
+					MD5 hasher = new MD5();
+					registro.createAccount(correo, hasher.hashPassword(passwords[0]), tipo, nombre, genero, instrumento, facultad);
 					
 					JOptionPane.showMessageDialog(this, "Se ha registrado correctamente.",
 							"Cuenta creada", JOptionPane.INFORMATION_MESSAGE);

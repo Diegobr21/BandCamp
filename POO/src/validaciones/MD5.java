@@ -14,7 +14,7 @@ public class MD5 {
 	 * 					y será encriptada.
 	 * @return el <code>String</code> del hash encriptado de la contraseña. 
 	 */
-	public static String hashPassword(String message) {
+	public String hashPassword(String message) {
 		try {
 			// instancia para usar algoritmo MD5
 			MessageDigest msgDigest = MessageDigest.getInstance("MD5");
