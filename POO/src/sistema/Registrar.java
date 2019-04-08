@@ -9,7 +9,6 @@ public class Registrar {
 			String nombre, String genero, String instrumento, String facultad) {
 		// modificar ID
 		Usuario newAccount = new Usuario(0, correo, password, tipo, nombre, genero, instrumento, facultad);
-		new Registrar().imprimir(newAccount);
 		// enviar objeto newAccount a un registro de la base de datos
 		return;
 	}

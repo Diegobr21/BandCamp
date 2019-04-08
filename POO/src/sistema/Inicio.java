@@ -2,12 +2,13 @@ package sistema;
 
 import javax.swing.JOptionPane;
 
+import interfaces.Registro;
 import validaciones.ValidNum;
 
 public class Inicio {
 	public static void main(String[] args) {
 		Usuario cuenta = null;
-		//Registro registro = new Registro();
+		Registro registro = new Registro();
 		Login login = new Login();
 		Perfil perfil = new Perfil();
 		
@@ -20,7 +21,7 @@ public class Inicio {
 					return;
 				case 1:
 					// registro
-					//cuenta = registro.capturar();
+					registro.main(null);
 					break;
 				case 2:
 					// incio de sesión
