@@ -298,8 +298,8 @@ public class Registro extends JFrame implements ActionListener {
 			
 			if (registro.isFormComplete(new String[] {correo, nombre, passwords[0], passwords[1]})) {
 				if (registro.matchPasswords(passwords)) {
-					String genero = comboBoxGeneros.getSelectedItem().toString();
-					String instrumento = comboBoxInstrumentos.getSelectedItem().toString();
+					String genero = comboBoxGeneros.getSelectedItem().toString().toLowerCase();
+					String instrumento = comboBoxInstrumentos.getSelectedItem().toString().toLowerCase();
 					String facultad = comboBoxFacultades.getSelectedItem().toString();
 					registro.createAccount(correo, MD5.hashPassword(passwords[0]), tipo, nombre, genero, instrumento, facultad);
 					
