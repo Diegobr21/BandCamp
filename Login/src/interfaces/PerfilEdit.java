@@ -52,10 +52,9 @@ public class PerfilEdit extends JFrame implements ActionListener{
 		JLabel UserPic = new JLabel("");
 		UserPic.setForeground(Color.YELLOW);
 		UserPic.setBackground(Color.YELLOW);
-		Image img = new ImageIcon (this.getClass().getResource("/userpic2.png")).getImage();
 		contentPane.setLayout(null);
-		UserPic.setIcon(new ImageIcon(img));
-		UserPic.setBounds(10, 11, 128, 128);
+		UserPic.setIcon(new ImageIcon(PerfilEdit.class.getResource("/img/userpic2.png")));
+		UserPic.setBounds(479, 11, 128, 128);
 		contentPane.add(UserPic);
 		
 		TextArea Descrip_txt = new TextArea();
@@ -63,11 +62,12 @@ public class PerfilEdit extends JFrame implements ActionListener{
 		Descrip_txt.setBounds(49, 151, 512, 122);
 		contentPane.add(Descrip_txt);
 		
-		JButton btnRegresar = new JButton("<----");
+		JButton btnRegresar = new JButton("");
+		btnRegresar.setIcon(new ImageIcon(PerfilEdit.class.getResource("/com/sun/javafx/scene/web/skin/Undo_16x16_JFX.png")));
 		btnRegresar.setForeground(Color.RED);
 		btnRegresar.setBackground(Color.WHITE);
 		btnRegresar.setFont(new Font("Palatino Linotype", Font.BOLD, 15));
-		btnRegresar.setBounds(529, 11, 61, 29);
+		btnRegresar.setBounds(10, 11, 61, 29);
 		contentPane.add(btnRegresar);
 		btnRegresar.setActionCommand("Regresar");
 		btnRegresar.addActionListener(this);
@@ -76,16 +76,16 @@ public class PerfilEdit extends JFrame implements ActionListener{
 		lblNombreUsuariobanda.setFont(new Font("Verdana", Font.ITALIC, 16));
 		lblNombreUsuariobanda.setBackground(Color.WHITE);
 		lblNombreUsuariobanda.setForeground(Color.YELLOW);
-		lblNombreUsuariobanda.setBounds(171, 30, 189, 21);
+		lblNombreUsuariobanda.setBounds(280, 11, 189, 21);
 		contentPane.add(lblNombreUsuariobanda);
 		
 		JFormattedTextField Facultad_usu = new JFormattedTextField();
-		Facultad_usu.setBounds(171, 75, 52, 21);
+		Facultad_usu.setBounds(307, 43, 52, 21);
 		contentPane.add(Facultad_usu);
 		Facultad_usu.setActionCommand("Facultad");
 		
 		JFormattedTextField Ins_usu = new JFormattedTextField();
-		Ins_usu.setBounds(246, 75, 74, 21);
+		Ins_usu.setBounds(387, 43, 74, 21);
 		contentPane.add(Ins_usu);
 		
 		JButton btnGuardar = new JButton("Guardar");

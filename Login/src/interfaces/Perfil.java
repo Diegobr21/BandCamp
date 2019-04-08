@@ -54,9 +54,8 @@ public class Perfil extends JFrame implements ActionListener {
 		JLabel UserPic = new JLabel("");
 		UserPic.setForeground(Color.YELLOW);
 		UserPic.setBackground(Color.YELLOW);
-		Image img = new ImageIcon (this.getClass().getResource("/userpic2.png")).getImage();
-		UserPic.setIcon(new ImageIcon(img));
-		UserPic.setBounds(10, 11, 128, 128);
+		UserPic.setIcon(new ImageIcon(Perfil.class.getResource("/img/userpic2.png")));
+		UserPic.setBounds(465, 11, 128, 128);
 		contentPane.add(UserPic);
 		
 		TextArea Descrip_txt = new TextArea();
@@ -72,11 +71,12 @@ public class Perfil extends JFrame implements ActionListener {
 		Editarbtn.addActionListener(this);
 		Editarbtn.setActionCommand("Editar");
 		
-		JButton btnRegresar = new JButton("<----");
+		JButton btnRegresar = new JButton("");
+		btnRegresar.setIcon(new ImageIcon(Perfil.class.getResource("/com/sun/javafx/scene/web/skin/Undo_16x16_JFX.png")));
 		btnRegresar.setForeground(Color.RED);
 		btnRegresar.setBackground(Color.WHITE);
 		btnRegresar.setFont(new Font("Palatino Linotype", Font.BOLD, 15));
-		btnRegresar.setBounds(509, 11, 67, 27);
+		btnRegresar.setBounds(10, 11, 67, 27);
 		contentPane.add(btnRegresar);
 		btnRegresar.setActionCommand("Regresar");
 		btnRegresar.addActionListener(this);
@@ -85,16 +85,16 @@ public class Perfil extends JFrame implements ActionListener {
 		lblNombreUsuariobanda.setFont(new Font("Verdana", Font.ITALIC, 16));
 		lblNombreUsuariobanda.setBackground(Color.WHITE);
 		lblNombreUsuariobanda.setForeground(Color.YELLOW);
-		lblNombreUsuariobanda.setBounds(161, 42, 205, 21);
+		lblNombreUsuariobanda.setBounds(250, 26, 205, 21);
 		contentPane.add(lblNombreUsuariobanda);
 		
 		JFormattedTextField Facultad_usu = new JFormattedTextField();
-		Facultad_usu.setBounds(161, 92, 61, 21);
+		Facultad_usu.setBounds(260, 58, 61, 21);
 		contentPane.add(Facultad_usu);
 		Facultad_usu.setActionCommand("Facultad");
 		
 		JFormattedTextField Ins_usu = new JFormattedTextField();
-		Ins_usu.setBounds(232, 92, 78, 21);
+		Ins_usu.setBounds(359, 58, 78, 21);
 		contentPane.add(Ins_usu);
 		
 		JButton btnVer = new JButton("Favoritos");

@@ -20,6 +20,7 @@ import javax.swing.border.EmptyBorder;
 
 import sistema.Registrar;
 import validaciones.MD5;
+import javax.swing.ImageIcon;
 
 @SuppressWarnings("serial")
 public class Registro extends JFrame implements ActionListener {
@@ -245,6 +246,7 @@ public class Registro extends JFrame implements ActionListener {
 		contentPane.add(pswdDuplicate);
 		
 		JButton btnRegresar = new JButton("");
+		btnRegresar.setIcon(new ImageIcon(Registro.class.getResource("/com/sun/javafx/scene/web/skin/Undo_16x16_JFX.png")));
 		btnRegresar.setForeground(Color.RED);
 		btnRegresar.setBackground(Color.LIGHT_GRAY);
 		btnRegresar.setFont(new Font("Palatino Linotype", Font.BOLD, 15));
