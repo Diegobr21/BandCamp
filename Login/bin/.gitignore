@@ -1,6 +1,4 @@
 /Ayuda.class
-/sistema/
-/validaciones/
 /Feed$1.class
 /Feed.class
 /Perfil$1.class
@@ -12,3 +10,5 @@
 /Registro.class
 /UserLogin$1.class
 /UserLogin.class
+/sistema/
+/validaciones/

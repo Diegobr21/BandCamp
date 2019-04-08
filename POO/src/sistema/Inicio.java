@@ -7,7 +7,7 @@ import validaciones.ValidNum;
 public class Inicio {
 	public static void main(String[] args) {
 		Usuario cuenta = null;
-		Registrar registro = new Registrar();
+		//Registro registro = new Registro();
 		Login login = new Login();
 		Perfil perfil = new Perfil();
 		
@@ -20,7 +20,7 @@ public class Inicio {
 					return;
 				case 1:
 					// registro
-					cuenta = registro.capturar();
+					//cuenta = registro.capturar();
 					break;
 				case 2:
 					// incio de sesión
@@ -31,7 +31,7 @@ public class Inicio {
 					cuenta = perfil.editar(cuenta);
 					break;
 				case 4:
-					registro.imprimir(cuenta);
+					//registro.imprimir(cuenta);
 					bandera = false;
 					break;
 				default:

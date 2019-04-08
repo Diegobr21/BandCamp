@@ -1,36 +1,26 @@
-import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.AbstractListModel;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JLabel;
-import javax.swing.JButton;
-import javax.swing.JTextField;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.Color;
-import javax.swing.JToggleButton;
+
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JPasswordField;
-import javax.swing.JSlider;
-import javax.swing.border.SoftBevelBorder;
-import javax.swing.border.BevelBorder;
-import java.awt.List;
+import javax.swing.JTextField;
+import javax.swing.JToggleButton;
+import javax.swing.border.EmptyBorder;
 
+import sistema.Registrar;
+import validaciones.MD5;
+
+@SuppressWarnings("serial")
 public class Registro extends JFrame implements ActionListener {
-
-	private JPanel contentPane;
-	private JTextField txtcorreo;
-	private JTextField txtnom_usu;
-	private JPasswordField passwordField;
-	private JPasswordField passwordFieldrep;
-
 	/**
 	 * Launch the application.
 	 */
@@ -50,6 +40,20 @@ public class Registro extends JFrame implements ActionListener {
 	/**
 	 * Create the frame.
 	 */
+	private JPanel contentPane;
+	private JTextField txtCorreo, txtNombre;
+	private JPasswordField pswdPassword, pswdDuplicate;
+	private JToggleButton tglbtnArtista, tglbtnBanda;
+	
+	private JLabel lblInstrumento;
+	private String askInstrument = "¿Qué instrumento ";
+	
+	private JComboBox<String> comboBoxFacultades;
+	private JComboBox<String> comboBoxGeneros;
+	private JComboBox<String> comboBoxInstrumentos;
+	
+	private int tipo = 1;
+	
 	public Registro() {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -60,109 +64,111 @@ public class Registro extends JFrame implements ActionListener {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JComboBox comboBoxfac = new JComboBox();
-		comboBoxfac.setModel(new DefaultComboBoxModel(new String[] {"FIME", "FCQ", "FACPYA", "FCFM", "FARQ", "FACDYC"}));
-		comboBoxfac.setBounds(358, 66, 158, 20);
-		contentPane.add(comboBoxfac);
+		comboBoxFacultades = new JComboBox<String>();
+		comboBoxFacultades.setModel(new DefaultComboBoxModel<String>(
+				new String[] {"FIME", "FCQ", "FACPYA", "FCFM", "FARQ", "FACDYC"}));
+		comboBoxFacultades.setBounds(358, 81, 158, 20);
+		contentPane.add(comboBoxFacultades);
 					//Event handler comboBoxes--
-		comboBoxfac.setEditable(true);
-		comboBoxfac.addActionListener(new ActionListener() {
+		comboBoxFacultades.setEditable(false);
+		comboBoxFacultades.addActionListener(new ActionListener() {
 			private boolean found = false;
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-								
-				String s = (String) comboBoxfac.getSelectedItem();
-				for (int i=0; i<comboBoxfac.getItemCount(); i++) {
-					if (comboBoxfac.getItemAt(i).toString().equals(s)) {
-						found= true;
+				String s = (String) comboBoxFacultades.getSelectedItem();
+				for (int i = 0; i < comboBoxFacultades.getItemCount(); i++) {
+					if (comboBoxFacultades.getItemAt(i).toString().equals(s)) {
+						found = true;
 						//chequeo de funcionamiento
-						System.out.print(comboBoxfac.getItemAt(i));
+						System.out.print(comboBoxFacultades.getItemAt(i));
 						//todo bien
 						break;
 					}
 				}
 				if (!found) {
 					JOptionPane.showMessageDialog(null, "Agregado: "+s);
-					comboBoxfac.addItem(s);
+					comboBoxFacultades.addItem(s);
 				}
 				found = false;
 			}
 		});
 		//---End
 		
-		JLabel lblFacultad = new JLabel("Facultad");
+		JLabel lblFacultad = new JLabel("\u00BFA qu\u00E9 facultad perteneces?");
 		lblFacultad.setForeground(Color.YELLOW);
 		lblFacultad.setFont(new Font("Arial", Font.PLAIN, 13));
-		lblFacultad.setBounds(398, 41, 89, 14);
+		lblFacultad.setBounds(358, 56, 172, 14);
 		contentPane.add(lblFacultad);
 		
 		
-		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"Rock", "Jazz", "Reggaeton", "Rap", "Metal", "Indie", "K-Pop", "Pop", "Cl\u00E1sica"}));
-		comboBox_1.setBounds(358, 206, 158, 20);
-		contentPane.add(comboBox_1);
+		comboBoxGeneros = new JComboBox<String>();
+		comboBoxGeneros.setModel(new DefaultComboBoxModel<String>(
+				new String[] {"Rock", "Jazz", "Reggaeton", "Rap", "Metal", "Indie", "K-Pop", "Pop", "Cl\u00E1sica"}));
+		comboBoxGeneros.setBounds(358, 206, 158, 20);
+		contentPane.add(comboBoxGeneros);
 		//Event handler comboBoxes--
-				comboBox_1.setEditable(true);
-				comboBox_1.addActionListener(new ActionListener() {
+				comboBoxGeneros.setEditable(true);
+				comboBoxGeneros.addActionListener(new ActionListener() {
 					private boolean found = false;
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						
-										
-						String s = (String) comboBox_1.getSelectedItem();
-						for (int i=0; i<comboBox_1.getItemCount(); i++) {
-							if (comboBox_1.getItemAt(i).toString().equals(s)) {
+						String s = (String) comboBoxGeneros.getSelectedItem();
+						for (int i=0; i<comboBoxGeneros.getItemCount(); i++) {
+							if (comboBoxGeneros.getItemAt(i).toString().equals(s)) {
 								found= true;
 								break;
 							}
 						}
 						if (!found) {
 							JOptionPane.showMessageDialog(null, "Agregado: "+s);
-							comboBox_1.addItem(s);
+							comboBoxGeneros.addItem(s);
 						}
 						found = false;
 					}
 				});
 				//---End
 		
-		JLabel lblGneroMusical = new JLabel("G\u00E9nero Musical");
+		JLabel lblGneroMusical = new JLabel("\u00BFQu\u00E9 g\u00E9nero interpretas?");
 		lblGneroMusical.setForeground(Color.YELLOW);
 		lblGneroMusical.setFont(new Font("Arial", Font.PLAIN, 13));
-		lblGneroMusical.setBounds(358, 181, 127, 14);
+		lblGneroMusical.setBounds(358, 181, 158, 14);
 		contentPane.add(lblGneroMusical);
 		
-		JComboBox comboBox_2 = new JComboBox();
-		comboBox_2.setModel(new DefaultComboBoxModel(new String[] {"Guitarra", "Bater\u00EDa", "Piano", "Xilofono", "Flauta", "Viol\u00EDn", "Trompeta", "Oboe", "Ocarina"}));
-		comboBox_2.setBounds(358, 274, 158, 20);
-		contentPane.add(comboBox_2);
+		comboBoxInstrumentos = new JComboBox<String>();
+		comboBoxInstrumentos.setModel(new DefaultComboBoxModel<String>(
+				new String[] {"Guitarra", "Bater\u00EDa", "Piano", "Xilofono", "Flauta", "Viol\u00EDn", "Trompeta", "Oboe", "Ocarina"}));
+		comboBoxInstrumentos.setBounds(358, 274, 158, 20);
+		contentPane.add(comboBoxInstrumentos);
 				//Event handler comboBoxes--
-		comboBox_2.setEditable(true);
-		comboBox_2.addActionListener(new ActionListener() {
+		comboBoxInstrumentos.setEditable(true);
+		comboBoxInstrumentos.addActionListener(new ActionListener() {
 			private boolean found = false;
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-								
-				String s = (String) comboBox_2.getSelectedItem();
-				for (int i=0; i<comboBox_2.getItemCount(); i++) {
-					if (comboBox_2.getItemAt(i).toString().equals(s)) {
+				String s = (String) comboBoxInstrumentos.getSelectedItem();
+				for (int i=0; i<comboBoxInstrumentos.getItemCount(); i++) {
+					if (comboBoxInstrumentos.getItemAt(i).toString().equals(s)) {
 						found= true;
 						break;
 					}
 				}
 				if (!found) {
 					JOptionPane.showMessageDialog(null, "Agregado: "+s);
-					comboBox_2.addItem(s);
+					comboBoxInstrumentos.addItem(s);
 				}
 				found = false;
 			}
 		});
 		
+		lblInstrumento = new JLabel(askInstrument + "tocas?");
+		lblInstrumento.setForeground(Color.YELLOW);
+		lblInstrumento.setFont(new Font("Arial", Font.PLAIN, 13));
+		lblInstrumento.setBounds(358, 249, 191, 14);
+		contentPane.add(lblInstrumento);
+		
 	//---End
 		
-		
-		JButton btnCrearCuenta = new JButton("Crear Cuenta");
+		JButton btnCrearCuenta = new JButton("Registrarse");
 		btnCrearCuenta.setForeground(Color.BLACK);
 		btnCrearCuenta.setBackground(Color.WHITE);
 		btnCrearCuenta.setFont(new Font("Verdana", Font.BOLD, 12));
@@ -171,50 +177,44 @@ public class Registro extends JFrame implements ActionListener {
 		btnCrearCuenta.setActionCommand("Crear");
 		btnCrearCuenta.addActionListener(this);
 		
-		txtcorreo = new JTextField();
-		txtcorreo.setBounds(54, 81, 166, 20);
-		contentPane.add(txtcorreo);
-		txtcorreo.setColumns(10);
-		txtcorreo.addActionListener(this);
+		txtCorreo = new JTextField();
+		txtCorreo.setBounds(54, 81, 166, 20);
+		contentPane.add(txtCorreo);
+		txtCorreo.setColumns(10);
+		txtCorreo.addActionListener(this);
 		
-		txtnom_usu = new JTextField();
-		txtnom_usu.setBounds(54, 147, 166, 20);
-		contentPane.add(txtnom_usu);
-		txtnom_usu.setColumns(10);
-		txtnom_usu.addActionListener(this);
+		txtNombre = new JTextField();
+		txtNombre.setBounds(54, 137, 166, 20);
+		contentPane.add(txtNombre);
+		txtNombre.setColumns(10);
+		txtNombre.addActionListener(this);
 		
-		JLabel lblInstrumentosAUsar = new JLabel("Instrumento a buscar / que usa");
-		lblInstrumentosAUsar.setForeground(Color.YELLOW);
-		lblInstrumentosAUsar.setFont(new Font("Arial", Font.PLAIN, 13));
-		lblInstrumentosAUsar.setBounds(358, 249, 191, 14);
-		contentPane.add(lblInstrumentosAUsar);
-		
-		JLabel lblCorreoElectrnico = new JLabel("Correo Electr\u00F3nico");
+		JLabel lblCorreoElectrnico = new JLabel("Correo electr\u00F3nico");
 		lblCorreoElectrnico.setForeground(Color.YELLOW);
 		lblCorreoElectrnico.setBackground(Color.YELLOW);
 		lblCorreoElectrnico.setFont(new Font("Arial", Font.PLAIN, 13));
-		lblCorreoElectrnico.setBounds(64, 56, 133, 14);
+		lblCorreoElectrnico.setBounds(54, 56, 119, 14);
 		contentPane.add(lblCorreoElectrnico);
 		
-		JLabel lblNombreDeUsuario = new JLabel("Nombre de Usuario");
+		JLabel lblNombreDeUsuario = new JLabel("Nombre de usuario");
 		lblNombreDeUsuario.setForeground(Color.YELLOW);
 		lblNombreDeUsuario.setFont(new Font("Arial", Font.PLAIN, 13));
-		lblNombreDeUsuario.setBounds(64, 112, 133, 14);
+		lblNombreDeUsuario.setBounds(54, 112, 119, 14);
 		contentPane.add(lblNombreDeUsuario);
 		
 		JLabel lblContrasea = new JLabel("Contrase\u00F1a");
 		lblContrasea.setForeground(Color.YELLOW);
 		lblContrasea.setFont(new Font("Arial", Font.PLAIN, 13));
-		lblContrasea.setBounds(64, 181, 89, 14);
+		lblContrasea.setBounds(54, 181, 119, 14);
 		contentPane.add(lblContrasea);
 		
-		JLabel lblRepetirContrasea = new JLabel("Repetir Contrase\u00F1a");
+		JLabel lblRepetirContrasea = new JLabel("Confirma contrase\u00F1a");
 		lblRepetirContrasea.setForeground(Color.YELLOW);
 		lblRepetirContrasea.setFont(new Font("Arial", Font.PLAIN, 13));
-		lblRepetirContrasea.setBounds(64, 249, 133, 14);
+		lblRepetirContrasea.setBounds(54, 249, 119, 14);
 		contentPane.add(lblRepetirContrasea);
 		
-		JToggleButton tglbtnBanda = new JToggleButton("Banda");
+		tglbtnBanda = new JToggleButton("Banda");
 		tglbtnBanda.setFont(new Font("Verdana", Font.BOLD, 11));
 		tglbtnBanda.setBackground(Color.WHITE);
 		tglbtnBanda.setForeground(Color.BLACK);
@@ -223,7 +223,9 @@ public class Registro extends JFrame implements ActionListener {
 		tglbtnBanda.setActionCommand("Banda");
 		tglbtnBanda.addActionListener(this);
 		
-		JToggleButton tglbtnArtista = new JToggleButton("Artista");
+		tglbtnArtista = new JToggleButton("Artista");
+		tglbtnArtista.setSelected(true);
+		tglbtnArtista.setEnabled(false);
 		tglbtnArtista.setFont(new Font("Verdana", Font.BOLD, 11));
 		tglbtnArtista.setBackground(Color.WHITE);
 		tglbtnArtista.setBounds(473, 143, 89, 27);
@@ -231,16 +233,16 @@ public class Registro extends JFrame implements ActionListener {
 		tglbtnArtista.setActionCommand("Artista");
 		tglbtnArtista.addActionListener(this);
 		
-		passwordField = new JPasswordField();
-		passwordField.setBounds(54, 206, 166, 20);
-		contentPane.add(passwordField);
-		passwordField.addActionListener(this);
+		pswdPassword = new JPasswordField();
+		pswdPassword.setBounds(54, 206, 166, 20);
+		contentPane.add(pswdPassword);
+		pswdPassword.addActionListener(this);
 		
-		passwordFieldrep = new JPasswordField();
-		passwordFieldrep.setBounds(54, 274, 166, 20);
-		contentPane.add(passwordFieldrep);
+		pswdDuplicate = new JPasswordField();
+		pswdDuplicate.setBounds(54, 274, 166, 20);
+		contentPane.add(pswdDuplicate);
 		
-		JButton btnRegresar = new JButton("<----");
+		JButton btnRegresar = new JButton("");
 		btnRegresar.setForeground(Color.RED);
 		btnRegresar.setBackground(Color.LIGHT_GRAY);
 		btnRegresar.setFont(new Font("Palatino Linotype", Font.BOLD, 15));
@@ -249,47 +251,66 @@ public class Registro extends JFrame implements ActionListener {
 		btnRegresar.setActionCommand("Regresar");
 		btnRegresar.addActionListener(this);
 		
-		JLabel lblSelecciona = new JLabel("Selecciona...");
+		JLabel lblSelecciona = new JLabel("Eres...");
 		lblSelecciona.setForeground(Color.YELLOW);
 		lblSelecciona.setFont(new Font("Arial", Font.PLAIN, 13));
-		lblSelecciona.setBounds(398, 112, 89, 14);
+		lblSelecciona.setBounds(418, 123, 47, 14);
 		contentPane.add(lblSelecciona);
-		passwordFieldrep.addActionListener(this);
+		pswdDuplicate.addActionListener(this);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		//Las comboboxes tienen actionlistener indiv
+		//---Botones---
+		String command = e.getActionCommand();
+		if (command.contentEquals("Artista")){
+			tipo = 1;
+			tglbtnArtista.setEnabled(false);
+			
+			tglbtnBanda.setEnabled(true);
+			tglbtnBanda.setSelected(false);
+			
+			lblInstrumento.setText(askInstrument + "tocas?");
+		}
+		else if (command.contentEquals("Banda")) {
+			tipo = 2;
+			tglbtnBanda.setEnabled(false);
+			
+			tglbtnArtista.setEnabled(true);
+			tglbtnArtista.setSelected(false);
+			
+			lblInstrumento.setText(askInstrument + "buscas?");
+		}
 		
-						//Las comboboxes tienen actionlistener indiv
-		
-		
-						//---Botones---
-		String command= e.getActionCommand();
-		if(command.contentEquals("Artista")){
-			int tipo_usu = 1;
-			JOptionPane.showMessageDialog(null, "Tipo de Usuario: Artista");
-		}else if (command.contentEquals("Banda")) {
-			int tipo_usu = 2;
-			JOptionPane.showMessageDialog(null, "Tipo de Usuario: Banda");
-		}else if (command.contentEquals("Crear")) {
-			//objeto cuenta, tipo Usuario
-			JOptionPane.showMessageDialog(null, "Cuenta Creada");
-			UserLogin frameLogin = new UserLogin();
-			frameLogin.setVisible(true);
-			Registro.this.dispose();
-		}else if (command.contentEquals("Regresar")) {
+		else if (command.contentEquals("Crear")) {
+			String correo = txtCorreo.getText();
+			String nombre = txtNombre.getText();
+			String[] passwords = new String[2];
+			passwords[0] = String.valueOf(pswdPassword.getPassword());
+			passwords[1] = String.valueOf(pswdDuplicate.getPassword());
+			
+			Registrar registro = new Registrar();
+			
+			if (registro.isFormComplete(new String[] {correo, nombre, passwords[0], passwords[1]})) {
+				if (registro.matchPasswords(passwords)) {
+					String genero = comboBoxGeneros.getSelectedItem().toString();
+					String instrumento = comboBoxInstrumentos.getSelectedItem().toString();
+					String facultad = comboBoxFacultades.getSelectedItem().toString();
+					registro.createAccount(correo, MD5.hashPassword(passwords[0]), tipo, nombre, genero, instrumento, facultad);
+					
+					JOptionPane.showMessageDialog(this, "Se ha registrado correctamente.",
+							"Cuenta creada", JOptionPane.INFORMATION_MESSAGE);
+					UserLogin frameLogin = new UserLogin();
+					frameLogin.setVisible(true);
+					Registro.this.dispose();
+				}
+			}
+		}
+		else if (command.contentEquals("Regresar")) {
 			UserLogin frameLogin = new UserLogin();
 			frameLogin.setVisible(true);
 			Registro.this.dispose();
 		}
-						//--Textfields---
-		String nom_usu = txtnom_usu.getText();
-		String correo_usu = txtcorreo.getText();
-		//Validacion con API? Abajo solo es ejemplo de como manejar el texto
-		txtcorreo.setText(correo_usu.toUpperCase());
-		//Obtener el texto de un pssdtextfield, getEcho te da char por default por eso el casteo
-		String pssd = Character.toString( passwordField.getEchoChar());
-		String pssdrep= Character.toString( passwordFieldrep.getEchoChar());
-		
 	}
 }
