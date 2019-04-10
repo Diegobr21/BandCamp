@@ -9,7 +9,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -20,7 +19,6 @@ import sistema.Usuario;
 
 @SuppressWarnings("serial")
 public class PerfilEdit extends JFrame implements ActionListener{
-	private JPanel contentPane;
 
 	/**
 	 * Launch the application.
@@ -54,7 +52,8 @@ public class PerfilEdit extends JFrame implements ActionListener{
 		setTitle("Editar Perfil");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 633, 406);
-		contentPane = new JPanel();
+		
+		JPanel contentPane = new JPanel();
 		contentPane.setBackground(Color.DARK_GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -88,17 +87,6 @@ public class PerfilEdit extends JFrame implements ActionListener{
 		lblNombreUsuariobanda.setForeground(Color.YELLOW);
 		lblNombreUsuariobanda.setBounds(280, 11, 189, 21);
 		contentPane.add(lblNombreUsuariobanda);
-		
-		JFormattedTextField Facultad_usu = new JFormattedTextField();
-		Facultad_usu.setText(sesion.getFac_usu());
-		Facultad_usu.setBounds(307, 43, 52, 21);
-		contentPane.add(Facultad_usu);
-		Facultad_usu.setActionCommand("Facultad");
-		
-		JFormattedTextField Ins_usu = new JFormattedTextField();
-		Ins_usu.setText(sesion.getIns_usu());
-		Ins_usu.setBounds(387, 43, 74, 21);
-		contentPane.add(Ins_usu);
 		
 		JButton btnGuardar = new JButton("Guardar");
 		btnGuardar.setFont(new Font("Verdana", Font.BOLD, 12));
