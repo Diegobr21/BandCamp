@@ -50,8 +50,9 @@ public class Registrar {
 		if (ValidPassword.isValidPassword(passwords[0])) {
 			if (passwords[0].equals(passwords[1])) {
 				return true;
-			}
-			JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden.", "Error", JOptionPane.ERROR_MESSAGE);
+			} 
+			JOptionPane.showMessageDialog(null, "Debes introducir la misma contraseña en ambos campos.",
+					"Contraseñas no coinciden", JOptionPane.ERROR_MESSAGE);
 		}
 		return false;
 	}
@@ -66,7 +67,7 @@ public class Registrar {
 	private boolean isFormComplete(String[] textFields) {
 		for (String string : textFields) {
 			if (string.equals("")) {
-				JOptionPane.showMessageDialog(null, "Favor de llenar todos los campos",
+				JOptionPane.showMessageDialog(null, "Parece que dejaste algún campo vacío.",
 						"Formulario incompleto", JOptionPane.ERROR_MESSAGE);
 				return false;
 			}

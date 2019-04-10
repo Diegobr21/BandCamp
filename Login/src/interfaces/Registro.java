@@ -104,13 +104,11 @@ public class Registro extends JFrame implements ActionListener {
 		txtCorreo.setBounds(54, 81, 166, 20);
 		contentPane.add(txtCorreo);
 		txtCorreo.setColumns(10);
-		txtCorreo.addActionListener(this);
 		
 		txtNombre = new JTextField();
 		txtNombre.setBounds(54, 137, 166, 20);
 		contentPane.add(txtNombre);
 		txtNombre.setColumns(10);
-		txtNombre.addActionListener(this);
 		
 		JLabel lblCorreoElectrnico = new JLabel("Correo electr\u00F3nico");
 		lblCorreoElectrnico.setForeground(Color.YELLOW);
@@ -159,7 +157,6 @@ public class Registro extends JFrame implements ActionListener {
 		pswdPassword = new JPasswordField();
 		pswdPassword.setBounds(54, 206, 166, 20);
 		contentPane.add(pswdPassword);
-		pswdPassword.addActionListener(this);
 		
 		pswdDuplicate = new JPasswordField();
 		pswdDuplicate.setBounds(54, 274, 166, 20);
@@ -180,13 +177,11 @@ public class Registro extends JFrame implements ActionListener {
 		lblSelecciona.setFont(new Font("Arial", Font.PLAIN, 13));
 		lblSelecciona.setBounds(418, 123, 47, 14);
 		contentPane.add(lblSelecciona);
-		pswdDuplicate.addActionListener(this);
 	}
 	
 	private int tipo = 1;
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		//Las comboboxes tienen actionlistener indiv
 		//---Botones---
 		String command = e.getActionCommand();
 		if (command.contentEquals("Artista")){
@@ -219,15 +214,23 @@ public class Registro extends JFrame implements ActionListener {
 			String instrumento = registroCmbs.cmbInstrumentos.getSelectedItem().toString().toLowerCase();
 			String facultad = registroCmbs.cmbFacultades.getSelectedItem().toString();
 			
-			boolean success = new Registrar().createAccount(correo, passwords, tipo, nombre, genero, instrumento, facultad);
-			if (success) {
+			boolean cuentaCreada = new Registrar().createAccount(correo, passwords, tipo, nombre, genero, instrumento, facultad);
+			if (cuentaCreada) {
+				// falta reemplazar el código de abajo por el frame de la segunda parte de registro 
+				
 				JOptionPane.showMessageDialog(null, "Se ha registrado correctamente.",
 						"Cuenta creada", JOptionPane.INFORMATION_MESSAGE);
+				
 				UserLogin frameLogin = new UserLogin();
 				frameLogin.setVisible(true);
 				Registro.this.dispose();	
 			}
+			else {
+				pswdPassword.setText("");
+				pswdDuplicate.setText("");
+			}
 		}
+		
 		else if (command.contentEquals("Regresar")) {
 			UserLogin frameLogin = new UserLogin();
 			frameLogin.setVisible(true);

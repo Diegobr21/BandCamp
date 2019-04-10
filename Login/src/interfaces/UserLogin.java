@@ -9,7 +9,6 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -78,7 +77,6 @@ public class UserLogin extends JFrame implements ActionListener {
 		txtCorreo.setBounds(186, 90, 217, 20);
 		contentPane.add(txtCorreo);
 		txtCorreo.setColumns(10);
-		txtCorreo.addActionListener(this);
 		
 		JButton Iniciarbtn = new JButton("Iniciar sesi\u00F3n");
 		Iniciarbtn.setFont(new Font("Verdana", Font.BOLD, 12));
@@ -109,8 +107,7 @@ public class UserLogin extends JFrame implements ActionListener {
 			
 			Usuario sesionIniciada = new Login().ingresar(correo, password);
 			if (sesionIniciada == null) {
-				JOptionPane.showMessageDialog(this, "El correo y la contraseña ingresados no coinciden con los registros.",
-						"Error", JOptionPane.ERROR_MESSAGE);
+				
 			}
 			else {
 				Feed framefeed = new Feed(sesionIniciada);

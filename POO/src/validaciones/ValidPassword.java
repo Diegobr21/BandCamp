@@ -22,7 +22,7 @@ public class ValidPassword {
 		}
 		else {
 			JOptionPane.showMessageDialog(null,
-					"La contraseña debe incluir al menos un número, al menos un caracter especial, "
+					"La contraseña debe incluir al menos un número, al menos un caracter especial,\n"
 					+ "y ser entre 8 y 16 caracteres de largo.",
 					"Contraseña inválida", JOptionPane.ERROR_MESSAGE);
 			return false;
