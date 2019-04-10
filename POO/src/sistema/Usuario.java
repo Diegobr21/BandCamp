@@ -4,7 +4,6 @@ package sistema;
  * Clase que contiene los atributos de una cuenta. Cuenta con métodos de acceso.
  */
 public class Usuario {
-	private int id;
 	private String cor_usu;
 	private String pas_usu;
 	private int tip_usu;
@@ -13,8 +12,7 @@ public class Usuario {
 	private String ins_usu;
 	private String fac_usu;
 	
-	public Usuario(int id, String cor_usu, String pas_usu, int tip_usu, String nom_usu, String gen_usu, String ins_usu, String fac_usu) {
-		this.id = id;
+	public Usuario(String cor_usu, String pas_usu, int tip_usu, String nom_usu, String gen_usu, String ins_usu, String fac_usu) {
 		this.cor_usu = cor_usu;
 		this.pas_usu = pas_usu;
 		this.tip_usu = tip_usu;
@@ -22,13 +20,6 @@ public class Usuario {
 		this.gen_usu = gen_usu;
 		this.ins_usu = ins_usu;
 		this.fac_usu = fac_usu;
-	}
-	
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
 	}
 	
 	public String getCor_usu() {

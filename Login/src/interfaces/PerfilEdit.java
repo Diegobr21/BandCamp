@@ -46,7 +46,7 @@ public class PerfilEdit extends JFrame implements ActionListener{
 	public PerfilEdit(Usuario sesion) {
 		// cuenta de ejemplo, cuando el argumento es null
 		if (sesion == null) {
-			sesion = new Usuario(0, "correo", "pswd", 1, "HAVOK", "Metal", "Guitarra", "FIME");
+			sesion = new Usuario("correo", "pswd", 1, "HAVOK", "Metal", "Guitarra", "FIME");
 		}
 		cuenta = sesion;
 		

@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -22,6 +21,7 @@ import sistema.Registrar;
 
 @SuppressWarnings("serial")
 public class Registro extends JFrame implements ActionListener {
+	
 	/**
 	 * Launch the application.
 	 */
@@ -39,10 +39,6 @@ public class Registro extends JFrame implements ActionListener {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
-	private JPanel contentPane;
 	private JTextField txtCorreo, txtNombre;
 	private JPasswordField pswdPassword, pswdDuplicate;
 	private JToggleButton tglbtnArtista, tglbtnBanda;
@@ -50,27 +46,26 @@ public class Registro extends JFrame implements ActionListener {
 	private JLabel lblInstrumento;
 	private String askInstrument = "¿Qué instrumento ";
 	
-	private JComboBox<String> comboBoxFacultades;
-	private JComboBox<String> comboBoxGeneros;
-	private JComboBox<String> comboBoxInstrumentos;
+	ComboBoxes registroCmbs;
 	
-	private int tipo = 1;
-	
+	/**
+	 * Create the frame.
+	 */	
 	public Registro() {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 636, 420);
-		contentPane = new JPanel();
+		
+		JPanel contentPane = new JPanel();
 		contentPane.setBackground(Color.DARK_GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		ComboBoxes combos = new ComboBoxes();
+		registroCmbs = new ComboBoxes();
 		
-		comboBoxFacultades = combos.cmbFacultades;
-		comboBoxFacultades.setBounds(358, 81, 158, 20);
-		contentPane.add(comboBoxFacultades);
+		contentPane.add(registroCmbs.cmbFacultades);
+		registroCmbs.cmbFacultades.setLocation(358, 81);
 		
 		JLabel lblFacultad = new JLabel("\u00BFA qu\u00E9 facultad perteneces?");
 		lblFacultad.setForeground(Color.YELLOW);
@@ -78,9 +73,8 @@ public class Registro extends JFrame implements ActionListener {
 		lblFacultad.setBounds(358, 56, 172, 14);
 		contentPane.add(lblFacultad);
 		
-		comboBoxGeneros = combos.cmbGeneros;
-		comboBoxGeneros.setBounds(358, 206, 158, 20);
-		contentPane.add(comboBoxGeneros);
+		contentPane.add(registroCmbs.cmbGeneros);
+		registroCmbs.cmbGeneros.setLocation(358, 206);
 		
 		JLabel lblGneroMusical = new JLabel("\u00BFQu\u00E9 g\u00E9nero interpretas?");
 		lblGneroMusical.setForeground(Color.YELLOW);
@@ -88,9 +82,8 @@ public class Registro extends JFrame implements ActionListener {
 		lblGneroMusical.setBounds(358, 181, 158, 14);
 		contentPane.add(lblGneroMusical);
 		
-		comboBoxInstrumentos = combos.cmbInstrumentos;
-		comboBoxInstrumentos.setBounds(358, 274, 158, 20);
-		contentPane.add(comboBoxInstrumentos);
+		contentPane.add(registroCmbs.cmbInstrumentos);
+		registroCmbs.cmbInstrumentos.setLocation(358, 274);
 		
 		lblInstrumento = new JLabel(askInstrument + "tocas?");
 		lblInstrumento.setForeground(Color.YELLOW);
@@ -189,7 +182,8 @@ public class Registro extends JFrame implements ActionListener {
 		contentPane.add(lblSelecciona);
 		pswdDuplicate.addActionListener(this);
 	}
-
+	
+	private int tipo = 1;
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		//Las comboboxes tienen actionlistener indiv
@@ -221,9 +215,9 @@ public class Registro extends JFrame implements ActionListener {
 			
 			String correo = txtCorreo.getText();
 			String nombre = txtNombre.getText();
-			String genero = comboBoxGeneros.getSelectedItem().toString().toLowerCase();
-			String instrumento = comboBoxInstrumentos.getSelectedItem().toString().toLowerCase();
-			String facultad = comboBoxFacultades.getSelectedItem().toString();
+			String genero = registroCmbs.cmbGeneros.getSelectedItem().toString().toLowerCase();
+			String instrumento = registroCmbs.cmbInstrumentos.getSelectedItem().toString().toLowerCase();
+			String facultad = registroCmbs.cmbFacultades.getSelectedItem().toString();
 			
 			boolean success = new Registrar().createAccount(correo, passwords, tipo, nombre, genero, instrumento, facultad);
 			if (success) {

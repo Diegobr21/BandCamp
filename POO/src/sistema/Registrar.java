@@ -33,7 +33,7 @@ public class Registrar {
 		else return false;
 		
 		// ID ?
-		Usuario newAccount = new Usuario(0, correo, passwords[1], tipo, nombre, genero, instrumento, facultad);
+		Usuario newAccount = new Usuario(correo, passwords[1], tipo, nombre, genero, instrumento, facultad);
 		imprimir(newAccount);
 		// enviar objeto newAccount a un registro de la base de datos
 		return true;
@@ -79,7 +79,6 @@ public class Registrar {
 	 * @param cuenta objeto de tipo <code>Usuario</code> que contiene los atributos a imprimir.
 	 */
 	private void imprimir(Usuario cuenta) {
-		System.out.println(cuenta.getId());
 		System.out.println(cuenta.getCor_usu());
 		System.out.println(cuenta.getPas_usu());
 		System.out.println(cuenta.getTip_usu());
