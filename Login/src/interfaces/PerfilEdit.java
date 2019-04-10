@@ -30,6 +30,7 @@ public class PerfilEdit extends JFrame implements ActionListener{
 			public void run() {
 				try {
 					PerfilEdit frame = new PerfilEdit(null);
+					frame.setLocationRelativeTo(null);
 					frame.setVisible(true);
 				}
 				catch (Exception e) {
@@ -115,11 +116,9 @@ public class PerfilEdit extends JFrame implements ActionListener{
 		if(command.contentEquals("Guardar")){
 			JOptionPane.showMessageDialog(this, "Cambios Guardados");
 		}
-		else if(command.contentEquals("Regresar")) {
-
-		}
 		
 		Perfil perfil = new Perfil(cuenta);
+		perfil.setLocationRelativeTo(null);
 		perfil.setVisible(true);
 		PerfilEdit.this.dispose();
 	}

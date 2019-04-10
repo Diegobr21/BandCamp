@@ -26,6 +26,7 @@ public class Feed extends JFrame implements ActionListener {
 			public void run() {
 				try {
 					Feed frame = new Feed(null);
+					frame.setLocationRelativeTo(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -108,11 +109,13 @@ public class Feed extends JFrame implements ActionListener {
 		}
 		else if (command.contentEquals("PerfilUser")) {
 			Perfil profileframe = new Perfil(cuenta);
+			profileframe.setLocationRelativeTo(null);
 			profileframe.setVisible(true);
 			Feed.this.dispose();
 		}
 		else if (command.contentEquals("Cerrar")) {
 			UserLogin frameLogin = new UserLogin();
+			frameLogin.setLocationRelativeTo(null);
 			frameLogin.setVisible(true);
 			Feed.this.dispose();
 		}

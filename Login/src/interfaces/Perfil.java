@@ -29,6 +29,7 @@ public class Perfil extends JFrame implements ActionListener {
 			public void run() {
 				try {
 					Perfil frame = new Perfil(null);
+					frame.setLocationRelativeTo(null);
 					frame.setVisible(true);
 				}
 				catch (Exception e) {
@@ -126,17 +127,20 @@ public class Perfil extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent o) {
 		//---botones
 		String command = o.getActionCommand();
-		if(command.contentEquals("Editar")){
+		
+		if (command.contentEquals("Editar")){
 			PerfilEdit edit = new PerfilEdit(cuenta);
+			edit.setLocationRelativeTo(null);
 			edit.setVisible(true);
 			Perfil.this.dispose();
 		}
-		else if(command.contentEquals("Regresar")) {
+		else if (command.contentEquals("Regresar")) {
 			Feed feedframe = new Feed(cuenta);
+			feedframe.setLocationRelativeTo(null);
 			feedframe.setVisible(true);
 			Perfil.this.dispose();
 		}
-		else if(command.contentEquals("Favoritos")) {
+		else if (command.contentEquals("Favoritos")) {
 			JOptionPane.showMessageDialog(this, "Lista de favoritos: ");
 		}
 	}

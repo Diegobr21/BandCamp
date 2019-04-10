@@ -30,6 +30,7 @@ public class Registro extends JFrame implements ActionListener {
 			public void run() {
 				try {
 					Registro frame = new Registro();
+					frame.setLocationRelativeTo(null);
 					frame.setVisible(true);
 				}
 				catch (Exception e) {
@@ -222,8 +223,9 @@ public class Registro extends JFrame implements ActionListener {
 						"Cuenta creada", JOptionPane.INFORMATION_MESSAGE);
 				
 				UserLogin frameLogin = new UserLogin();
+				frameLogin.setLocationRelativeTo(null);
 				frameLogin.setVisible(true);
-				Registro.this.dispose();	
+				Registro.this.dispose();
 			}
 			else {
 				pswdPassword.setText("");
@@ -233,6 +235,7 @@ public class Registro extends JFrame implements ActionListener {
 		
 		else if (command.contentEquals("Regresar")) {
 			UserLogin frameLogin = new UserLogin();
+			frameLogin.setLocationRelativeTo(null);
 			frameLogin.setVisible(true);
 			Registro.this.dispose();
 		}

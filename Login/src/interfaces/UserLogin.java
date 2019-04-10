@@ -28,6 +28,7 @@ public class UserLogin extends JFrame implements ActionListener {
 			public void run() {
 				try {
 					UserLogin frame = new UserLogin();
+					frame.setLocationRelativeTo(null);
 					frame.setVisible(true);
 				}
 				catch (Exception e) {
@@ -37,7 +38,6 @@ public class UserLogin extends JFrame implements ActionListener {
 		});
 	}
 	
-	private JPanel contentPane;
 	private JTextField txtCorreo;
 	private JPasswordField passwordField;
 	
@@ -48,7 +48,8 @@ public class UserLogin extends JFrame implements ActionListener {
 		setTitle("Bandcamp - Iniciar sesión");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 593, 414);
-		contentPane = new JPanel();
+		
+		JPanel contentPane = new JPanel();
 		contentPane.setForeground(Color.DARK_GRAY);
 		contentPane.setBackground(Color.DARK_GRAY);
 		contentPane.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
@@ -106,17 +107,16 @@ public class UserLogin extends JFrame implements ActionListener {
 			String password = String.valueOf(passwordField.getPassword());
 			
 			Usuario sesionIniciada = new Login().ingresar(correo, password);
-			if (sesionIniciada == null) {
-				
-			}
-			else {
+			if (sesionIniciada != null) {
 				Feed framefeed = new Feed(sesionIniciada);
+				framefeed.setLocationRelativeTo(null);
 				framefeed.setVisible(true);
 				UserLogin.this.dispose();
 			}
 		}
 		else if(command.contentEquals("Registro")) {
 		    Registro frameregistro = new Registro();
+		    frameregistro.setLocationRelativeTo(null);
 			frameregistro.setVisible(true);
 			UserLogin.this.dispose();
 		}
