@@ -6,7 +6,6 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -67,12 +66,11 @@ public class Registro extends JFrame implements ActionListener {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		comboBoxFacultades = new JComboBox<String>();
-		comboBoxFacultades.setModel(new DefaultComboBoxModel<String>(
-				new String[] {"FIME", "FCQ", "FACPYA", "FCFM", "FARQ", "FACDYC", "FIC", "FAV", "FOD"}));
+		ComboBoxes combos = new ComboBoxes();
+		
+		comboBoxFacultades = combos.cmbFacultades;
 		comboBoxFacultades.setBounds(358, 81, 158, 20);
 		contentPane.add(comboBoxFacultades);
-		comboBoxFacultades.setEditable(false);
 		
 		JLabel lblFacultad = new JLabel("\u00BFA qu\u00E9 facultad perteneces?");
 		lblFacultad.setForeground(Color.YELLOW);
@@ -80,12 +78,9 @@ public class Registro extends JFrame implements ActionListener {
 		lblFacultad.setBounds(358, 56, 172, 14);
 		contentPane.add(lblFacultad);
 		
-		comboBoxGeneros = new JComboBox<String>();
-		comboBoxGeneros.setModel(new DefaultComboBoxModel<String>(
-				new String[] {"Rock", "Jazz", "Reggaeton", "Rap", "Metal", "Indie", "K-Pop", "Pop", "Cl\u00E1sica"}));
+		comboBoxGeneros = combos.cmbGeneros;
 		comboBoxGeneros.setBounds(358, 206, 158, 20);
 		contentPane.add(comboBoxGeneros);
-		comboBoxGeneros.setEditable(false);
 		
 		JLabel lblGneroMusical = new JLabel("\u00BFQu\u00E9 g\u00E9nero interpretas?");
 		lblGneroMusical.setForeground(Color.YELLOW);
@@ -93,13 +88,9 @@ public class Registro extends JFrame implements ActionListener {
 		lblGneroMusical.setBounds(358, 181, 158, 14);
 		contentPane.add(lblGneroMusical);
 		
-		comboBoxInstrumentos = new JComboBox<String>();
-		comboBoxInstrumentos.setModel(new DefaultComboBoxModel<String>(
-				new String[] {"Guitarra", "Bater\u00EDa", "Piano", "Xilófono", "Flauta",
-						"Viol\u00EDn", "Trompeta", "Oboe", "Ocarina", "Bajo"}));
+		comboBoxInstrumentos = combos.cmbInstrumentos;
 		comboBoxInstrumentos.setBounds(358, 274, 158, 20);
 		contentPane.add(comboBoxInstrumentos);
-		comboBoxInstrumentos.setEditable(false);
 		
 		lblInstrumento = new JLabel(askInstrument + "tocas?");
 		lblInstrumento.setForeground(Color.YELLOW);
