@@ -72,10 +72,7 @@ public class Registro extends JFrame implements ActionListener {
 				new String[] {"FIME", "FCQ", "FACPYA", "FCFM", "FARQ", "FACDYC", "FIC", "FAV", "FOD"}));
 		comboBoxFacultades.setBounds(358, 81, 158, 20);
 		contentPane.add(comboBoxFacultades);
-					//Event handler comboBoxes--
 		comboBoxFacultades.setEditable(false);
-		comboBoxFacultades.addActionListener(this);
-		//---End
 		
 		JLabel lblFacultad = new JLabel("\u00BFA qu\u00E9 facultad perteneces?");
 		lblFacultad.setForeground(Color.YELLOW);
@@ -83,33 +80,12 @@ public class Registro extends JFrame implements ActionListener {
 		lblFacultad.setBounds(358, 56, 172, 14);
 		contentPane.add(lblFacultad);
 		
-		
 		comboBoxGeneros = new JComboBox<String>();
 		comboBoxGeneros.setModel(new DefaultComboBoxModel<String>(
 				new String[] {"Rock", "Jazz", "Reggaeton", "Rap", "Metal", "Indie", "K-Pop", "Pop", "Cl\u00E1sica"}));
 		comboBoxGeneros.setBounds(358, 206, 158, 20);
 		contentPane.add(comboBoxGeneros);
-		//Event handler comboBoxes--
-				comboBoxGeneros.setEditable(false);
-				comboBoxGeneros.addActionListener(new ActionListener() {
-					private boolean found = false;
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						String s = (String) comboBoxGeneros.getSelectedItem();
-						for (int i=0; i<comboBoxGeneros.getItemCount(); i++) {
-							if (comboBoxGeneros.getItemAt(i).toString().equals(s)) {
-								found= true;
-								break;
-							}
-						}
-						if (!found) {
-							JOptionPane.showMessageDialog(null, "Agregado: "+s);
-							comboBoxGeneros.addItem(s);
-						}
-						found = false;
-					}
-				});
-				//---End
+		comboBoxGeneros.setEditable(false);
 		
 		JLabel lblGneroMusical = new JLabel("\u00BFQu\u00E9 g\u00E9nero interpretas?");
 		lblGneroMusical.setForeground(Color.YELLOW);
@@ -123,34 +99,13 @@ public class Registro extends JFrame implements ActionListener {
 						"Viol\u00EDn", "Trompeta", "Oboe", "Ocarina", "Bajo"}));
 		comboBoxInstrumentos.setBounds(358, 274, 158, 20);
 		contentPane.add(comboBoxInstrumentos);
-				//Event handler comboBoxes--
 		comboBoxInstrumentos.setEditable(false);
-		comboBoxInstrumentos.addActionListener(new ActionListener() {
-			private boolean found = false;
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String s = (String) comboBoxInstrumentos.getSelectedItem();
-				for (int i=0; i<comboBoxInstrumentos.getItemCount(); i++) {
-					if (comboBoxInstrumentos.getItemAt(i).toString().equals(s)) {
-						found= true;
-						break;
-					}
-				}
-				if (!found) {
-					JOptionPane.showMessageDialog(null, "Agregado: "+s);
-					comboBoxInstrumentos.addItem(s);
-				}
-				found = false;
-			}
-		});
 		
 		lblInstrumento = new JLabel(askInstrument + "tocas?");
 		lblInstrumento.setForeground(Color.YELLOW);
 		lblInstrumento.setFont(new Font("Arial", Font.PLAIN, 13));
 		lblInstrumento.setBounds(358, 249, 191, 14);
 		contentPane.add(lblInstrumento);
-		
-	//---End
 		
 		JButton btnCrearCuenta = new JButton("Registrarse");
 		btnCrearCuenta.setForeground(Color.BLACK);
