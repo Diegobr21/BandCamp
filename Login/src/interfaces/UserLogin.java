@@ -9,7 +9,6 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -29,6 +28,7 @@ public class UserLogin extends JFrame implements ActionListener {
 			public void run() {
 				try {
 					UserLogin frame = new UserLogin();
+					frame.setLocationRelativeTo(null);
 					frame.setVisible(true);
 				}
 				catch (Exception e) {
@@ -38,7 +38,6 @@ public class UserLogin extends JFrame implements ActionListener {
 		});
 	}
 	
-	private JPanel contentPane;
 	private JTextField txtCorreo;
 	private JPasswordField passwordField;
 	
@@ -49,7 +48,8 @@ public class UserLogin extends JFrame implements ActionListener {
 		setTitle("Bandcamp - Iniciar sesión");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 593, 414);
-		contentPane = new JPanel();
+		
+		JPanel contentPane = new JPanel();
 		contentPane.setForeground(Color.DARK_GRAY);
 		contentPane.setBackground(Color.DARK_GRAY);
 		contentPane.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
@@ -78,7 +78,6 @@ public class UserLogin extends JFrame implements ActionListener {
 		txtCorreo.setBounds(186, 90, 217, 20);
 		contentPane.add(txtCorreo);
 		txtCorreo.setColumns(10);
-		txtCorreo.addActionListener(this);
 		
 		JButton Iniciarbtn = new JButton("Iniciar sesi\u00F3n");
 		Iniciarbtn.setFont(new Font("Verdana", Font.BOLD, 12));
@@ -108,18 +107,16 @@ public class UserLogin extends JFrame implements ActionListener {
 			String password = String.valueOf(passwordField.getPassword());
 			
 			Usuario sesionIniciada = new Login().ingresar(correo, password);
-			if (sesionIniciada == null) {
-				JOptionPane.showMessageDialog(this, "El correo y la contraseña ingresados no coinciden con los registros.",
-						"Error", JOptionPane.ERROR_MESSAGE);
-			}
-			else {
+			if (sesionIniciada != null) {
 				Feed framefeed = new Feed(sesionIniciada);
+				framefeed.setLocationRelativeTo(null);
 				framefeed.setVisible(true);
 				UserLogin.this.dispose();
 			}
 		}
 		else if(command.contentEquals("Registro")) {
 		    Registro frameregistro = new Registro();
+		    frameregistro.setLocationRelativeTo(null);
 			frameregistro.setVisible(true);
 			UserLogin.this.dispose();
 		}

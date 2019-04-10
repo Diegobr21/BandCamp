@@ -30,6 +30,7 @@ public class PerfilEdit extends JFrame implements ActionListener{
 			public void run() {
 				try {
 					PerfilEdit frame = new PerfilEdit(null);
+					frame.setLocationRelativeTo(null);
 					frame.setVisible(true);
 				}
 				catch (Exception e) {
@@ -46,7 +47,7 @@ public class PerfilEdit extends JFrame implements ActionListener{
 	public PerfilEdit(Usuario sesion) {
 		// cuenta de ejemplo, cuando el argumento es null
 		if (sesion == null) {
-			sesion = new Usuario(0, "correo", "pswd", 1, "HAVOK", "Metal", "Guitarra", "FIME");
+			sesion = new Usuario("correo", "pswd", 1, "HAVOK", "Metal", "Guitarra", "FIME");
 		}
 		cuenta = sesion;
 		
@@ -115,11 +116,9 @@ public class PerfilEdit extends JFrame implements ActionListener{
 		if(command.contentEquals("Guardar")){
 			JOptionPane.showMessageDialog(this, "Cambios Guardados");
 		}
-		else if(command.contentEquals("Regresar")) {
-
-		}
 		
 		Perfil perfil = new Perfil(cuenta);
+		perfil.setLocationRelativeTo(null);
 		perfil.setVisible(true);
 		PerfilEdit.this.dispose();
 	}

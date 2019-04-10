@@ -1,5 +1,7 @@
 package sistema;
 
+import javax.swing.JOptionPane;
+
 import validaciones.MD5;
 
 public class Login {
@@ -26,6 +28,12 @@ public class Login {
 		// si los datos no coinciden, se retorna null:
 //		else return null;
 		
-		return null;
+		Usuario cuenta = null;
+		if (cuenta == null) {
+			JOptionPane.showMessageDialog(null, "No pudimos encontrar el correo y la contraseña que ingresaste.\n¡Prueba a registrarte!",
+					"Correo y contraseña no coinciden", JOptionPane.ERROR_MESSAGE);
+		}
+		
+		return cuenta;
 	}
 }
