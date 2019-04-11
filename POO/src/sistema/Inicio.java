@@ -10,7 +10,7 @@ public class Inicio {
 		Usuario cuenta = null;
 //		Registro registro = new Registro();
 		Login login = new Login();
-		Perfil perfil = new Perfil();
+		EditarPerfil editarPerfil = new EditarPerfil();
 		
 		boolean bandera = true;
 		while (bandera) {
@@ -29,7 +29,7 @@ public class Inicio {
 					break;
 				case 3:
 					// editar cuenta
-					cuenta = perfil.editar(cuenta);
+					//cuenta = editarPerfil.editar(cuenta);
 					break;
 				case 4:
 					//registro.imprimir(cuenta);
