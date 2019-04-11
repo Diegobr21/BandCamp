@@ -47,7 +47,7 @@ public class Registro extends JFrame implements ActionListener {
 	private JLabel lblInstrumento;
 	private String askInstrument = "¿Qué instrumento ";
 	
-	ComboBoxes registroCmbs;
+	private ComboBoxes registroCmbs;
 	
 	/**
 	 * Create the frame.
@@ -211,8 +211,8 @@ public class Registro extends JFrame implements ActionListener {
 			
 			String correo = txtCorreo.getText();
 			String nombre = txtNombre.getText();
-			String genero = registroCmbs.cmbGeneros.getSelectedItem().toString().toLowerCase();
-			String instrumento = registroCmbs.cmbInstrumentos.getSelectedItem().toString().toLowerCase();
+			String genero = registroCmbs.cmbGeneros.getSelectedItem().toString();
+			String instrumento = registroCmbs.cmbInstrumentos.getSelectedItem().toString();
 			String facultad = registroCmbs.cmbFacultades.getSelectedItem().toString();
 			
 			boolean cuentaCreada = new Registrar().createAccount(correo, passwords, tipo, nombre, genero, instrumento, facultad);
