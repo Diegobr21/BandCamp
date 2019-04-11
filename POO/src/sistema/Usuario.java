@@ -11,8 +11,9 @@ public class Usuario {
 	private String gen_usu;
 	private String ins_usu;
 	private String fac_usu;
+	private String des_usu;
 	
-	public Usuario(String cor_usu, String pas_usu, int tip_usu, String nom_usu, String gen_usu, String ins_usu, String fac_usu) {
+	public Usuario(String cor_usu, String pas_usu, int tip_usu, String nom_usu, String gen_usu, String ins_usu, String fac_usu, String des_usu) {
 		this.cor_usu = cor_usu;
 		this.pas_usu = pas_usu;
 		this.tip_usu = tip_usu;
@@ -20,6 +21,7 @@ public class Usuario {
 		this.gen_usu = gen_usu;
 		this.ins_usu = ins_usu;
 		this.fac_usu = fac_usu;
+		this.des_usu = des_usu;
 	}
 	
 	public String getCor_usu() {
@@ -71,4 +73,10 @@ public class Usuario {
 		this.fac_usu = fac_usu;
 	}
 	
+	public String getDes_usu() {
+		return des_usu;
+	}
+	public void setDes_usu(String des_usu) {
+		this.des_usu = des_usu;
+	}
 }

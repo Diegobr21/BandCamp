@@ -33,7 +33,7 @@ public class Registrar {
 		else return false;
 		
 		// ID ?
-		Usuario newAccount = new Usuario(correo, passwords[1], tipo, nombre, genero, instrumento, facultad);
+		Usuario newAccount = new Usuario(correo, passwords[1], tipo, nombre, genero, instrumento, facultad, "");
 		imprimir(newAccount);
 		// enviar objeto newAccount a un registro de la base de datos
 		return true;
@@ -87,5 +87,6 @@ public class Registrar {
 		System.out.println(cuenta.getGen_usu());
 		System.out.println(cuenta.getIns_usu());
 		System.out.println(cuenta.getFac_usu());
+		System.out.println(cuenta.getDes_usu());
 	}
 }

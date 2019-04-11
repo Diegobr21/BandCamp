@@ -103,7 +103,7 @@ public class Feed extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent i) {
 				//--botones
-		String command= i.getActionCommand();
+		String command = i.getActionCommand();
 		if(command.contentEquals("Ayuda")){
 			JOptionPane.showMessageDialog(null, "Links de ayuda: \n www.help.mx \n www.oracle.com");
 		}

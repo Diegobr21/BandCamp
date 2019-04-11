@@ -19,7 +19,7 @@ import sistema.EditarPerfil;
 import sistema.Usuario;
 
 @SuppressWarnings("serial")
-public class Perfil extends JFrame implements ActionListener {
+class Perfil extends JFrame implements ActionListener {
 
 	/**
 	 * Launch the application.
@@ -53,7 +53,7 @@ public class Perfil extends JFrame implements ActionListener {
 	public Perfil(Usuario sesion) {
 		// cuenta de ejemplo, cuando el argumento es null
 		if (sesion == null) {
-			sesion = new Usuario("correo", "pswd", 1, "HAVOK", "Rock", "Guitarra", "FAV");
+			sesion = new Usuario("correo", "pswd", 1, "HAVOK", "Rock", "Guitarra", "FAV", "Hell yeah!");
 		}
 		cuenta = sesion;
 		
@@ -77,7 +77,7 @@ public class Perfil extends JFrame implements ActionListener {
 		contentPane.add(UserPic);
 		
 		txtDescripcion = new JTextArea();
-		txtDescripcion.setText("Descripción...\n");
+		txtDescripcion.setText(sesion.getDes_usu());
 		txtDescripcion.setBounds(34, 205, 549, 103);
 		txtDescripcion.setEditable(false);
 		contentPane.add(txtDescripcion);
@@ -189,9 +189,10 @@ public class Perfil extends JFrame implements ActionListener {
 			String facultad = perfilCmbs.cmbFacultades.getSelectedItem().toString();
 			String genero = perfilCmbs.cmbGeneros.getSelectedItem().toString();
 			String instrumento = perfilCmbs.cmbInstrumentos.getSelectedItem().toString();
+			String descripcion = txtDescripcion.getText();
 			
 			Usuario editado = new Usuario(cuenta.getCor_usu(), cuenta.getPas_usu(), cuenta.getTip_usu(), nombre,
-					genero, instrumento, facultad);
+					genero, instrumento, facultad, descripcion);
 			boolean cuentaEditada = new EditarPerfil().editarCuenta(cuenta, editado);
 			if (cuentaEditada) {
 				lblNombre.setVisible(true);
@@ -211,6 +212,7 @@ public class Perfil extends JFrame implements ActionListener {
 				perfilCmbs.cmbInstrumentos.setVisible(false);
 				
 				txtDescripcion.setEditable(false);
+				txtDescripcion.setText(editado.getDes_usu());
 				
 				btnEditar.setText("Editar");
 				btnEditar.setActionCommand("Editar");
