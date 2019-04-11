@@ -10,7 +10,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JTextArea;
 
 @SuppressWarnings("serial")
-public class Ayuda extends JDialog {
+class Ayuda extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 
 	/**

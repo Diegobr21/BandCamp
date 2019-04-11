@@ -20,7 +20,7 @@ import javax.swing.border.EmptyBorder;
 import sistema.Registrar;
 
 @SuppressWarnings("serial")
-public class Registro extends JFrame implements ActionListener {
+class Registro extends JFrame implements ActionListener {
 	
 	/**
 	 * Launch the application.

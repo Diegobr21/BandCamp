@@ -24,10 +24,11 @@ public class Login {
 			// retorna un objeto de tipo Usuario con los datos de la cuenta,
 			// que se estará enviando como argumento a las diferentes interfaces
 			// para hacer uso de los atributos de la cuenta
-//			return new Usuario(0, cor_usu, pas_usu, tip_usu, nom_usu, gen_usu, ins_usu, fac_usu);
+//			return new Usuario(cor_usu, pas_usu, tip_usu, nom_usu, gen_usu, ins_usu, fac_usu, des_usu);
 		// si los datos no coinciden, se retorna null:
 //		else return null;
 		
+		// instancia temporal mientras se hace el enlace a la BD, por eso es null
 		Usuario cuenta = null;
 		if (cuenta == null) {
 			JOptionPane.showMessageDialog(null, "No pudimos encontrar el correo y la contraseña que ingresaste.\n¡Prueba a registrarte!",
