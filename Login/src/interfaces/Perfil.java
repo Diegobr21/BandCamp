@@ -183,11 +183,6 @@ public class Perfil extends JFrame implements ActionListener {
 			btnEditar.setText("Guardar");
 			btnEditar.setActionCommand("Guardar");
 			btnRegresar.setEnabled(false);
-			
-//			PerfilEdit edit = new PerfilEdit(cuenta);
-//			edit.setLocationRelativeTo(null);
-//			edit.setVisible(true);
-//			Perfil.this.dispose();
 		}
 		else if (command.contentEquals("Guardar")) {
 			String nombre = txtNombre.getText();
