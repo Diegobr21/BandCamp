@@ -80,12 +80,6 @@ public class Registrar {
 	 * @param cuenta objeto de tipo <code>Usuario</code> que contiene los atributos a imprimir.
 	 */
 	private void imprimir(Usuario cuenta) {
-		System.out.println(cuenta.getCor_usu());
-		System.out.println(cuenta.getPas_usu());
-		System.out.println(cuenta.getTip_usu());
-		System.out.println(cuenta.getNom_usu());
-		System.out.println(cuenta.getGen_usu());
-		System.out.println(cuenta.getIns_usu());
-		System.out.println(cuenta.getFac_usu());
+		System.out.println(cuenta.toString());
 	}
 }
