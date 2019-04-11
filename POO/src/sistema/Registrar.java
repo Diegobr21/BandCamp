@@ -32,8 +32,9 @@ public class Registrar {
 		}
 		else return false;
 		
-		// ID ?
-		Usuario newAccount = new Usuario(correo, passwords[1], tipo, nombre, genero, instrumento, facultad, "");
+		// query para obtener ID más reciente
+		int id = 0;
+		Usuario newAccount = new Usuario(id, correo, passwords[1], tipo, nombre, genero, instrumento, facultad, "");
 		imprimir(newAccount);
 		// enviar objeto newAccount a un registro de la base de datos
 		return true;

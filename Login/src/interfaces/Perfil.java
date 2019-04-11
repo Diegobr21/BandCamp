@@ -53,7 +53,7 @@ class Perfil extends JFrame implements ActionListener {
 	public Perfil(Usuario sesion) {
 		// cuenta de ejemplo, cuando el argumento es null
 		if (sesion == null) {
-			sesion = new Usuario("correo", "pswd", 1, "HAVOK", "Rock", "Guitarra", "FAV", "Hell yeah!");
+			sesion = new Usuario(0, "correo", "pswd", 1, "HAVOK", "Rock", "Guitarra", "FAV", "Hell yeah!");
 		}
 		cuenta = sesion;
 		
@@ -191,7 +191,7 @@ class Perfil extends JFrame implements ActionListener {
 			String instrumento = perfilCmbs.cmbInstrumentos.getSelectedItem().toString();
 			String descripcion = txtDescripcion.getText();
 			
-			Usuario editado = new Usuario(cuenta.getCor_usu(), cuenta.getPas_usu(), cuenta.getTip_usu(), nombre,
+			Usuario editado = new Usuario(cuenta.getId(), cuenta.getCor_usu(), cuenta.getPas_usu(), cuenta.getTip_usu(), nombre,
 					genero, instrumento, facultad, descripcion);
 			boolean cuentaEditada = new EditarPerfil().editarCuenta(cuenta, editado);
 			if (cuentaEditada) {
