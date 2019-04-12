@@ -46,7 +46,7 @@ public class Registrar {
 		
 		try {
 			con = DriverManager.getConnection(url, usuario, password);
-			System.out.println("Conexon establecida");
+			System.out.println("Conexion establecida");
 			statement = con.prepareStatement(insertDatos);
 		} catch(SQLException e) {
 			System.out.println(e.getMessage());
@@ -109,7 +109,7 @@ public class Registrar {
 		int resultSetRow = statement.executeUpdate();
 		
 		if (resultSetRow == 0) {
-			JOptionPane.showMessageDialog(null, "ERROR", "0 columnas afectadas", JOptionPane.ERROR_MESSAGE );
+			JOptionPane.showMessageDialog(null, "0 filas afectadas", "ERROR", JOptionPane.ERROR_MESSAGE );
 		}
 		imprimir(cuenta);
 		// enviar objeto newAccount a un registro de la base de datos
