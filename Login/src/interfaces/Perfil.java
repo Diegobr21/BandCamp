@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -193,7 +194,14 @@ class Perfil extends JFrame implements ActionListener {
 			
 			Usuario editado = new Usuario(cuenta.getId(), cuenta.getCor_usu(), cuenta.getPas_usu(), cuenta.getTip_usu(), nombre,
 					genero, instrumento, facultad, descripcion);
-			boolean cuentaEditada = new EditarPerfil().editarCuenta(cuenta, editado);
+			
+			boolean cuentaEditada = false;
+			
+			try {
+				cuentaEditada = new EditarPerfil().editarCuenta(cuenta, editado);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 			if (cuentaEditada) {
 				lblNombre.setVisible(true);
 				lblNombre.setText(editado.getNom_usu());
