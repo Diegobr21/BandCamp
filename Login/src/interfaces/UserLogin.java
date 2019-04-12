@@ -107,18 +107,16 @@ public class UserLogin extends JFrame implements ActionListener {
 			String correo = txtCorreo.getText();
 			String password = String.valueOf(passwordField.getPassword());
 			
-			Usuario sesionIniciada = null;
-			
 			try {
-				sesionIniciada = new Login().ingresar(correo, password);
+				Usuario sesionIniciada = new Login().ingresar(correo, password);
+				if (sesionIniciada != null) {
+					Feed framefeed = new Feed(sesionIniciada);
+					framefeed.setLocationRelativeTo(null);
+					framefeed.setVisible(true);
+					UserLogin.this.dispose();
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
-			}
-			if (sesionIniciada != null) {
-				Feed framefeed = new Feed(sesionIniciada);
-				framefeed.setLocationRelativeTo(null);
-				framefeed.setVisible(true);
-				UserLogin.this.dispose();
 			}
 		}
 		else if(command.contentEquals("Registro")) {

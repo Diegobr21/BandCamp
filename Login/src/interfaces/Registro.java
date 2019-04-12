@@ -215,26 +215,24 @@ class Registro extends JFrame implements ActionListener {
 			String instrumento = registroCmbs.cmbInstrumentos.getSelectedItem().toString();
 			String facultad = registroCmbs.cmbFacultades.getSelectedItem().toString();
 			
-			boolean cuentaCreada = false;
 			try {
-				cuentaCreada = new Registrar().createAccount(1, correo, passwords, tipo, nombre, genero, instrumento, facultad);
-				cuentaCreada = true;
+				boolean cuentaCreada = new Registrar().createAccount(1, correo, passwords, tipo, nombre, genero, instrumento, facultad);
+				
+				if (cuentaCreada) {
+					// falta reemplazar el código de abajo por el frame de la segunda parte de registro 
+					JOptionPane.showMessageDialog(null, "Se ha registrado correctamente.",
+							"Cuenta creada", JOptionPane.INFORMATION_MESSAGE);
+					
+					UserLogin frameLogin = new UserLogin();
+					frameLogin.setLocationRelativeTo(null);
+					frameLogin.setVisible(true);
+					Registro.this.dispose();
+				}
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			if (cuentaCreada) {
-				// falta reemplazar el código de abajo por el frame de la segunda parte de registro 
-				
-				JOptionPane.showMessageDialog(null, "Se ha registrado correctamente.",
-						"Cuenta creada", JOptionPane.INFORMATION_MESSAGE);
-				
-				UserLogin frameLogin = new UserLogin();
-				frameLogin.setLocationRelativeTo(null);
-				frameLogin.setVisible(true);
-				Registro.this.dispose();
-			}
-			else {
+			finally {
 				pswdPassword.setText("");
 				pswdDuplicate.setText("");
 			}

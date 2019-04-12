@@ -195,38 +195,36 @@ class Perfil extends JFrame implements ActionListener {
 			Usuario editado = new Usuario(cuenta.getId(), cuenta.getCor_usu(), cuenta.getPas_usu(), cuenta.getTip_usu(), nombre,
 					genero, instrumento, facultad, descripcion);
 			
-			boolean cuentaEditada = false;
-			
 			try {
-				cuentaEditada = new EditarPerfil().editarCuenta(cuenta, editado);
+				boolean cuentaEditada = new EditarPerfil().editarCuenta(cuenta, editado);
+				if (cuentaEditada) {
+					lblNombre.setVisible(true);
+					lblNombre.setText(editado.getNom_usu());
+					txtNombre.setVisible(false);
+					
+					lblFacultad.setVisible(true);
+					lblFacultad.setText(editado.getFac_usu());
+					perfilCmbs.cmbFacultades.setVisible(false);
+					
+					lblGenero.setVisible(true);
+					lblGenero.setText(editado.getGen_usu());
+					perfilCmbs.cmbGeneros.setVisible(false);
+					
+					lblInstrumento.setVisible(true);
+					lblInstrumento.setText(editado.getIns_usu());
+					perfilCmbs.cmbInstrumentos.setVisible(false);
+					
+					txtDescripcion.setEditable(false);
+					txtDescripcion.setText(editado.getDes_usu());
+					
+					btnEditar.setText("Editar");
+					btnEditar.setActionCommand("Editar");
+					btnRegresar.setEnabled(true);
+					
+					cuenta = editado;
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
-			}
-			if (cuentaEditada) {
-				lblNombre.setVisible(true);
-				lblNombre.setText(editado.getNom_usu());
-				txtNombre.setVisible(false);
-				
-				lblFacultad.setVisible(true);
-				lblFacultad.setText(editado.getFac_usu());
-				perfilCmbs.cmbFacultades.setVisible(false);
-				
-				lblGenero.setVisible(true);
-				lblGenero.setText(editado.getGen_usu());
-				perfilCmbs.cmbGeneros.setVisible(false);
-				
-				lblInstrumento.setVisible(true);
-				lblInstrumento.setText(editado.getIns_usu());
-				perfilCmbs.cmbInstrumentos.setVisible(false);
-				
-				txtDescripcion.setEditable(false);
-				txtDescripcion.setText(editado.getDes_usu());
-				
-				btnEditar.setText("Editar");
-				btnEditar.setActionCommand("Editar");
-				btnRegresar.setEnabled(true);
-				
-				cuenta = editado;
 			}
 		}
 		
