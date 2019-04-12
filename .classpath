@@ -3,8 +3,8 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="Login/src"/>
 	<classpathentry kind="src" path="POO/src"/>
-	<classpathentry kind="lib" path="E:/NETO/facu/4sem/poo/git/javax.mail.jar"/>
-	<classpathentry kind="lib" path="E:/NETO/facu/4sem/poo/git/mssql-jdbc-7.2.1.jre8.jar"/>
-	<classpathentry kind="lib" path="E:/NETO/facu/4sem/poo/git/mssql-jdbc-7.2.1.jre11.jar"/>
+	<classpathentry kind="lib" path="librerias/javax.mail.jar"/>
+	<classpathentry kind="lib" path="librerias/mssql-jdbc-7.2.1.jre11.jar"/>
+	<classpathentry kind="lib" path="librerias/mssql-jdbc-7.2.1.jre8.jar"/>
 	<classpathentry kind="output" path="Login/bin"/>
 </classpath>
