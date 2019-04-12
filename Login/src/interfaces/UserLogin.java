@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -106,7 +107,13 @@ public class UserLogin extends JFrame implements ActionListener {
 			String correo = txtCorreo.getText();
 			String password = String.valueOf(passwordField.getPassword());
 			
-			Usuario sesionIniciada = new Login().ingresar(correo, password);
+			Usuario sesionIniciada = null;
+			
+			try {
+				sesionIniciada = new Login().ingresar(correo, password);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 			if (sesionIniciada != null) {
 				Feed framefeed = new Feed(sesionIniciada);
 				framefeed.setLocationRelativeTo(null);

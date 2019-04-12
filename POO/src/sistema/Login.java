@@ -1,5 +1,11 @@
 package sistema;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import javax.swing.JOptionPane;
 
 import validaciones.MD5;
@@ -12,25 +18,76 @@ public class Login {
 	 * @param password <code>String</code> de la contraseña (no encriptada).
 	 * @return Si los datos son correctos retorna un instancia de <code>Usuario</code>,
 	 * si no coinciden retorna <code>null</code>.
+	 * @throws SQLException 
 	 */
-	public Usuario ingresar(String correo, String password) {
+	@SuppressWarnings("null")
+	public Usuario ingresar(String correo, String password) throws SQLException {
 		MD5 hasher = new MD5();
 		String hashedPswd = hasher.hashPassword(password);
 		
-		// query a la base de datos para verificar correo y contraseña:
+		Connection con = null;
+		PreparedStatement selectCor = null;
+		PreparedStatement selectPas = null;
+		PreparedStatement selectUsu = null;
+		ResultSet correos = null;
+		ResultSet passwords = null;
+		ResultSet usuarios = null;
+		int rsu;
 		
-		// si los datos son correctos:
-//		if (true)
-			// retorna un objeto de tipo Usuario con los datos de la cuenta,
-			// que se estará enviando como argumento a las diferentes interfaces
-			// para hacer uso de los atributos de la cuenta
-//			return new Usuario(cor_usu, pas_usu, tip_usu, nom_usu, gen_usu, ins_usu, fac_usu, des_usu);
-		// si los datos no coinciden, se retorna null:
-//		else return null;
+		String usuario = "DanielSal";
+		String pass = "Avion123";
+		String url = "jdbc:sqlserver://localhost:1433;databaseName=Server";
+		String selectCorreos = "SELECT cor_usu FROM Usuarios";
+		String selectPasswords = "SELECT pas_usu FROM Usuarios";
+		String selectUsuarios = "SELECT * FROM Usuarios WHERE cor_usu = ";
+		selectUsuarios += ("\'" + correo + "\'");
 		
-		// instancia temporal mientras se hace el enlace a la BD, por eso es null
-		Usuario cuenta = null;
-		if (cuenta == null) {
+		try {
+			con = DriverManager.getConnection(url, usuario, pass);
+			System.out.println("Conexion establecida");
+			selectCor = con.prepareStatement(selectCorreos);
+			selectPas = con.prepareStatement(selectPasswords);
+			selectUsu = con.prepareStatement(selectUsuarios);
+		} catch(SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		
+		boolean correoValido = false;
+		boolean passwordValido = false;
+		
+		correos = selectCor.executeQuery();
+		
+		while (correos.next()) {
+			if (correo.equals(correos.getString("cor_usu"))) {
+				correoValido = true;
+				break;
+			}
+		}
+		
+		passwords = selectPas.executeQuery();
+		
+		while (passwords.next()) {
+			if (password.equals(passwords.getString("pas_usu"))) {
+				passwordValido = true;
+				break;
+			}
+		}
+		
+		Usuario cuenta = new Usuario(0, "", "", 0, "", "", "", "", "");
+		
+		usuarios = selectUsu.executeQuery();
+		
+		if (usuarios.next() && correoValido && passwordValido) {
+			cuenta.setId(usuarios.getInt("id"));
+			cuenta.setCor_usu(usuarios.getString("cor_usu"));
+			cuenta.setPas_usu(usuarios.getString("pas_usu"));
+			cuenta.setTip_usu(usuarios.getInt("tip_usu"));
+			cuenta.setNom_usu(usuarios.getString("nom_usu"));
+			cuenta.setGen_usu(usuarios.getString("gen_usu"));
+			cuenta.setIns_usu(usuarios.getString("ins_usu"));
+			cuenta.setFac_usu(usuarios.getString("fac_usu"));
+			return cuenta;
+		} else {
 			JOptionPane.showMessageDialog(null, "No pudimos encontrar el correo y la contraseña que ingresaste.\n¡Prueba a registrarte!",
 					"Correo y contraseña no coinciden", JOptionPane.ERROR_MESSAGE);
 		}
