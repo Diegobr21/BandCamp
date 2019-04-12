@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -203,7 +204,6 @@ class Registro extends JFrame implements ActionListener {
 			
 			lblInstrumento.setText(askInstrument + "buscas?");
 		}
-		
 		else if (command.contentEquals("Crear")) {
 			String[] passwords = new String[2];
 			passwords[0] = String.valueOf(pswdPassword.getPassword());
@@ -215,7 +215,14 @@ class Registro extends JFrame implements ActionListener {
 			String instrumento = registroCmbs.cmbInstrumentos.getSelectedItem().toString();
 			String facultad = registroCmbs.cmbFacultades.getSelectedItem().toString();
 			
-			boolean cuentaCreada = new Registrar().createAccount(correo, passwords, tipo, nombre, genero, instrumento, facultad);
+			boolean cuentaCreada = false;
+			try {
+				cuentaCreada = new Registrar().createAccount(1, correo, passwords, tipo, nombre, genero, instrumento, facultad);
+				cuentaCreada = true;
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			if (cuentaCreada) {
 				// falta reemplazar el código de abajo por el frame de la segunda parte de registro 
 				

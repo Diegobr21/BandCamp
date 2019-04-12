@@ -14,8 +14,7 @@ public class EditarPerfil {
 		if (editado.getNom_usu().equals("")) {
 			JOptionPane.showMessageDialog(null, "¡Necesitas un nombre!", "Nombre incorrecto", JOptionPane.ERROR_MESSAGE);
 			return false;
-		}
-		else {
+		} else {
 			// query a la BD para verificar que el nuevo nombre no esté en un registro
 //			if ( (original.getNom_usu() != editado.getNom_usu()) && yaExiste() ) {
 //				JOptionPane.showMessageDialog(null, "Llegaste tarde, el nombre que has escogido ya está en uso.",

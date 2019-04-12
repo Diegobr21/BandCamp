@@ -26,6 +26,10 @@ public class Usuario {
 		this.des_usu = des_usu;
 	}
 	
+	public String toString(){
+		return id + " / " + cor_usu + " / " + pas_usu + " / " + tip_usu + " / " + nom_usu + " / " + gen_usu + " / " + ins_usu + " / " + fac_usu;
+	}
+	
 	public int getId() {
 		return id;
 	}

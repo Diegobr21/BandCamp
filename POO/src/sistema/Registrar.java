@@ -1,5 +1,13 @@
 package sistema;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 import javax.swing.JOptionPane;
 
 import validaciones.MD5;
@@ -18,24 +26,92 @@ public class Registrar {
 	 * @param instrumento <code>String</code> del instrumento.
 	 * @param facultad <code>String</code> de la facultad.
 	 * @return <code>true</code> si la cuenta fue creada, de lo contrario <code>false</code>.
+	 * @throws SQLException 
 	 * @see validaciones.MD5#hashPassword(String)
 	 */
-	public boolean createAccount(String correo, String[] passwords, int tipo,
-			String nombre, String genero, String instrumento, String facultad) {
+	public boolean createAccount(int id, String correo, String[] passwords, int tipo,
+			String nombre, String genero, String instrumento, String facultad) throws SQLException {
+		
+		Usuario cuenta = new Usuario(id, correo, passwords[0], tipo, nombre, genero, instrumento, facultad, "");
+		
+		Connection con = null;
+		PreparedStatement statement = null;
+		ResultSet rs = null;
+		
+		String usuario = "DanielSal";
+		String password = "Avion123";
+		String url = "jdbc:sqlserver://localhost:1433;databaseName=Server";
+		String insertDatos = "INSERT INTO Usuarios(cor_usu, pas_usu, tip_usu, nom_usu, gen_usu, ins_usu, fac_usu)";
+		insertDatos += "VALUES(?, ?, ?, ?, ?, ?, ?)";
+		
+		try {
+			con = DriverManager.getConnection(url, usuario, password);
+			System.out.println("Conexon establecida");
+			statement = con.prepareStatement(insertDatos);
+		} catch(SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		
+		String selectCorreos = "SELECT cor_usu FROM Usuarios";
+		
+		try {
+			PreparedStatement select = con.prepareStatement(selectCorreos);
+			ResultSet correos = select.executeQuery();
+			
+			InternetAddress email = new InternetAddress(correo);
+			email.validate();
+			
+			while (correos.next()) {
+				if (correo.equals(correos.getString("cor_usu"))) {
+					JOptionPane.showMessageDialog(null, "Correo invalido",
+							"El correo que usted ingreso ya esta registrado", JOptionPane.ERROR_MESSAGE );
+					break;
+				}
+				cuenta.setCor_usu(correo);
+				statement.setString(1, correo);
+			}
+		} catch(SQLException e) {
+			JOptionPane.showMessageDialog(null, "ERROR!",
+					"La fila no fue afectada", JOptionPane.ERROR_MESSAGE );
+		} catch (AddressException e) {
+			JOptionPane.showMessageDialog(null, "Correo invalido",
+					"El correo que usted ingreso no cumple con las caracteristicas", JOptionPane.ERROR_MESSAGE );
+		}
 		
 		if (isFormComplete(new String[] {correo, nombre, passwords[0], passwords[1]})) {
 			if (matchPasswords(passwords)) {
 				MD5 hasher = new MD5();
 				passwords[1] = hasher.hashPassword(passwords[0]);
+				cuenta.setPas_usu(passwords[0]);
+				statement.setString(2, passwords[0]);
 			}
 			else return false;
 		}
 		else return false;
 		
+		cuenta.setTip_usu(tipo);
+		statement.setInt(3, tipo);
+		
+		cuenta.setNom_usu(nombre);
+		statement.setString(4, nombre);
+		
+		cuenta.setGen_usu(genero);
+		statement.setString(5, genero);
+		
+		cuenta.setIns_usu(instrumento);
+		statement.setString(6, instrumento);
+		
+		cuenta.setFac_usu(facultad);
+		statement.setString(7, facultad);
+		
 		// query para obtener ID más reciente
-		int id = 0;
-		Usuario newAccount = new Usuario(id, correo, passwords[1], tipo, nombre, genero, instrumento, facultad, "");
-		imprimir(newAccount);
+		
+		int resultSetRow = statement.executeUpdate();
+		
+		if (resultSetRow == 0) {
+			JOptionPane.showMessageDialog(null, "ERROR", "0 columnas afectadas", JOptionPane.ERROR_MESSAGE );
+		}
+		imprimir(cuenta);
 		// enviar objeto newAccount a un registro de la base de datos
 		return true;
 	}
@@ -81,13 +157,6 @@ public class Registrar {
 	 * @param cuenta objeto de tipo <code>Usuario</code> que contiene los atributos a imprimir.
 	 */
 	private void imprimir(Usuario cuenta) {
-		System.out.println(cuenta.getCor_usu());
-		System.out.println(cuenta.getPas_usu());
-		System.out.println(cuenta.getTip_usu());
-		System.out.println(cuenta.getNom_usu());
-		System.out.println(cuenta.getGen_usu());
-		System.out.println(cuenta.getIns_usu());
-		System.out.println(cuenta.getFac_usu());
-		System.out.println(cuenta.getDes_usu());
+		System.out.println(cuenta.toString());
 	}
 }
