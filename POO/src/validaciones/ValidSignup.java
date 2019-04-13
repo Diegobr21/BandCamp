@@ -1,5 +1,7 @@
 package validaciones;
 
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 import javax.swing.JOptionPane;
 
 public class ValidSignup {
@@ -38,5 +40,22 @@ public class ValidSignup {
 		}
 		return true;
 	}
-
+	
+	/**
+	 * Valida que el correo electrónico cumpla con el formato:
+	 * <br> correo@dominio.ext
+	 * @param correo {@code String} del correo electrónico.
+	 * @return {@code true} solo si el correo cumple con el formato.
+	 */
+	public boolean validEmail(String correo) {
+		try {
+			InternetAddress email = new InternetAddress(correo);
+			email.validate();
+			return true;
+		} catch (AddressException e) {
+			JOptionPane.showMessageDialog(null, "Correo invalido",
+					"El correo que usted ingreso no cumple con las caracteristicas", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+	}
 }
