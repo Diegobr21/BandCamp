@@ -4,6 +4,9 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.swing.JOptionPane;
 
+/**
+ * Contiene los métodos para validar el formulario de registro.
+ */
 public class ValidSignup {
 	/**
 	 * Llama al método {@link validaciones.ValidPassword#isValidPassword} para verificar que la contraseña ingresada
