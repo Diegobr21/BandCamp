@@ -53,8 +53,8 @@ public class ValidSignup {
 			email.validate();
 			return true;
 		} catch (AddressException e) {
-			JOptionPane.showMessageDialog(null, "Correo invalido",
-					"El correo que usted ingreso no cumple con las caracteristicas", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "El correo electrónico no cumple con un formato válido.",
+					"Correo no válido" ,JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
 	}
