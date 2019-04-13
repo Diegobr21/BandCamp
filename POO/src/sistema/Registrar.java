@@ -47,18 +47,11 @@ public class Registrar {
 		PreparedStatement statement = null;
 		ResultSet rs = null;
 		
-		//String usuario = "DanielSal";
-		//String password = "Avion123";
-		String url = "jdbc:sqlserver://localhost:1433;databaseName=Servidor";
-		
-		String usuario = "sa";
-		String password = "123";
-		
 		String insertDatos = "INSERT INTO Usuarios(cor_usu, pas_usu, tip_usu, nom_usu, gen_usu, ins_usu, fac_usu)";
 		insertDatos += "VALUES(?, ?, ?, ?, ?, ?, ?)";
 		
 		try {
-			con = DriverManager.getConnection(url, usuario, password);
+			con = DriverManager.getConnection(DBInfo.url);
 			System.out.println("Conexion establecida");
 			statement = con.prepareStatement(insertDatos);
 		} catch(SQLException e) {

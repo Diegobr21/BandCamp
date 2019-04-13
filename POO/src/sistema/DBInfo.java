@@ -1,16 +1,12 @@
 package sistema;
 
 /**
- * Contiene el usuario y la contraseña del administrador de la base de datos, además del URL para la conexión.
+ * Contiene el URL completo para la conexión a la base de datos
  */
 class DBInfo {
-	// comentado temporalmente hasta que el servidor real esté listo y solo se requiera un usuario
+	// comentado temporalmente hasta que el servidor real esté listo y se mantenga la misma información
 	
-	// static String usuario = "DanielSal";
-	// static String password = "Avion123";
-	// static String url = "jdbc:sqlserver://localhost:1433;databaseName=Server";
+	// static String url = "jdbc:sqlserver://localhost:1433;databaseName=Server;user=DanielSal;password=Avion123";
 	
-	static String usuario = "sa";
-	static String password = "123";
-	static String url = "jdbc:sqlserver://localhost:1433;databaseName=Servidor";
+	static String url = "jdbc:sqlserver://localhost:1433;databaseName=Servidor;user=sa;password=123";
 }
