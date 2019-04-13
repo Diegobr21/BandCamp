@@ -10,7 +10,7 @@ public class ValidSignup {
 	 * @return <code>true</code> si la contraseña cumple con los requisitos y además ambas entradas
 	 * coinciden. De lo contrario <code>false</code>.
 	 */
-	public static boolean matchPasswords(String[] passwords) {
+	public boolean matchPasswords(String[] passwords) {
 		if (ValidPassword.isValidPassword(passwords[0])) {
 			if (passwords[0].equals(passwords[1])) {
 				return true;
@@ -28,7 +28,7 @@ public class ValidSignup {
 	 * @return <code>false</code> si algún campo está vacío. Si todos han sido llenados,
 	 * retorna <code>true</code>.
 	 */
-	public static boolean isFormComplete(String[] textFields) {
+	public boolean isFormComplete(String[] textFields) {
 		for (String string : textFields) {
 			if (string.equals("")) {
 				JOptionPane.showMessageDialog(null, "Parece que dejaste algún campo vacío.",
@@ -38,4 +38,5 @@ public class ValidSignup {
 		}
 		return true;
 	}
+
 }
