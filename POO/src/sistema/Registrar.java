@@ -6,12 +6,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
 import javax.swing.JOptionPane;
 
 import validaciones.MD5;
-import validaciones.ValidPassword;
+import validaciones.ValidSignup;
 
 public class Registrar {
 	/**
@@ -29,18 +27,33 @@ public class Registrar {
 	 * @throws SQLException 
 	 * @see validaciones.MD5#hashPassword(String)
 	 */
+	
 	public boolean createAccount(int id, String correo, String[] passwords, int tipo,
 			String nombre, String genero, String instrumento, String facultad) throws SQLException {
 		
 		Usuario cuenta = new Usuario(id, correo, passwords[0], tipo, nombre, genero, instrumento, facultad, "");
 		
+		ValidSignup validSignup = new ValidSignup();
+		if (validSignup.isFormComplete(new String[] {correo, nombre, passwords[0], passwords[1]})) {
+			if (validSignup.validEmail(correo) && validSignup.matchPasswords(passwords)) {
+				MD5 hasher = new MD5();
+				passwords[0] = hasher.hashPassword(passwords[0]);
+			}
+			else return false;
+		}
+		else return false;
+		
 		Connection con = null;
 		PreparedStatement statement = null;
 		ResultSet rs = null;
 		
-		String usuario = "DanielSal";
-		String password = "Avion123";
-		String url = "jdbc:sqlserver://localhost:1433;databaseName=Server";
+		//String usuario = "DanielSal";
+		//String password = "Avion123";
+		String url = "jdbc:sqlserver://localhost:1433;databaseName=Servidor";
+		
+		String usuario = "sa";
+		String password = "123";
+		
 		String insertDatos = "INSERT INTO Usuarios(cor_usu, pas_usu, tip_usu, nom_usu, gen_usu, ins_usu, fac_usu)";
 		insertDatos += "VALUES(?, ?, ?, ?, ?, ?, ?)";
 		
@@ -53,102 +66,38 @@ public class Registrar {
 		}
 		
 		String selectCorreos = "SELECT cor_usu FROM Usuarios";
-		
 		try {
 			PreparedStatement select = con.prepareStatement(selectCorreos);
 			ResultSet correos = select.executeQuery();
 			
-			InternetAddress email = new InternetAddress(correo);
-			email.validate();
-			
 			while (correos.next()) {
-				if (correo.equals(correos.getString("cor_usu"))) {
-					JOptionPane.showMessageDialog(null, "Correo invalido",
-							"El correo que usted ingreso ya esta registrado", JOptionPane.ERROR_MESSAGE );
-					break;
+				if ( correo.equals(correos.getString("cor_usu")) ) {
+					JOptionPane.showMessageDialog(null, "El correo ingresado ya esta registrado.",
+							"Correo en uso", JOptionPane.ERROR_MESSAGE);
+					return false;
 				}
-				cuenta.setCor_usu(correo);
-				statement.setString(1, correo);
 			}
 		} catch(SQLException e) {
 			JOptionPane.showMessageDialog(null, "ERROR!",
-					"La fila no fue afectada", JOptionPane.ERROR_MESSAGE );
-		} catch (AddressException e) {
-			JOptionPane.showMessageDialog(null, "Correo invalido",
-					"El correo que usted ingreso no cumple con las caracteristicas", JOptionPane.ERROR_MESSAGE );
+					"La fila no fue afectada", JOptionPane.ERROR_MESSAGE);
+			return false;
 		}
 		
-		if (isFormComplete(new String[] {correo, nombre, passwords[0], passwords[1]})) {
-			if (matchPasswords(passwords)) {
-				MD5 hasher = new MD5();
-				passwords[1] = hasher.hashPassword(passwords[0]);
-				cuenta.setPas_usu(passwords[0]);
-				statement.setString(2, passwords[0]);
-			}
-			else return false;
-		}
-		else return false;
-		
-		cuenta.setTip_usu(tipo);
+		statement.setString(1, correo);
+		statement.setString(2, passwords[0]);
 		statement.setInt(3, tipo);
-		
-		cuenta.setNom_usu(nombre);
 		statement.setString(4, nombre);
-		
-		cuenta.setGen_usu(genero);
 		statement.setString(5, genero);
-		
-		cuenta.setIns_usu(instrumento);
 		statement.setString(6, instrumento);
-		
-		cuenta.setFac_usu(facultad);
 		statement.setString(7, facultad);
 		
-		// query para obtener ID más reciente
-		
 		int resultSetRow = statement.executeUpdate();
-		
 		if (resultSetRow == 0) {
 			JOptionPane.showMessageDialog(null, "0 filas afectadas", "ERROR", JOptionPane.ERROR_MESSAGE );
 		}
+		
 		imprimir(cuenta);
-		// enviar objeto newAccount a un registro de la base de datos
-		return true;
-	}
-	
-	/**
-	 * Llama al método {@link validaciones.ValidPassword#isValidPassword} para verificar que la contraseña ingresada
-	 * cumpla con los requisitos, después compara si ambas entradas coinciden.
-	 * @param passwords Arreglo de tipo <code>String</code> que contiene las contraseñas ingresadas.
-	 * @return <code>true</code> si la contraseña cumple con los requisitos y además ambas entradas
-	 * coinciden. De lo contrario <code>false</code>.
-	 */
-	private boolean matchPasswords(String[] passwords) {
-		if (ValidPassword.isValidPassword(passwords[0])) {
-			if (passwords[0].equals(passwords[1])) {
-				return true;
-			} 
-			JOptionPane.showMessageDialog(null, "Debes introducir la misma contraseña en ambos campos.",
-					"Contraseñas no coinciden", JOptionPane.ERROR_MESSAGE);
-		}
-		return false;
-	}
-	
-	/**
-	 * Valida que todos los campos del formulario de registro se hayan llenado.
-	 * @param textFields Arreglo de tipo <code>String</code> que contiene
-	 * los valores de cada campo del formulario.
-	 * @return <code>false</code> si algún campo está vacío. Si todos han sido llenados,
-	 * retorna <code>true</code>.
-	 */
-	private boolean isFormComplete(String[] textFields) {
-		for (String string : textFields) {
-			if (string.equals("")) {
-				JOptionPane.showMessageDialog(null, "Parece que dejaste algún campo vacío.",
-						"Formulario incompleto", JOptionPane.ERROR_MESSAGE);
-				return false;
-			}
-		}
+		
 		return true;
 	}
 	
