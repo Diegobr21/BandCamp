@@ -184,10 +184,7 @@ class Registro extends JFrame implements ActionListener {
 	
 	private int tipo = 1;
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		btnCrearCuenta.setText("");
-		btnCrearCuenta.setIcon(new ImageIcon(Registro.class.getResource("/img/new_loading.gif")));
-		
+	public void actionPerformed(ActionEvent e) {		
 		//---Botones---
 		String command = e.getActionCommand();
 		if (command.contentEquals("Artista")){
@@ -209,7 +206,8 @@ class Registro extends JFrame implements ActionListener {
 			lblInstrumento.setText(askInstrument + "buscas?");
 		}
 		else if (command.contentEquals("Crear")) {
-
+//			btnCrearCuenta.setText("");
+//			btnCrearCuenta.setIcon(new ImageIcon(Registro.class.getResource("/img/new_loading.gif")));
 			
 			String[] passwords = new String[2];
 			passwords[0] = String.valueOf(pswdPassword.getPassword());
@@ -239,8 +237,8 @@ class Registro extends JFrame implements ActionListener {
 				e1.printStackTrace();
 			}
 			finally {
-				btnCrearCuenta.setIcon(null);
-				btnCrearCuenta.setText("Registrarse");
+//				btnCrearCuenta.setIcon(null);
+//				btnCrearCuenta.setText("Registrarse");
 				
 				pswdPassword.setText("");
 				pswdDuplicate.setText("");
