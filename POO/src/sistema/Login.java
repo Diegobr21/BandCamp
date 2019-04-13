@@ -20,7 +20,6 @@ public class Login {
 	 * si no coinciden retorna <code>null</code>.
 	 * @throws SQLException 
 	 */
-	@SuppressWarnings("null")
 	public Usuario ingresar(String correo, String password) throws SQLException {
 		MD5 hasher = new MD5();
 		String hashedPswd = hasher.hashPassword(password);
@@ -32,18 +31,14 @@ public class Login {
 		ResultSet correos = null;
 		ResultSet passwords = null;
 		ResultSet usuarios = null;
-		int rsu;
 		
-		String usuario = "DanielSal";
-		String pass = "Avion123";
-		String url = "jdbc:sqlserver://localhost:1433;databaseName=Server";
 		String selectCorreos = "SELECT cor_usu FROM Usuarios";
 		String selectPasswords = "SELECT pas_usu FROM Usuarios";
 		String selectUsuarios = "SELECT * FROM Usuarios WHERE cor_usu = ";
 		selectUsuarios += ("\'" + correo + "\'");
 		
 		try {
-			con = DriverManager.getConnection(url, usuario, pass);
+			con = DriverManager.getConnection(DBInfo.url);
 			System.out.println("Conexion establecida");
 			selectCor = con.prepareStatement(selectCorreos);
 			selectPas = con.prepareStatement(selectPasswords);
