@@ -34,8 +34,7 @@ public class Login {
 		
 		String selectCorreos = "SELECT cor_usu FROM Usuarios";
 		String selectPasswords = "SELECT pas_usu FROM Usuarios";
-		String selectUsuarios = "SELECT * FROM Usuarios WHERE cor_usu = ";
-		selectUsuarios += ("\'" + correo + "\'");
+		String selectUsuarios = "SELECT * FROM Usuarios WHERE cor_usu = '" + correo + "'";
 		
 		try {
 			con = DriverManager.getConnection(DBInfo.url, DBInfo.usuario, DBInfo.password);
@@ -62,7 +61,7 @@ public class Login {
 		passwords = selectPas.executeQuery();
 		
 		while (passwords.next()) {
-			if (password.equals(passwords.getString("pas_usu"))) {
+			if (hashedPswd.equals(passwords.getString("pas_usu"))) {
 				passwordValido = true;
 				break;
 			}
@@ -73,7 +72,7 @@ public class Login {
 		usuarios = selectUsu.executeQuery();
 		
 		if (usuarios.next() && correoValido && passwordValido) {
-			cuenta.setId(usuarios.getInt("id"));
+			cuenta.setId(usuarios.getInt("id_usu"));
 			cuenta.setCor_usu(usuarios.getString("cor_usu"));
 			cuenta.setPas_usu(usuarios.getString("pas_usu"));
 			cuenta.setTip_usu(usuarios.getInt("tip_usu"));
@@ -87,6 +86,6 @@ public class Login {
 					"Correo y contraseña no coinciden", JOptionPane.ERROR_MESSAGE);
 		}
 		
-		return cuenta;
+		return null;
 	}
 }
