@@ -38,7 +38,7 @@ public class Login {
 		selectUsuarios += ("\'" + correo + "\'");
 		
 		try {
-			con = DriverManager.getConnection(DBInfo.url);
+			con = DriverManager.getConnection(DBInfo.url, DBInfo.usuario, DBInfo.password);
 			System.out.println("Conexion establecida");
 			selectCor = con.prepareStatement(selectCorreos);
 			selectPas = con.prepareStatement(selectPasswords);

@@ -50,7 +50,7 @@ public class Registrar {
 		insertDatos += "VALUES(?, ?, ?, ?, ?, ?, ?)";
 		
 		try {
-			con = DriverManager.getConnection(DBInfo.url);
+			con = DriverManager.getConnection(DBInfo.url, DBInfo.usuario, DBInfo.password);
 			System.out.println("Conexion establecida");
 			statement = con.prepareStatement(insertDatos);
 		} catch(SQLException e) {
