@@ -49,6 +49,7 @@ public class UserLogin extends JFrame implements ActionListener {
 		setTitle("Bandcamp - Iniciar sesión");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 593, 414);
+		setResizable(false);
 		
 		JPanel contentPane = new JPanel();
 		contentPane.setForeground(Color.DARK_GRAY);
