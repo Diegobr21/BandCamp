@@ -20,12 +20,10 @@ public class EditarPerfil {
 	private boolean usernameExists(ResultSet nombres, Usuario editado) throws SQLException {
 		while (nombres.next()) {
 			if (editado.equals(nombres.getString("nom_usu"))) {
-				break;
-			} else {
-				return false;
+				return true;
 			}
 		}
-		return true;
+		return false;
 	}
 	/**
 	 * Edita los atributos que el usuario haya decidido cambiar.
@@ -35,63 +33,46 @@ public class EditarPerfil {
 	 * @throws SQLException 
 	 */
 	public boolean editarCuenta(Usuario original, Usuario editado) throws SQLException {
+		if (editado.getNom_usu().equals("")) {
+			JOptionPane.showMessageDialog(null, "¡Necesitas un nombre!", "Nombre incorrecto", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		
 		Connection con = null;
 		PreparedStatement selectNom = null;
 		PreparedStatement insertNom = null;
 		ResultSet nombres = null;
-		ResultSet nombreEditado = null;
 		
-		String usuario = "DanielSal";
-		String pass = "Avion123";
-		String url = "jdbc:sqlserver://localhost:1433;databaseName=Server";
+		
 		String sql = "SELECT nom_usu FROM Usuarios";
-		String insert = "UPDATE Usuarios SET tip_usu = ";
-		
+		String insert = "UPDATE Usuarios SET nom_usu = ?, gen_usu = ?, ins_usu = ?, fac_usu = ? WHERE id_usu = ?";
 		try {
-			con = DriverManager.getConnection(url, usuario, pass);
-			con.setAutoCommit(false);
+			con = DriverManager.getConnection(DBInfo.url, DBInfo.usuario, DBInfo.password);
 			System.out.println("Conexion establecida");
 			selectNom = con.prepareStatement(sql);
+			insertNom = con.prepareStatement(insert);
 		} catch (SQLException e) {
 			e.getMessage();
 		}
 		
 		nombres = selectNom.executeQuery();
-
-		if (editado.getNom_usu().equals("")) {
-			JOptionPane.showMessageDialog(null, "¡Necesitas un nombre!", "Nombre incorrecto", JOptionPane.ERROR_MESSAGE);
+		if (usernameExists(nombres, editado)) {
+			JOptionPane.showMessageDialog(null, "Llegaste tarde, el nombre que has escogido ya está en uso.",
+					"Nombre incorrecto", JOptionPane.ERROR_MESSAGE);
 			return false;
-		} 
+		}
 		else {
-//			if ( (original.getNom_usu() != editado.getNom_usu()) && yaExiste() ) {
-//				JOptionPane.showMessageDialog(null, "Llegaste tarde, el nombre que has escogido ya está en uso.",
-//						"Nombre incorrecto", JOptionPane.ERROR_MESSAGE);
-//				return false;
-//			}
-//			else {
-				// query a la BD para cambiar los campos que hayan sido editados
-//			}
-			if (usernameExists(nombres, editado)) {
-				JOptionPane.showMessageDialog(null, "Llegaste tarde, el nombre que has escogido ya está en uso.",
-						"Nombre incorrecto", JOptionPane.ERROR_MESSAGE);
+			insertNom.setString(1, editado.getNom_usu());
+			insertNom.setString(2, editado.getGen_usu());
+			insertNom.setString(3, editado.getIns_usu());
+			insertNom.setString(4, editado.getFac_usu());
+			insertNom.setInt(5, editado.getId());
+		}
+		
+		int rsu = insertNom.executeUpdate();
+		if (rsu == 0) {
+			JOptionPane.showMessageDialog(null, "0 filas afectadas", "ERROR", JOptionPane.ERROR_MESSAGE);
 			return false;
-			}
-			else {
-				insert += editado.getTip_usu() + ", ";
-				insert += "nom_usu = " + ("\'" + editado.getNom_usu() + "\', ");
-				insert += "gen_usu = " + ("\'" + editado.getGen_usu() + "\', ");
-				insert += "ins_usu = " + ("\'" + editado.getIns_usu() + "\', ");
-				insert += "fac_usu = " + ("\'" + editado.getFac_usu() + "\' ");
-				insert += "WHERE nom_usu = ";
-				insert += ("\'" + original + "\'");
-				insertNom = con.prepareStatement(insert);
-			}
-			int rsu = insertNom.executeUpdate();
-			if (rsu > 0) {
-				JOptionPane.showMessageDialog(null, "Perfil editado", "Cambios guardados!", JOptionPane.DEFAULT_OPTION);
-			} else {
-				JOptionPane.showMessageDialog(null, "0 filas afectadas", "ERROR", JOptionPane.ERROR_MESSAGE);
-			}
 		}
 		
 		return true;

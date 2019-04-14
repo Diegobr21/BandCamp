@@ -78,7 +78,7 @@ class Perfil extends JFrame implements ActionListener {
 		contentPane.add(UserPic);
 		
 		txtDescripcion = new JTextArea();
-		txtDescripcion.setText(sesion.getDes_usu());
+		txtDescripcion.setText(cuenta.getDes_usu());
 		txtDescripcion.setBounds(34, 205, 549, 103);
 		txtDescripcion.setEditable(false);
 		contentPane.add(txtDescripcion);
@@ -101,7 +101,7 @@ class Perfil extends JFrame implements ActionListener {
 		btnRegresar.setActionCommand("Regresar");
 		btnRegresar.addActionListener(this);
 		
-		lblNombre = new JLabel(sesion.getNom_usu());
+		lblNombre = new JLabel(cuenta.getNom_usu());
 		lblNombre.setFont(new Font("Verdana", Font.BOLD, 16));
 		lblNombre.setBackground(Color.WHITE);
 		lblNombre.setForeground(new Color(255, 255, 0));
@@ -115,7 +115,7 @@ class Perfil extends JFrame implements ActionListener {
 		txtNombre.setVisible(false);
 		contentPane.add(txtNombre);
 		
-		lblFacultad = new JLabel(sesion.getFac_usu());
+		lblFacultad = new JLabel(cuenta.getFac_usu());
 		lblFacultad.setForeground(Color.LIGHT_GRAY);
 		lblFacultad.setFont(new Font("Tahoma", Font.ITALIC, 12));
 		lblFacultad.setBounds(158, 156, 62, 14);
@@ -125,7 +125,7 @@ class Perfil extends JFrame implements ActionListener {
 		perfilCmbs.cmbFacultades.setLocation(158, 156);
 		perfilCmbs.cmbFacultades.setVisible(false);
 		
-		lblGenero = new JLabel(sesion.getGen_usu());
+		lblGenero = new JLabel(cuenta.getGen_usu());
 		lblGenero.setForeground(Color.WHITE);
 		lblGenero.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblGenero.setBounds(391, 112, 88, 21);
@@ -135,7 +135,7 @@ class Perfil extends JFrame implements ActionListener {
 		perfilCmbs.cmbGeneros.setLocation(391, 112);
 		perfilCmbs.cmbGeneros.setVisible(false);
 		
-		lblInstrumento = new JLabel(sesion.getIns_usu());
+		lblInstrumento = new JLabel(cuenta.getIns_usu());
 		lblInstrumento.setForeground(Color.WHITE);
 		lblInstrumento.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblInstrumento.setBounds(391, 144, 88, 27);
