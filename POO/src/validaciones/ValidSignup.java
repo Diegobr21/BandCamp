@@ -1,5 +1,8 @@
 package validaciones;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.swing.JOptionPane;
@@ -60,5 +63,22 @@ public class ValidSignup {
 					"Correo no válido" ,JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
+	}
+	
+	
+	/**
+	 * 
+	 * @param nombres {@code ResultSet} se le pasa el ResultSet realizado.
+	 * @param editado {@code Usuario} con los atributos editados.
+	 * @return {@code false} en caso de que el nombre de usuario no exista. 
+	 * @throws SQLException
+	 */
+	public boolean usernameExists(ResultSet nombres, String nombre) throws SQLException {
+		while (nombres.next()) {
+			if (nombre.equals(nombres.getString("nom_usu"))) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

@@ -46,8 +46,8 @@ public class Registrar {
 		Connection con = null;
 		PreparedStatement statement = null;
 		
-		String insertDatos = "INSERT INTO Usuarios(cor_usu, pas_usu, tip_usu, nom_usu, gen_usu, ins_usu, fac_usu)";
-		insertDatos += "VALUES(?, ?, ?, ?, ?, ?, ?)";
+		String insertDatos = "INSERT INTO Usuarios(cor_usu, pas_usu, tip_usu, nom_usu, gen_usu, ins_usu, fac_usu, des_usu)";
+		insertDatos += "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		try {
 			con = DriverManager.getConnection(DBInfo.url, DBInfo.usuario, DBInfo.password);
@@ -57,17 +57,25 @@ public class Registrar {
 			System.out.println(e.getMessage());
 		}
 		
-		String selectCorreos = "SELECT cor_usu FROM Usuarios";
 		try {
+			String selectCorreos = "SELECT cor_usu FROM Usuarios";
 			PreparedStatement select = con.prepareStatement(selectCorreos);
 			ResultSet correos = select.executeQuery();
-			
 			while (correos.next()) {
 				if ( correo.equals(correos.getString("cor_usu")) ) {
 					JOptionPane.showMessageDialog(null, "El correo ingresado ya esta registrado.",
 							"Correo en uso", JOptionPane.ERROR_MESSAGE);
 					return false;
 				}
+			}
+			
+			String selectNombres = "SELECT nom_usu FROM Usuarios";
+			PreparedStatement selNom = con.prepareStatement(selectNombres);
+			ResultSet nombres = selNom.executeQuery();
+			if (validSignup.usernameExists(nombres, cuenta.getNom_usu())) {
+				JOptionPane.showMessageDialog(null, "Llegaste tarde, el nombre que has escogido ya está en uso.",
+						"Nombre incorrecto", JOptionPane.ERROR_MESSAGE);
+				return false;
 			}
 		} catch(SQLException e) {
 			JOptionPane.showMessageDialog(null, "ERROR!",
@@ -82,6 +90,8 @@ public class Registrar {
 		statement.setString(5, genero);
 		statement.setString(6, instrumento);
 		statement.setString(7, facultad);
+		//la descripción (des_usu) se agregará en la segunda parte del registro
+		statement.setString(8, "");
 		
 		int resultSetRow = statement.executeUpdate();
 		if (resultSetRow == 0) {

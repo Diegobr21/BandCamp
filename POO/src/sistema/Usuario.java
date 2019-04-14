@@ -27,7 +27,8 @@ public class Usuario {
 	}
 	
 	public String toString(){
-		return id + " / " + cor_usu + " / " + pas_usu + " / " + tip_usu + " / " + nom_usu + " / " + gen_usu + " / " + ins_usu + " / " + fac_usu;
+		return id + " / " + cor_usu + " / " + pas_usu + " / " + tip_usu + " / " + nom_usu + " / " +
+				gen_usu + " / " + ins_usu + " / " + fac_usu + " / " + des_usu;
 	}
 	
 	public int getId() {
