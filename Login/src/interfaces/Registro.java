@@ -44,6 +44,7 @@ class Registro extends JFrame implements ActionListener {
 	private JTextField txtCorreo, txtNombre;
 	private JPasswordField pswdPassword, pswdDuplicate;
 	private JToggleButton tglbtnArtista, tglbtnBanda;
+	private JButton btnCrearCuenta;
 	
 	private JLabel lblInstrumento;
 	private String askInstrument = "¿Qué instrumento ";
@@ -93,7 +94,7 @@ class Registro extends JFrame implements ActionListener {
 		lblInstrumento.setBounds(358, 249, 191, 14);
 		contentPane.add(lblInstrumento);
 		
-		JButton btnCrearCuenta = new JButton("Registrarse");
+		btnCrearCuenta = new JButton("Registrarse");
 		btnCrearCuenta.setForeground(Color.BLACK);
 		btnCrearCuenta.setBackground(Color.WHITE);
 		btnCrearCuenta.setFont(new Font("Verdana", Font.BOLD, 12));
@@ -183,7 +184,7 @@ class Registro extends JFrame implements ActionListener {
 	
 	private int tipo = 1;
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent e) {		
 		//---Botones---
 		String command = e.getActionCommand();
 		if (command.contentEquals("Artista")){
@@ -205,6 +206,9 @@ class Registro extends JFrame implements ActionListener {
 			lblInstrumento.setText(askInstrument + "buscas?");
 		}
 		else if (command.contentEquals("Crear")) {
+//			btnCrearCuenta.setText("");
+//			btnCrearCuenta.setIcon(new ImageIcon(Registro.class.getResource("/img/new_loading.gif")));
+			
 			String[] passwords = new String[2];
 			passwords[0] = String.valueOf(pswdPassword.getPassword());
 			passwords[1] = String.valueOf(pswdDuplicate.getPassword());
@@ -233,6 +237,9 @@ class Registro extends JFrame implements ActionListener {
 				e1.printStackTrace();
 			}
 			finally {
+//				btnCrearCuenta.setIcon(null);
+//				btnCrearCuenta.setText("Registrarse");
+				
 				pswdPassword.setText("");
 				pswdDuplicate.setText("");
 			}

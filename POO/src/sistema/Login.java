@@ -20,7 +20,6 @@ public class Login {
 	 * si no coinciden retorna <code>null</code>.
 	 * @throws SQLException 
 	 */
-	@SuppressWarnings("null")
 	public Usuario ingresar(String correo, String password) throws SQLException {
 		MD5 hasher = new MD5();
 		String hashedPswd = hasher.hashPassword(password);
@@ -32,18 +31,13 @@ public class Login {
 		ResultSet correos = null;
 		ResultSet passwords = null;
 		ResultSet usuarios = null;
-		int rsu;
 		
-		String usuario = "DanielSal";
-		String pass = "Avion123";
-		String url = "jdbc:sqlserver://localhost:1433;databaseName=Server";
 		String selectCorreos = "SELECT cor_usu FROM Usuarios";
 		String selectPasswords = "SELECT pas_usu FROM Usuarios";
-		String selectUsuarios = "SELECT * FROM Usuarios WHERE cor_usu = ";
-		selectUsuarios += ("\'" + correo + "\'");
+		String selectUsuarios = "SELECT * FROM Usuarios WHERE cor_usu = '" + correo + "'";
 		
 		try {
-			con = DriverManager.getConnection(url, usuario, pass);
+			con = DriverManager.getConnection(DBInfo.url, DBInfo.usuario, DBInfo.password);
 			System.out.println("Conexion establecida");
 			selectCor = con.prepareStatement(selectCorreos);
 			selectPas = con.prepareStatement(selectPasswords);
@@ -67,7 +61,7 @@ public class Login {
 		passwords = selectPas.executeQuery();
 		
 		while (passwords.next()) {
-			if (password.equals(passwords.getString("pas_usu"))) {
+			if (hashedPswd.equals(passwords.getString("pas_usu"))) {
 				passwordValido = true;
 				break;
 			}
@@ -78,7 +72,7 @@ public class Login {
 		usuarios = selectUsu.executeQuery();
 		
 		if (usuarios.next() && correoValido && passwordValido) {
-			cuenta.setId(usuarios.getInt("id"));
+			cuenta.setId(usuarios.getInt("id_usu"));
 			cuenta.setCor_usu(usuarios.getString("cor_usu"));
 			cuenta.setPas_usu(usuarios.getString("pas_usu"));
 			cuenta.setTip_usu(usuarios.getInt("tip_usu"));
@@ -86,12 +80,14 @@ public class Login {
 			cuenta.setGen_usu(usuarios.getString("gen_usu"));
 			cuenta.setIns_usu(usuarios.getString("ins_usu"));
 			cuenta.setFac_usu(usuarios.getString("fac_usu"));
+			cuenta.setDes_usu("");
+			System.out.println(cuenta.toString());
 			return cuenta;
 		} else {
 			JOptionPane.showMessageDialog(null, "No pudimos encontrar el correo y la contraseña que ingresaste.\n¡Prueba a registrarte!",
 					"Correo y contraseña no coinciden", JOptionPane.ERROR_MESSAGE);
 		}
 		
-		return cuenta;
+		return null;
 	}
 }
