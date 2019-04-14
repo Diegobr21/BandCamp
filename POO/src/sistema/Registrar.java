@@ -35,7 +35,7 @@ public class Registrar {
 		
 		ValidSignup validSignup = new ValidSignup();
 		if (validSignup.isFormComplete(new String[] {correo, nombre, passwords[0], passwords[1]})) {
-			if (validSignup.validEmail(correo) && validSignup.matchPasswords(passwords)) {
+			if (validSignup.isValidName(nombre) && validSignup.validEmail(correo) && validSignup.matchPasswords(passwords)) {
 				MD5 hasher = new MD5();
 				passwords[0] = hasher.hashPassword(passwords[0]);
 			}
@@ -73,13 +73,11 @@ public class Registrar {
 			PreparedStatement selNom = con.prepareStatement(selectNombres);
 			ResultSet nombres = selNom.executeQuery();
 			if (validSignup.usernameExists(nombres, cuenta.getNom_usu())) {
-				JOptionPane.showMessageDialog(null, "Llegaste tarde, el nombre que has escogido ya está en uso.",
-						"Nombre incorrecto", JOptionPane.ERROR_MESSAGE);
 				return false;
 			}
 		} catch(SQLException e) {
-			JOptionPane.showMessageDialog(null, "ERROR!",
-					"La fila no fue afectada", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "La fila no fue afectada.",
+					"Error", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
 		

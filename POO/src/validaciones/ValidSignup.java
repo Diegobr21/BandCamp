@@ -74,17 +74,21 @@ public class ValidSignup {
 	 * @return {@code true} solo si cumple con los requisitos de arriba.
 	 */
 	public boolean isValidName(String nombre) {
-		if (nombre.matches("(?=.*[ ])")) {
+		if (nombre.matches(".*\\s.*")) {
 			JOptionPane.showMessageDialog(null, "El nombre de usuario no puede contener espacios.\n",
 					"Nombre de usuario incorrecto", JOptionPane.ERROR_MESSAGE);
 			return false;
-		} else if (nombre.matches("(?=.*[!?@#$%^&+=])")) {
+		} else if (nombre.matches(".*[!?@#$%^&+=].*")) {
 			JOptionPane.showMessageDialog(null, "El nombre de usuario no puede contener caracteres especiales.",
 					"Nombre de usuario incorrecto", JOptionPane.ERROR_MESSAGE);
 			return false;
+		} else if (nombre.matches(".{6,18}")) {
+			return true;
+		} else {
+			JOptionPane.showMessageDialog(null, "El nombre de usuario debe contener entre 6 y 12 caracteres.",
+					"Nombre de usuario incorrecto", JOptionPane.ERROR_MESSAGE);
+			return false;
 		}
-		
-		return true;
 	}
 	
 	/**
@@ -97,6 +101,8 @@ public class ValidSignup {
 	public boolean usernameExists(ResultSet nombres, String nombre) throws SQLException {
 		while (nombres.next()) {
 			if (nombre.equals(nombres.getString("nom_usu"))) {
+				JOptionPane.showMessageDialog(null, "Llegaste tarde, el nombre que has escogido ya está en uso.",
+						"Nombre incorrecto", JOptionPane.ERROR_MESSAGE);
 				return true;
 			}
 		}

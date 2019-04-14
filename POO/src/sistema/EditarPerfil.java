@@ -30,7 +30,6 @@ public class EditarPerfil {
 		PreparedStatement insertNom = null;
 		ResultSet nombres = null;
 		
-		
 		String sql = "SELECT nom_usu FROM Usuarios";
 		String insert = "UPDATE Usuarios SET nom_usu = ?, gen_usu = ?, ins_usu = ?, fac_usu = ?, des_usu = ? WHERE id_usu = ?";
 		try {
@@ -42,21 +41,25 @@ public class EditarPerfil {
 			e.getMessage();
 		}
 		
-		nombres = selectNom.executeQuery();
-		ValidSignup editName = new ValidSignup();
-		if (editName.usernameExists(nombres, editado.getNom_usu())) {
-			JOptionPane.showMessageDialog(null, "Llegaste tarde, el nombre que has escogido ya está en uso.",
-					"Nombre incorrecto", JOptionPane.ERROR_MESSAGE);
-			return false;
+		String nuevoNombre = editado.getNom_usu();
+		if ( !original.getNom_usu().equals(nuevoNombre) ) {
+			ValidSignup editName = new ValidSignup();
+			if (editName.isValidName(nuevoNombre)) {	
+				nombres = selectNom.executeQuery();
+				if (editName.usernameExists(nombres, nuevoNombre)) {
+					return false;
+				}
+			} else {
+				return false;
+			}
 		}
-		else {
-			insertNom.setString(1, editado.getNom_usu());
-			insertNom.setString(2, editado.getGen_usu());
-			insertNom.setString(3, editado.getIns_usu());
-			insertNom.setString(4, editado.getFac_usu());
-			insertNom.setString(5, editado.getDes_usu());
-			insertNom.setInt(6, editado.getId());
-		}
+		
+		insertNom.setString(1, nuevoNombre);
+		insertNom.setString(2, editado.getGen_usu());
+		insertNom.setString(3, editado.getIns_usu());
+		insertNom.setString(4, editado.getFac_usu());
+		insertNom.setString(5, editado.getDes_usu());
+		insertNom.setInt(6, editado.getId());
 		
 		int rsu = insertNom.executeUpdate();
 		if (rsu == 0) {
