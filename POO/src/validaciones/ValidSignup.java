@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
  * Contiene los métodos para validar el formulario de registro.
  */
 public class ValidSignup {
+	
 	/**
 	 * Llama al método {@link validaciones.ValidPassword#isValidPassword} para verificar que la contraseña ingresada
 	 * cumpla con los requisitos, después compara si ambas entradas coinciden.
@@ -65,11 +66,31 @@ public class ValidSignup {
 		}
 	}
 	
+	/**
+	 * Valida el nombre de usuario ingresado de acuerdo a lo siguiente:
+	 * <br>No puede contener espacios.
+	 * <br>No puede contener caracteres especiales.
+	 * @param nombre {@code String} del nombre de usuario ingresado.
+	 * @return {@code true} solo si cumple con los requisitos de arriba.
+	 */
+	public boolean isValidName(String nombre) {
+		if (nombre.matches("(?=.*[ ])")) {
+			JOptionPane.showMessageDialog(null, "El nombre de usuario no puede contener espacios.\n",
+					"Nombre de usuario incorrecto", JOptionPane.ERROR_MESSAGE);
+			return false;
+		} else if (nombre.matches("(?=.*[!?@#$%^&+=])")) {
+			JOptionPane.showMessageDialog(null, "El nombre de usuario no puede contener caracteres especiales.",
+					"Nombre de usuario incorrecto", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		
+		return true;
+	}
 	
 	/**
-	 * 
+	 * Itera los nombres registrados en la base de datos para comprobar que el nombre ingresado no esté guardado ya.
 	 * @param nombres {@code ResultSet} se le pasa el ResultSet realizado.
-	 * @param editado {@code Usuario} con los atributos editados.
+	 * @param nombre {@code String} del nombre de usuario ingresado.
 	 * @return {@code false} en caso de que el nombre de usuario no exista. 
 	 * @throws SQLException
 	 */
