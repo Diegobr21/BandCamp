@@ -80,7 +80,7 @@ public class Login {
 			cuenta.setGen_usu(usuarios.getString("gen_usu"));
 			cuenta.setIns_usu(usuarios.getString("ins_usu"));
 			cuenta.setFac_usu(usuarios.getString("fac_usu"));
-			cuenta.setDes_usu("");
+			cuenta.setDes_usu(usuarios.getString("des_usu"));
 			System.out.println(cuenta.toString());
 			return cuenta;
 		} else {
