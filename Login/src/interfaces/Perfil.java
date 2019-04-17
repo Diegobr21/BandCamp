@@ -1,29 +1,28 @@
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-import java.awt.Image;
+package interfaces;
 
+import java.awt.EventQueue;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 
-import java.awt.TextArea;
+import sistema.EditarPerfil;
+import sistema.Usuario;
+
+import javax.swing.JLabel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import java.awt.Font;
+import java.awt.Point;
 import java.awt.Color;
-import javax.swing.JFormattedTextField;
-import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-public class Perfil extends JFrame implements ActionListener {
-
-	private JPanel contentPane;
+@SuppressWarnings("serial")
+class Perfil extends JFrame implements ActionListener {
 
 	/**
 	 * Launch the application.
@@ -32,7 +31,7 @@ public class Perfil extends JFrame implements ActionListener {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Perfil frame = new Perfil();
+					Perfil frame = new Perfil(null);
 					frame.setLocationRelativeTo(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -50,6 +49,7 @@ public class Perfil extends JFrame implements ActionListener {
 	private JTextField txtNombre;
 	
 	private Usuario cuenta;
+	
 	/**
 	 * Create the frame.
 	 */
@@ -246,14 +246,16 @@ public class Perfil extends JFrame implements ActionListener {
 		
 		else if (command.contentEquals("Regresar")) {
 			Feed feedframe = new Feed(cuenta);
-			feedframe.setLocationRelativeTo(null);
+			Point punto = this.getLocation();
+			feedframe.setLocation(punto);
 			feedframe.setVisible(true);
 			Perfil.this.dispose();
 		}
 		else if(command.contentEquals("Cerrar")) {
 			UserLogin inicio = new UserLogin();
+			Point punto = this.getLocation();
+			inicio.setLocation(punto);
 			inicio.setVisible(true);
-			inicio.setLocationRelativeTo(null);
 			Perfil.this.dispose();
 		}
 	}

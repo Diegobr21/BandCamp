@@ -1,4 +1,5 @@
-import java.awt.BorderLayout;
+package interfaces;
+
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -7,14 +8,15 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 
-public class Registro2 extends JFrame implements ActionListener {
+@SuppressWarnings("serial")
+class Registro2 extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
 	private JTextField txtcodigo;
@@ -27,6 +29,7 @@ public class Registro2 extends JFrame implements ActionListener {
 			public void run() {
 				try {
 					Registro2 frame = new Registro2();
+					frame.setLocationRelativeTo(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -99,20 +102,21 @@ public class Registro2 extends JFrame implements ActionListener {
 		String codigo = txtcodigo.getText();
 		String command= e.getActionCommand();
 		
-		if(command.contentEquals("Crear")){
-		JOptionPane.showMessageDialog(null, "Cuenta Creada");
-		//Validacion del codigo enviado al correo
-		try {UserLogin frameLogin = new UserLogin();
-		frameLogin.setVisible(true);
-		Registro2.this.dispose();
-		}/*catch(){
+		if (command.contentEquals("Crear")){
+			JOptionPane.showMessageDialog(null, "Cuenta Creada");
+			//Validacion del codigo enviado al correo
+			try {
+				UserLogin frameLogin = new UserLogin();
+				frameLogin.setVisible(true);
+				Registro2.this.dispose();
+			} catch (Exception e1) {
+				// TODO: handle exception
+			}
 			
-		}*/
-		
-	}else if(command.contentEquals("Regresar")){
-		Registro reg = new Registro();
-		reg.setVisible(true);
-		Registro2.this.dispose();
-	}
+		} else if(command.contentEquals("Regresar")){
+			Registro reg = new Registro();
+			reg.setVisible(true);
+			Registro2.this.dispose();
 		}
+	}
 }

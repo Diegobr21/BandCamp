@@ -1,6 +1,7 @@
 package interfaces;
 
 import java.awt.EventQueue;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
@@ -109,13 +110,15 @@ public class Feed extends JFrame implements ActionListener {
 		}
 		else if (command.contentEquals("PerfilUser")) {
 			Perfil profileframe = new Perfil(cuenta);
-			profileframe.setLocationRelativeTo(null);
+			Point punto = this.getLocation();
+			profileframe.setLocation(punto);
 			profileframe.setVisible(true);
 			Feed.this.dispose();
 		}
 		else if (command.contentEquals("Cerrar")) {
 			UserLogin frameLogin = new UserLogin();
-			frameLogin.setLocationRelativeTo(null);
+			Point punto = this.getLocation();
+			frameLogin.setLocation(punto);
 			frameLogin.setVisible(true);
 			Feed.this.dispose();
 		}
