@@ -24,7 +24,10 @@ import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
 import java.awt.List;
 
+import sistema.Registrar;
+
 public class Registro extends JFrame implements ActionListener {
+	
 
 	private JTextField txtCorreo, txtNombre;
 	private JPasswordField pswdPassword, pswdDuplicate;
@@ -32,7 +35,7 @@ public class Registro extends JFrame implements ActionListener {
 	private JButton btnCrearCuenta;
 	
 	private JLabel lblInstrumento;
-	private String askInstrument = "¿Qué instrumento ";
+	private String askInstrument = "Â¿QuÃ© instrumento ";
 	
 	private ComboBoxes registroCmbs;
 	
@@ -225,7 +228,7 @@ public class Registro extends JFrame implements ActionListener {
 				//boolean cuentaCreada = new Registrar().createAccount(1, correo, passwords, tipo, nombre, genero, instrumento, facultad);
 				
 				if (cuentaCreada) {
-					// falta reemplazar el código de abajo por el frame de la segunda parte de registro 
+					// falta reemplazar el cÃ³digo de abajo por el frame de la segunda parte de registro 
 					JOptionPane.showMessageDialog(null, "Se ha registrado correctamente.",
 							"Cuenta creada", JOptionPane.INFORMATION_MESSAGE);
 					
