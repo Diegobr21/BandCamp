@@ -8,9 +8,9 @@ class DBInfo {
 	
     // static String usuario = "DanielSal";
     // static String password = "Avion123";
-	// static String url = "jdbc:sqlserver://localhost:1433;databaseName=Server";
+	// static String url = "jdbc:sqlserver://localhost:1433;databaseName=Server;sendStringParametersAsUnicode=false";
 	
 	static String usuario = "sa";
 	static String password = "123";
-	static String url = "jdbc:sqlserver://localhost:1433;databaseName=Servidor";
+	static String url = "jdbc:sqlserver://localhost:1433;databaseName=Servidor;sendStringParametersAsUnicode=false";
 }
