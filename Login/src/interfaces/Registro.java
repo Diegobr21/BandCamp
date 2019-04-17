@@ -1,45 +1,30 @@
-package interfaces;
-
-import java.awt.Color;
+import java.awt.BorderLayout;
 import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.AbstractListModel;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JButton;
+import javax.swing.JTextField;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
-
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
+import java.awt.Color;
 import javax.swing.JToggleButton;
-import javax.swing.border.EmptyBorder;
+import javax.swing.JPasswordField;
+import javax.swing.JSlider;
+import javax.swing.border.SoftBevelBorder;
+import javax.swing.border.BevelBorder;
+import java.awt.List;
 
-import sistema.Registrar;
-
-@SuppressWarnings("serial")
-class Registro extends JFrame implements ActionListener {
-	
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Registro frame = new Registro();
-					frame.setLocationRelativeTo(null);
-					frame.setVisible(true);
-				}
-				catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+public class Registro extends JFrame implements ActionListener {
 
 	private JTextField txtCorreo, txtNombre;
 	private JPasswordField pswdPassword, pswdDuplicate;
@@ -52,8 +37,25 @@ class Registro extends JFrame implements ActionListener {
 	private ComboBoxes registroCmbs;
 	
 	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Registro frame = new Registro();
+					frame.setLocationRelativeTo(null);
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
 	 * Create the frame.
-	 */	
+	 */
 	public Registro() {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -181,7 +183,7 @@ class Registro extends JFrame implements ActionListener {
 		lblSelecciona.setBounds(418, 123, 47, 14);
 		contentPane.add(lblSelecciona);
 	}
-	
+
 	private int tipo = 1;
 	@Override
 	public void actionPerformed(ActionEvent e) {		
@@ -220,7 +222,7 @@ class Registro extends JFrame implements ActionListener {
 			String facultad = registroCmbs.cmbFacultades.getSelectedItem().toString();
 			
 			try {
-				boolean cuentaCreada = new Registrar().createAccount(1, correo, passwords, tipo, nombre, genero, instrumento, facultad);
+				//boolean cuentaCreada = new Registrar().createAccount(1, correo, passwords, tipo, nombre, genero, instrumento, facultad);
 				
 				if (cuentaCreada) {
 					// falta reemplazar el código de abajo por el frame de la segunda parte de registro 
@@ -232,9 +234,9 @@ class Registro extends JFrame implements ActionListener {
 					frameLogin.setVisible(true);
 					Registro.this.dispose();
 				}
-			} catch (SQLException e1) {
+			/*} catch (SQLException e1) {
 				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				e1.printStackTrace();  */
 			}
 			finally {
 //				btnCrearCuenta.setIcon(null);

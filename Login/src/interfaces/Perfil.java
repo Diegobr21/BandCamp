@@ -1,26 +1,29 @@
-package interfaces;
-
-import java.awt.Color;
+import java.awt.BorderLayout;
 import java.awt.EventQueue;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.sql.SQLException;
+import java.awt.Image;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
+import java.awt.TextArea;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import java.awt.Font;
+import java.awt.Color;
+import javax.swing.JFormattedTextField;
+import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.border.EmptyBorder;
 
-import sistema.EditarPerfil;
-import sistema.Usuario;
+public class Perfil extends JFrame implements ActionListener {
 
-@SuppressWarnings("serial")
-class Perfil extends JFrame implements ActionListener {
+	private JPanel contentPane;
 
 	/**
 	 * Launch the application.
@@ -29,17 +32,16 @@ class Perfil extends JFrame implements ActionListener {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Perfil frame = new Perfil(null);
+					Perfil frame = new Perfil();
 					frame.setLocationRelativeTo(null);
 					frame.setVisible(true);
-				}
-				catch (Exception e) {
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
 	}
-	
+
 	private ComboBoxes perfilCmbs;
 	private JLabel lblFacultad, lblGenero, lblInstrumento, lblNombre;
 	
@@ -152,6 +154,20 @@ class Perfil extends JFrame implements ActionListener {
 		btnContacto.setBounds(34, 336, 104, 34);
 		contentPane.add(btnContacto);
 		btnContacto.setVisible(false);
+		
+		JButton btnCerrarSesion = new JButton("Cerrar Sesi\u00F3n");
+		btnCerrarSesion.setFont(new Font("Verdana", Font.BOLD, 12));
+		btnCerrarSesion.setBackground(Color.WHITE);
+		btnCerrarSesion.setActionCommand("Cerrar");
+		btnCerrarSesion.setBounds(34, 336, 139, 34);
+		contentPane.add(btnCerrarSesion);
+		btnCerrarSesion.addActionListener(this);
+		
+		JButton btnNewButton = new JButton("");
+		btnNewButton.setIcon(new ImageIcon(Perfil.class.getResource("/com/sun/java/swing/plaf/windows/icons/Computer.gif")));
+		btnNewButton.setBounds(527, 11, 56, 47);
+		contentPane.add(btnNewButton);
+		btnCerrarSesion.setVisible(false);
 	}
 
 	@Override
@@ -232,6 +248,12 @@ class Perfil extends JFrame implements ActionListener {
 			Feed feedframe = new Feed(cuenta);
 			feedframe.setLocationRelativeTo(null);
 			feedframe.setVisible(true);
+			Perfil.this.dispose();
+		}
+		else if(command.contentEquals("Cerrar")) {
+			UserLogin inicio = new UserLogin();
+			inicio.setVisible(true);
+			inicio.setLocationRelativeTo(null);
 			Perfil.this.dispose();
 		}
 	}
