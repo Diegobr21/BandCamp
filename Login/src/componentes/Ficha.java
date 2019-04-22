@@ -1,14 +1,14 @@
 package componentes;
 
+import java.awt.Color;
+import java.awt.Font;
+
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.EtchedBorder;
+import javax.swing.border.CompoundBorder;
 
 import sistema.CuentaFiltrada;
-
-import java.awt.Font;
-import java.awt.Color;
 
 @SuppressWarnings("serial")
 /**
@@ -20,9 +20,10 @@ public class Ficha extends JPanel {
 	 * Create the panel.
 	 */
 	public Ficha(CuentaFiltrada cuentaFiltrada) {
-		setBounds(100, 100, 624, 148);
-		setBorder(new EtchedBorder(EtchedBorder.RAISED, null, null));
-		setLayout(null);
+		this.setSize(624, 148);
+		this.setBorder(new CompoundBorder());
+		this.setLayout(null);
+		this.setVisible(true);
 		
 		JLabel lblImagen = new JLabel();
 		lblImagen.setIcon(new ImageIcon(Ficha.class.getResource("/img/userpic2.png")));
