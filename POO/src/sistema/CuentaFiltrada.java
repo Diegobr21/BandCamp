@@ -1,5 +1,8 @@
 package sistema;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 /**
  * Contiene los atributos que se muestran en el muro y en el perfil de la cuenta filtrada.
  */
@@ -20,16 +23,17 @@ public class CuentaFiltrada {
 	}
 	
 	/**
-	 * Construye la {@code CuentaFiltrada} a partir de una instancia de tipo {@code Usuario}.
-	 * @param cuenta {@code Usuario} del cual se usarán solo los atributos de la clase {@code CuentaFiltrada}.
+	 * Construye la {@code CuentaFiltrada} a partir de el resultado de una consulta a la base de datos.
+	 * @param cuenta {@code ResultSet} del cual se usarán solo los atributos que se mostrarán.
+	 * @throws SQLException 
 	 */
-	public CuentaFiltrada(Usuario cuenta) {
-		this.tipo = cuenta.getTip_usu();
-		this.nombre = cuenta.getNom_usu();
-		this.genero = cuenta.getGen_usu();
-		this.instrumento = cuenta.getIns_usu();
-		this.facultad = cuenta.getFac_usu();
-		this.descripcion = cuenta.getDes_usu();
+	public CuentaFiltrada(ResultSet cuenta) throws SQLException {
+		this.tipo = cuenta.getInt("tip_usu");
+		this.nombre = cuenta.getString("nom_usu");
+		this.genero = cuenta.getString("gen_usu");
+		this.instrumento = cuenta.getString("ins_usu");
+		this.facultad = cuenta.getString("fac_usu");
+		this.descripcion = cuenta.getString("des_usu");
 	}
 
 	public int getTipo() {
