@@ -35,7 +35,7 @@ public class Feed extends JFrame implements ActionListener {
 	}
 
 	private Usuario cuenta;
-	private JPanel contentPane;
+	private JScrollPane scrollPane;
 	/**
 	 * Create the frame.
 	 */
@@ -45,14 +45,10 @@ public class Feed extends JFrame implements ActionListener {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 640, 419);
-		contentPane = new JPanel();
+		JPanel contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(5, 24, 624, 355);
-		contentPane.add(scrollPane);
 		
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBounds(5, -1, 619, 21);
@@ -72,6 +68,12 @@ public class Feed extends JFrame implements ActionListener {
 		menuBar.add(btnAyuda);
 		btnAyuda.setActionCommand("Ayuda");
 		btnAyuda.addActionListener(this);
+		
+		scrollPane = new JScrollPane();
+		scrollPane.setBounds(5, 24, 624, 355);
+		contentPane.add(scrollPane);
+		
+		agregarFichas(cuenta);
 	}	
 		
 		/*	Ayuda ayuda = new Ayuda();
@@ -121,5 +123,13 @@ public class Feed extends JFrame implements ActionListener {
 			frameLogin.setVisible(true);
 			Feed.this.dispose();
 		}
+	}
+	
+	/**
+	 * Agrega las fichas de las cuentas que se filtraron al {@code JScrollPane} del muro.
+	 * @param sesionIniciada {@code Usuario} de la sesión iniciada para filtrar las cuentas.
+	 */
+	private void agregarFichas(Usuario sesionIniciada) {
+		
 	}
 }
