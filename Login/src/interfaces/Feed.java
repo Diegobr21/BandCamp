@@ -1,16 +1,24 @@
 package interfaces;
 
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
+
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import componentes.Ficha;
+import sistema.CuentaFiltrada;
+import sistema.Muro;
 import sistema.Usuario;
 
 import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneLayout;
 import javax.swing.JButton;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
@@ -71,7 +79,10 @@ public class Feed extends JFrame implements ActionListener {
 		
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(5, 24, 624, 355);
+		scrollPane.setLayout(null);
 		contentPane.add(scrollPane);
+		
+		//scrollPane.add(new Ficha(new CuentaFiltrada(2, "l", "l", "l", "l", "l")));
 		
 		agregarFichas(cuenta);
 	}	
@@ -130,6 +141,14 @@ public class Feed extends JFrame implements ActionListener {
 	 * @param sesionIniciada {@code Usuario} de la sesión iniciada para filtrar las cuentas.
 	 */
 	private void agregarFichas(Usuario sesionIniciada) {
+		List<CuentaFiltrada> cuentasFiltradas = new Muro().filtrarCuentas(sesionIniciada);
+		if (cuentasFiltradas.size() == 0) {
+			scrollPane.add(new JLabel("No hay cuentas que coincidan."));
+			return;
+		}
 		
+		for (CuentaFiltrada cuentaFiltrada : cuentasFiltradas) {
+			scrollPane.add(new Ficha(cuentaFiltrada));
+		}
 	}
 }
