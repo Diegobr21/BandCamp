@@ -17,8 +17,6 @@ import javax.swing.JOptionPane;
 
 @SuppressWarnings("serial")
 public class Feed extends JFrame implements ActionListener {
-	private JPanel contentPane;
-
 	/**
 	 * Launch the application.
 	 */
@@ -37,6 +35,7 @@ public class Feed extends JFrame implements ActionListener {
 	}
 
 	private Usuario cuenta;
+	private JPanel contentPane;
 	/**
 	 * Create the frame.
 	 */

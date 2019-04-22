@@ -1,4 +1,4 @@
-package interfaces;
+package componentes;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
@@ -6,8 +6,8 @@ import javax.swing.JComboBox;
 /**
  * Contiene los comboboxes de las facultades, de los géneros y de los instrumentos.
  */
-class ComboBoxes {
-	JComboBox<String> cmbFacultades, cmbGeneros, cmbInstrumentos;
+public class ComboBoxes {
+	public JComboBox<String> cmbFacultades, cmbGeneros, cmbInstrumentos;
 
 	/**
 	 * Define a los comboboxes, les agrega las opciones y deshabilita la edición.

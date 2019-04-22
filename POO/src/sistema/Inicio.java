@@ -20,11 +20,12 @@ class Inicio {
 		try {
 			Connection connection = DriverManager.getConnection(DBInfo.url, DBInfo.usuario, DBInfo.password);
 			System.out.println("Conexión establecida");
-			connection.close();
 			
 			UserLogin logIn = new UserLogin();
 			logIn.setLocationRelativeTo(null);
 			logIn.setVisible(true);
+			
+			connection.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(null, "Lo sentimos, parece que nuestros servidores fallaron.\n¡Inténtalo en unos minutos!",

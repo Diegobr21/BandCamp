@@ -19,6 +19,7 @@ import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.border.EmptyBorder;
 
+import componentes.ComboBoxes;
 import sistema.Registrar;
 
 @SuppressWarnings("serial")
