@@ -41,7 +41,7 @@ public class Feed extends JFrame implements ActionListener {
 	 */
 	public Feed(Usuario sesion) {
 		cuenta = sesion;
-		
+	
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 640, 419);
