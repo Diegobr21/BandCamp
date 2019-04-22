@@ -4,18 +4,19 @@ package sistema;
  * Contiene los atributos que se muestran en el muro y en el perfil de la cuenta filtrada.
  */
 public class CuentaFiltrada {
-	public int tipo;
-	public String nombre, genero, instrumento, facultad;
+	private int tipo;
+	private String nombre, genero, instrumento, facultad, descripcion;
 	
 	/**
 	 * Construye la {@code CuentaFiltrada} con cada atributo especificado.
 	 */
-	public CuentaFiltrada(int tipo, String nombre, String genero, String instrumento, String facultad) {
+	public CuentaFiltrada(int tipo, String nombre, String genero, String instrumento, String facultad, String descripcion) {
 		this.tipo = tipo;
 		this.nombre = nombre;
 		this.genero = genero;
 		this.instrumento = instrumento;
 		this.facultad = facultad;
+		this.descripcion = descripcion;
 	}
 	
 	/**
@@ -28,5 +29,54 @@ public class CuentaFiltrada {
 		this.genero = cuenta.getGen_usu();
 		this.instrumento = cuenta.getIns_usu();
 		this.facultad = cuenta.getFac_usu();
+		this.descripcion = cuenta.getDes_usu();
+	}
+
+	public int getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(int tipo) {
+		this.tipo = tipo;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public String getGenero() {
+		return genero;
+	}
+
+	public void setGenero(String genero) {
+		this.genero = genero;
+	}
+
+	public String getInstrumento() {
+		return instrumento;
+	}
+
+	public void setInstrumento(String instrumento) {
+		this.instrumento = instrumento;
+	}
+
+	public String getFacultad() {
+		return facultad;
+	}
+
+	public void setFacultad(String facultad) {
+		this.facultad = facultad;
+	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
 	}
 }
