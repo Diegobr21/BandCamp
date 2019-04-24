@@ -1,27 +1,29 @@
 package interfaces;
 
+import java.awt.Dimension;
 import java.awt.EventQueue;
-import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneLayout;
 import javax.swing.border.EmptyBorder;
 
 import componentes.Ficha;
 import sistema.CuentaFiltrada;
 import sistema.Muro;
 import sistema.Usuario;
-
-import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneLayout;
-import javax.swing.JButton;
-import javax.swing.JMenuBar;
-import javax.swing.JOptionPane;
 
 @SuppressWarnings("serial")
 public class Feed extends JFrame implements ActionListener {
@@ -43,6 +45,7 @@ public class Feed extends JFrame implements ActionListener {
 	}
 
 	private Usuario cuenta;
+	private JPanel pnlFichas;
 	private JScrollPane scrollPane;
 	/**
 	 * Create the frame.
@@ -52,7 +55,7 @@ public class Feed extends JFrame implements ActionListener {
 	
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 640, 419);
+		setBounds(100, 100, 650, 419);
 		JPanel contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -77,14 +80,22 @@ public class Feed extends JFrame implements ActionListener {
 		btnAyuda.setActionCommand("Ayuda");
 		btnAyuda.addActionListener(this);
 		
-		scrollPane = new JScrollPane();
-		scrollPane.setBounds(5, 24, 624, 355);
-		scrollPane.setLayout(null);
-		contentPane.add(scrollPane);
-		
-		//scrollPane.add(new Ficha(new CuentaFiltrada(2, "l", "l", "l", "l", "l")));
-		
+		pnlFichas = new JPanel();
+		pnlFichas.setVisible(true);
+		pnlFichas.setPreferredSize(new Dimension(624, 355));
+//		pnlFichas.setSize(624, 355);
 		agregarFichas(cuenta);
+		pnlFichas.setLayout(new BoxLayout(pnlFichas, BoxLayout.Y_AXIS));
+		
+		scrollPane = new JScrollPane(pnlFichas);
+		scrollPane.setLocation(5, 24);
+		scrollPane.setPreferredSize(new Dimension(624, 355));
+		scrollPane.setLayout(new ScrollPaneLayout());
+		scrollPane.setSize(new Dimension(624, 355));
+//		scrollPane.setMinimumSize(new Dimension(624, 355));
+//		scrollPane.setMaximumSize(null);
+		scrollPane.setVisible(true);
+		contentPane.add(scrollPane);
 	}	
 		
 		/*	Ayuda ayuda = new Ayuda();
@@ -143,12 +154,16 @@ public class Feed extends JFrame implements ActionListener {
 	private void agregarFichas(Usuario sesionIniciada) {
 		List<CuentaFiltrada> cuentasFiltradas = new Muro().filtrarCuentas(sesionIniciada);
 		if (cuentasFiltradas.size() == 0) {
-			scrollPane.add(new JLabel("No hay cuentas que coincidan."));
+			pnlFichas.add(new JLabel("No hay cuentas que coincidan."));
 			return;
 		}
-		
+
 		for (CuentaFiltrada cuentaFiltrada : cuentasFiltradas) {
-			scrollPane.add(new Ficha(cuentaFiltrada));
+			System.out.println("añadiendo");
+			pnlFichas.add(new Ficha(cuentaFiltrada));
+			pnlFichas.add(Box.createRigidArea(new Dimension(1, 3)));
+			
+			pnlFichas.validate();
 		}
 	}
 }

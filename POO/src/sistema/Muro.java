@@ -30,12 +30,12 @@ public class Muro {
 			
 			int tipo = 0;
 			switch (sesionIniciada.getTip_usu()) {
-			case 1:
-				tipo = 2;
-				break;
-			case 2:
-				tipo = 1;
-				break;
+				case 1:
+					tipo = 2;
+					break;
+				case 2:
+					tipo = 1;
+					break;
 			}
 			
 			selectUsersPreparedStatement.setInt(1, tipo);

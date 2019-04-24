@@ -6,7 +6,7 @@ import java.awt.Font;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.CompoundBorder;
+import javax.swing.border.LineBorder;
 
 import sistema.CuentaFiltrada;
 
@@ -20,10 +20,10 @@ public class Ficha extends JPanel {
 	 * Create the panel.
 	 */
 	public Ficha(CuentaFiltrada cuentaFiltrada) {
-		this.setSize(624, 148);
-		this.setBorder(new CompoundBorder());
-		this.setLayout(null);
-		this.setVisible(true);
+		setSize(614, 148);
+		setBorder(new LineBorder(Color.DARK_GRAY, 2, true));
+		setLayout(null);
+		setVisible(true);
 		
 		JLabel lblImagen = new JLabel();
 		lblImagen.setIcon(new ImageIcon(Ficha.class.getResource("/img/userpic2.png")));
@@ -33,19 +33,19 @@ public class Ficha extends JPanel {
 		JLabel lblNombre = new JLabel(cuentaFiltrada.getNombre());
 		lblNombre.setForeground(Color.RED);
 		lblNombre.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblNombre.setBounds(148, 11, 128, 25);
+		lblNombre.setBounds(148, 11, 173, 33);
 		add(lblNombre);
 		
 		JLabel lblFacultad = new JLabel(cuentaFiltrada.getFacultad());
 		lblFacultad.setForeground(Color.DARK_GRAY);
 		lblFacultad.setFont(new Font("Tahoma", Font.ITALIC, 11));
-		lblFacultad.setBounds(148, 125, 34, 14);
+		lblFacultad.setBounds(148, 119, 63, 20);
 		add(lblFacultad);
 		
 		JLabel lblGenero = new JLabel(cuentaFiltrada.getGenero());
 		lblGenero.setForeground(Color.BLACK);
 		lblGenero.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblGenero.setBounds(148, 69, 63, 14);
+		lblGenero.setBounds(148, 69, 149, 20);
 		add(lblGenero);
 		
 		String info;
@@ -63,8 +63,8 @@ public class Ficha extends JPanel {
 		
 		JLabel lblInfo = new JLabel(info + cuentaFiltrada.getInstrumento());
 		lblInfo.setForeground(new Color(0, 0, 0));
-		lblInfo.setFont(new Font("Arial", Font.PLAIN, 22));
-		lblInfo.setBounds(286, 28, 280, 87);
+		lblInfo.setFont(new Font("Arial", Font.PLAIN, 20));
+		lblInfo.setBounds(331, 11, 269, 128);
 		add(lblInfo);
 	}
 }
