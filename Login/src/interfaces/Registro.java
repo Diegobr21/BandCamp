@@ -6,13 +6,11 @@ import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -21,6 +19,7 @@ import javax.swing.border.EmptyBorder;
 
 import componentes.ComboBoxes;
 import sistema.Registrar;
+import sistema.Usuario;
 
 @SuppressWarnings("serial")
 class Registro extends JFrame implements ActionListener {
@@ -32,7 +31,7 @@ class Registro extends JFrame implements ActionListener {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Registro frame = new Registro();
+					Registro frame = new Registro(null);
 					frame.setLocationRelativeTo(null);
 					frame.setVisible(true);
 				}
@@ -53,10 +52,16 @@ class Registro extends JFrame implements ActionListener {
 	
 	private ComboBoxes registroCmbs;
 	
+	private Usuario nuevaCuenta;
 	/**
 	 * Create the frame.
 	 */	
-	public Registro() {
+	public Registro(Usuario cuentaParam) {
+		if (cuentaParam == null) {
+			cuentaParam = new Usuario(0, "", "", 1, "", "Rock", "Guitarra", "FIME", "");
+		}
+		nuevaCuenta = cuentaParam;
+		
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 636, 420);
@@ -71,6 +76,7 @@ class Registro extends JFrame implements ActionListener {
 		
 		contentPane.add(registroCmbs.cmbFacultades);
 		registroCmbs.cmbFacultades.setLocation(358, 81);
+		registroCmbs.cmbFacultades.setSelectedItem(nuevaCuenta.getFac_usu());
 		
 		JLabel lblFacultad = new JLabel("\u00BFA qu\u00E9 facultad perteneces?");
 		lblFacultad.setForeground(Color.YELLOW);
@@ -80,6 +86,7 @@ class Registro extends JFrame implements ActionListener {
 		
 		contentPane.add(registroCmbs.cmbGeneros);
 		registroCmbs.cmbGeneros.setLocation(358, 206);
+		registroCmbs.cmbGeneros.setSelectedItem(nuevaCuenta.getGen_usu());
 		
 		JLabel lblGneroMusical = new JLabel("\u00BFQu\u00E9 g\u00E9nero interpretas?");
 		lblGneroMusical.setForeground(Color.YELLOW);
@@ -89,6 +96,7 @@ class Registro extends JFrame implements ActionListener {
 		
 		contentPane.add(registroCmbs.cmbInstrumentos);
 		registroCmbs.cmbInstrumentos.setLocation(358, 274);
+		registroCmbs.cmbInstrumentos.setSelectedItem(nuevaCuenta.getIns_usu());
 		
 		lblInstrumento = new JLabel(askInstrument + "tocas?");
 		lblInstrumento.setForeground(Color.YELLOW);
@@ -109,11 +117,13 @@ class Registro extends JFrame implements ActionListener {
 		txtCorreo.setBounds(54, 81, 166, 20);
 		contentPane.add(txtCorreo);
 		txtCorreo.setColumns(10);
+		txtCorreo.setText(nuevaCuenta.getCor_usu());
 		
 		txtNombre = new JTextField();
 		txtNombre.setBounds(54, 137, 166, 20);
 		contentPane.add(txtNombre);
 		txtNombre.setColumns(10);
+		txtNombre.setText(nuevaCuenta.getNom_usu());
 		
 		JLabel lblCorreoElectrnico = new JLabel("Correo electr\u00F3nico");
 		lblCorreoElectrnico.setForeground(Color.YELLOW);
@@ -150,14 +160,22 @@ class Registro extends JFrame implements ActionListener {
 		tglbtnBanda.addActionListener(this);
 		
 		tglbtnArtista = new JToggleButton("Artista");
-		tglbtnArtista.setSelected(true);
-		tglbtnArtista.setEnabled(false);
 		tglbtnArtista.setFont(new Font("Verdana", Font.BOLD, 11));
 		tglbtnArtista.setBackground(Color.WHITE);
+		tglbtnArtista.setForeground(Color.BLACK);
 		tglbtnArtista.setBounds(473, 143, 89, 27);
 		contentPane.add(tglbtnArtista);
 		tglbtnArtista.setActionCommand("Artista");
 		tglbtnArtista.addActionListener(this);
+		
+		switch (nuevaCuenta.getTip_usu()) {
+			case 1:
+				tglbtnArtista.doClick();
+				break;
+			case 2:
+				tglbtnBanda.doClick();
+				break;
+		}
 		
 		pswdPassword = new JPasswordField();
 		pswdPassword.setBounds(54, 206, 166, 20);
@@ -208,41 +226,28 @@ class Registro extends JFrame implements ActionListener {
 			lblInstrumento.setText(askInstrument + "buscas?");
 		}
 		else if (command.contentEquals("Crear")) {
-//			btnCrearCuenta.setText("");
-//			btnCrearCuenta.setIcon(new ImageIcon(Registro.class.getResource("/img/new_loading.gif")));
-			
 			String[] passwords = new String[2];
 			passwords[0] = String.valueOf(pswdPassword.getPassword());
 			passwords[1] = String.valueOf(pswdDuplicate.getPassword());
 			
-			String correo = txtCorreo.getText();
-			String nombre = txtNombre.getText();
-			String genero = registroCmbs.cmbGeneros.getSelectedItem().toString();
-			String instrumento = registroCmbs.cmbInstrumentos.getSelectedItem().toString();
-			String facultad = registroCmbs.cmbFacultades.getSelectedItem().toString();
+			nuevaCuenta.setCor_usu(txtCorreo.getText());
+			nuevaCuenta.setTip_usu(tipo);
+			nuevaCuenta.setNom_usu(txtNombre.getText());
+			nuevaCuenta.setGen_usu(registroCmbs.cmbGeneros.getSelectedItem().toString());
+			nuevaCuenta.setIns_usu(registroCmbs.cmbInstrumentos.getSelectedItem().toString());
+			nuevaCuenta.setFac_usu(registroCmbs.cmbFacultades.getSelectedItem().toString());
 			
-			try {
-				boolean cuentaCreada = new Registrar().createAccount(1, correo, passwords, tipo, nombre, genero, instrumento, facultad);
+			boolean cuentaValida = new Registrar().checkAccount(nuevaCuenta, passwords);
+			
+			if (cuentaValida) {
+				nuevaCuenta.setPas_usu(passwords[0]);
 				
-				if (cuentaCreada) {
-					// falta reemplazar el código de abajo por el frame de la segunda parte de registro 
-					JOptionPane.showMessageDialog(null, "Se ha registrado correctamente.",
-							"Cuenta creada", JOptionPane.INFORMATION_MESSAGE);
-					
-					UserLogin frameLogin = new UserLogin();
-					Point punto = this.getLocation();
-					frameLogin.setLocation(punto);
-					frameLogin.setVisible(true);
-					Registro.this.dispose();
-				}
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			finally {
-//				btnCrearCuenta.setIcon(null);
-//				btnCrearCuenta.setText("Registrarse");
-				
+				Registro2 registro2 = new Registro2(nuevaCuenta);
+				Point punto = this.getLocation();
+				registro2.setLocation(punto);
+				registro2.setVisible(true);
+				Registro.this.dispose();
+			} else {
 				pswdPassword.setText("");
 				pswdDuplicate.setText("");
 			}

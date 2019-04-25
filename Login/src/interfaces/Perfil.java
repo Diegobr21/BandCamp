@@ -156,7 +156,7 @@ class Perfil extends JFrame implements ActionListener {
 		contentPane.add(btnContacto);
 		btnContacto.setVisible(false);
 		
-		JButton btnCerrarSesion = new JButton("Cerrar Sesi\u00F3n");
+		JButton btnCerrarSesion = new JButton("Cerrar sesión");
 		btnCerrarSesion.setFont(new Font("Verdana", Font.BOLD, 12));
 		btnCerrarSesion.setBackground(Color.WHITE);
 		btnCerrarSesion.setActionCommand("Cerrar");

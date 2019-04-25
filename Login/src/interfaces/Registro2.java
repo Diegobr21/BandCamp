@@ -3,19 +3,25 @@ package interfaces;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import sistema.Registrar;
+import sistema.Usuario;
+
 @SuppressWarnings("serial")
+/**
+ * Solicita llenar la descripción de la cuenta e ingresar un código para verificar el correo electrónico ingresado.
+ */
 class Registro2 extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
@@ -28,7 +34,7 @@ class Registro2 extends JFrame implements ActionListener {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Registro2 frame = new Registro2();
+					Registro2 frame = new Registro2(null);
 					frame.setLocationRelativeTo(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -38,10 +44,14 @@ class Registro2 extends JFrame implements ActionListener {
 		});
 	}
 
+	private JTextArea txtdescripcion;
+	private Usuario nuevaCuenta;
 	/**
 	 * Create the frame.
 	 */
-	public Registro2() {
+	public Registro2(Usuario cuentaParam) {
+		nuevaCuenta = cuentaParam;
+		
 		setTitle("Bandcamp - Registro");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -67,8 +77,7 @@ class Registro2 extends JFrame implements ActionListener {
 		txtcodigo.setColumns(4);
 		txtcodigo.addActionListener(this);
 		
-		
-		JButton btnCrearCuenta = new JButton("Crear Cuenta");
+		JButton btnCrearCuenta = new JButton("Crear cuenta");
 		btnCrearCuenta.setForeground(Color.BLACK);
 		btnCrearCuenta.setBackground(Color.WHITE);
 		btnCrearCuenta.setFont(new Font("Verdana", Font.BOLD, 12));
@@ -82,7 +91,7 @@ class Registro2 extends JFrame implements ActionListener {
 		lblcodigo.setBounds(130, 231, 341, 24);
 		contentPane.add(lblcodigo);
 		
-		JTextArea txtdescripcion = new JTextArea();
+		txtdescripcion = new JTextArea();
 		txtdescripcion.setText("Ej: Originario de Zacatecas, experiencia en BandaEjemplo por 2 a\u00F1os.\r\n\r\nFacebook: JuanPerezGzz\r\nWhatsapp: 8181170378");
 		txtdescripcion.setBounds(52, 108, 505, 102);
 		contentPane.add(txtdescripcion);
@@ -98,23 +107,28 @@ class Registro2 extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
-		String codigo = txtcodigo.getText();
 		String command= e.getActionCommand();
 		
 		if (command.contentEquals("Crear")){
-			JOptionPane.showMessageDialog(null, "Cuenta Creada");
-			//Validacion del codigo enviado al correo
-			try {
-				UserLogin frameLogin = new UserLogin();
-				frameLogin.setVisible(true);
+			nuevaCuenta.setDes_usu(txtdescripcion.getText());
+			String codigo = txtcodigo.getText();
+			
+			boolean cuentaCreada = new Registrar().createAccount(nuevaCuenta, codigo);
+			if (cuentaCreada) {
+				Point punto = this.getLocation();
+//				Feed framefeed = new Feed(nuevaCuenta);
+//				framefeed.setLocation(punto);
+//				framefeed.setVisible(true);
+				UserLogin login = new UserLogin();
+				login.setLocation(punto);
+				login.setVisible(true);
 				Registro2.this.dispose();
-			} catch (Exception e1) {
-				// TODO: handle exception
 			}
 			
 		} else if(command.contentEquals("Regresar")){
-			Registro reg = new Registro();
+			Registro reg = new Registro(nuevaCuenta);
+			Point punto = this.getLocation();
+			reg.setLocation(punto);
 			reg.setVisible(true);
 			Registro2.this.dispose();
 		}

@@ -123,7 +123,7 @@ public class UserLogin extends JFrame implements ActionListener {
 			}
 		}
 		else if(command.contentEquals("Registro")) {
-		    Registro frameregistro = new Registro();
+		    Registro frameregistro = new Registro(null);
 		    Point punto = this.getLocation();
 		    frameregistro.setLocation(punto);
 			frameregistro.setVisible(true);

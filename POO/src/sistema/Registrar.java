@@ -12,58 +12,36 @@ import validaciones.MD5;
 import validaciones.ValidSignup;
 
 public class Registrar {
-	/**
-	 * Recibe los atributos de un objeto tipo {@link Usuario} desde la interfaz de registro 
-	 * para validar la información, si es correcta instanciar uno y enviarlo 
-	 * a un nuevo registro en la base de datos.
-	 * @param correo <code>String</code> del correo electrónico.
-	 * @param password Arreglo tipo <code>String</code> de las contraseñas ingresadas.
-	 * @param tipo <code>int</code> del tipo de usuario (artista = 1 ; banda = 2).
-	 * @param nombre <code>String</code> del nombre de usuario.
-	 * @param genero <code>String</code> del género musical.
-	 * @param instrumento <code>String</code> del instrumento.
-	 * @param facultad <code>String</code> de la facultad.
-	 * @return <code>true</code> si la cuenta fue creada, de lo contrario <code>false</code>.
-	 * @throws SQLException 
-	 * @see validaciones.MD5#hashPassword(String)
-	 */
 	
-	public boolean createAccount(int id, String correo, String[] passwords, int tipo,
-			String nombre, String genero, String instrumento, String facultad) throws SQLException {
-		
-		Usuario cuenta = new Usuario(id, correo, passwords[0], tipo, nombre, genero, instrumento, facultad, "");
-		
+	/**
+	 * Recibe un objeto tipo {@link Usuario} instanciado desde {@link interfaces.Registro} 
+	 * para validar sus atributos.
+	 * @param nuevaCuenta {@code Usuario} enviado desde la interfaz de {@code Registro}.
+	 * @param passwords Arreglo tipo <code>String</code> de las contraseñas ingresadas.
+	 * @return <code>true</code> si la cuenta fue creada, de lo contrario <code>false</code>.
+	 */
+	public boolean checkAccount(Usuario nuevaCuenta, String[] passwords) {
+		String correo = nuevaCuenta.getCor_usu(),
+				nombre = nuevaCuenta.getNom_usu();
+				
 		ValidSignup validSignup = new ValidSignup();
 		if (validSignup.isFormComplete(new String[] {correo, nombre, passwords[0], passwords[1]})) {
-			if (validSignup.isValidName(nombre) && validSignup.validEmail(correo) && validSignup.matchPasswords(passwords)) {
-				MD5 hasher = new MD5();
-				passwords[0] = hasher.hashPassword(passwords[0]);
+			if (! (validSignup.isValidName(nombre) && validSignup.validEmail(correo) && validSignup.matchPasswords(passwords)) ) {
+				return false;
 			}
-			else return false;
 		}
 		else return false;
 		
-		Connection con = null;
-		PreparedStatement statement = null;
-		
-		String insertDatos = "INSERT INTO Usuarios(cor_usu, pas_usu, tip_usu, nom_usu, gen_usu, ins_usu, fac_usu, des_usu)";
-		insertDatos += "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
-		
 		try {
-			con = DriverManager.getConnection(DBInfo.url, DBInfo.usuario, DBInfo.password);
+			Connection con = DriverManager.getConnection(DBInfo.url, DBInfo.usuario, DBInfo.password);
 			System.out.println("Conexion establecida");
-			statement = con.prepareStatement(insertDatos);
-		} catch(SQLException e) {
-			System.out.println(e.getMessage());
-		}
-		
-		try {
+			
 			String selectCorreos = "SELECT cor_usu FROM Usuarios";
 			PreparedStatement select = con.prepareStatement(selectCorreos);
 			ResultSet correos = select.executeQuery();
 			while (correos.next()) {
 				if ( correo.equals(correos.getString("cor_usu")) ) {
-					JOptionPane.showMessageDialog(null, "El correo ingresado ya esta registrado.",
+					JOptionPane.showMessageDialog(null, "El correo ingresado ya está registrado.",
 							"Correo en uso", JOptionPane.ERROR_MESSAGE);
 					return false;
 				}
@@ -72,31 +50,60 @@ public class Registrar {
 			String selectNombres = "SELECT nom_usu FROM Usuarios";
 			PreparedStatement selNom = con.prepareStatement(selectNombres);
 			ResultSet nombres = selNom.executeQuery();
-			if (validSignup.usernameExists(nombres, cuenta.getNom_usu())) {
+			if (validSignup.usernameExists(nombres, nombre)) {
 				return false;
 			}
 		} catch(SQLException e) {
-			JOptionPane.showMessageDialog(null, "La fila no fue afectada.",
-					"Error", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
 			return false;
 		}
 		
-		statement.setString(1, correo);
-		statement.setString(2, passwords[0]);
-		statement.setInt(3, tipo);
-		statement.setString(4, nombre);
-		statement.setString(5, genero);
-		statement.setString(6, instrumento);
-		statement.setString(7, facultad);
-		//la descripción (des_usu) se agregará en la segunda parte del registro
-		statement.setString(8, "");
+		imprimir(nuevaCuenta);
 		
-		int resultSetRow = statement.executeUpdate();
-		if (resultSetRow == 0) {
-			JOptionPane.showMessageDialog(null, "0 filas afectadas", "ERROR", JOptionPane.ERROR_MESSAGE );
+		return true;
+	}
+	
+	/**
+	 * Realiza una conexión a la base de datos para agregar un registro a la tabla. 
+	 * @param nuevaCuenta {@code Usuario} con los atributos de la cuenta para ejecutar la actualización.
+	 * @param emailCode {@code String} del código de verificación enviado al correo electrónico ingresado.
+	 * @return {@code true} si la cuenta se guardó en la base de datos.
+	 */
+	public boolean createAccount(Usuario nuevaCuenta, String emailCode) {
+		// si el código de verificación no coincide, regresar false
+		
+		try {
+			String insertDatos = "INSERT INTO Usuarios(cor_usu, pas_usu, tip_usu, nom_usu, gen_usu, ins_usu, fac_usu, des_usu)";
+			insertDatos += "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+			
+			Connection con = DriverManager.getConnection(DBInfo.url, DBInfo.usuario, DBInfo.password);
+			System.out.println("Conexion establecida");
+			PreparedStatement statement = con.prepareStatement(insertDatos);
+			String hashed = new MD5().hashPassword(nuevaCuenta.getPas_usu());
+			
+			statement.setString(1, nuevaCuenta.getCor_usu());
+			statement.setString(2, hashed);
+			statement.setInt(3, nuevaCuenta.getTip_usu());
+			statement.setString(4, nuevaCuenta.getNom_usu());
+			statement.setString(5, nuevaCuenta.getGen_usu());
+			statement.setString(6, nuevaCuenta.getIns_usu());
+			statement.setString(7, nuevaCuenta.getFac_usu());
+			statement.setString(8, nuevaCuenta.getDes_usu());
+			
+			int resultSetRow = statement.executeUpdate();
+			if (resultSetRow == 0) {
+				JOptionPane.showMessageDialog(null, "Lo sentimos, no fue posible crear tu cuenta.\nVuelve a intentarlo en unos minutos.",
+						"Error de servidor", JOptionPane.ERROR_MESSAGE);
+				return false;
+			}
+		} catch(SQLException e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Lo sentimos, no fue posible crear tu cuenta.\nVuelve a intentarlo en unos minutos.",
+					"Error de servidor", JOptionPane.ERROR_MESSAGE);
+			return false;
 		}
 		
-		imprimir(cuenta);
+		imprimir(nuevaCuenta);
 		
 		return true;
 	}
