@@ -45,7 +45,7 @@ class Perfil extends JFrame implements ActionListener {
 	private ComboBoxes perfilCmbs;
 	private JLabel lblFacultad, lblGenero, lblInstrumento, lblNombre;
 	
-	private JButton btnEditar, btnRegresar;
+	private JButton btnEditar, btnRegresar, btnCerrarSesion;
 	private JTextArea txtDescripcion;
 	private JTextField txtNombre;
 	
@@ -57,7 +57,7 @@ class Perfil extends JFrame implements ActionListener {
 	public Perfil(Usuario sesion) {
 		// cuenta de ejemplo, cuando el argumento es null
 		if (sesion == null) {
-			sesion = new Usuario(0, "correo", "pswd", 1, "HAVOK", "Rock", "Guitarra", "FAV", "Hell yeah!");
+			sesion = new Usuario(0, "cor_usu", "pas_usu", 1, "nom_usu", "Rock", "Guitarra", "FIME", "des_usu");
 		}
 		cuenta = sesion;
 		
@@ -85,6 +85,14 @@ class Perfil extends JFrame implements ActionListener {
 		txtDescripcion.setBounds(34, 205, 549, 103);
 		txtDescripcion.setEditable(false);
 		contentPane.add(txtDescripcion);
+		
+		btnCerrarSesion = new JButton("Cerrar sesión");
+		btnCerrarSesion.setFont(new Font("Verdana", Font.BOLD, 12));
+		btnCerrarSesion.setBackground(Color.WHITE);
+		btnCerrarSesion.setBounds(34, 336, 139, 34);
+		contentPane.add(btnCerrarSesion);
+		btnCerrarSesion.setActionCommand("Cerrar");
+		btnCerrarSesion.addActionListener(this);
 		
 		btnEditar = new JButton("Editar");
 		btnEditar.setBackground(Color.WHITE);
@@ -148,27 +156,10 @@ class Perfil extends JFrame implements ActionListener {
 		perfilCmbs.cmbInstrumentos.setLocation(391, 144);
 		perfilCmbs.cmbInstrumentos.setVisible(false);
 		
-		JButton btnContacto = new JButton("Contacto");
-		btnContacto.setFont(new Font("Verdana", Font.BOLD, 12));
-		btnContacto.setBackground(Color.WHITE);
-		btnContacto.setActionCommand("Contacto");
-		btnContacto.setBounds(34, 336, 104, 34);
-		contentPane.add(btnContacto);
-		btnContacto.setVisible(false);
-		
-		JButton btnCerrarSesion = new JButton("Cerrar sesión");
-		btnCerrarSesion.setFont(new Font("Verdana", Font.BOLD, 12));
-		btnCerrarSesion.setBackground(Color.WHITE);
-		btnCerrarSesion.setActionCommand("Cerrar");
-		btnCerrarSesion.setBounds(34, 336, 139, 34);
-		contentPane.add(btnCerrarSesion);
-		btnCerrarSesion.addActionListener(this);
-		
 		JButton btnNewButton = new JButton("");
 		btnNewButton.setIcon(new ImageIcon(Perfil.class.getResource("/com/sun/java/swing/plaf/windows/icons/Computer.gif")));
 		btnNewButton.setBounds(527, 11, 56, 47);
 		contentPane.add(btnNewButton);
-		btnCerrarSesion.setVisible(false);
 	}
 
 	@Override
@@ -201,6 +192,7 @@ class Perfil extends JFrame implements ActionListener {
 			btnEditar.setText("Guardar");
 			btnEditar.setActionCommand("Guardar");
 			btnRegresar.setEnabled(false);
+			btnCerrarSesion.setEnabled(false);
 		}
 		else if (command.contentEquals("Guardar")) {
 			String nombre = txtNombre.getText();
@@ -237,6 +229,7 @@ class Perfil extends JFrame implements ActionListener {
 					btnEditar.setText("Editar");
 					btnEditar.setActionCommand("Editar");
 					btnRegresar.setEnabled(true);
+					btnCerrarSesion.setEnabled(true);
 					
 					cuenta = editado;
 				}
