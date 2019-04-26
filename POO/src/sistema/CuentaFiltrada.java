@@ -35,6 +35,20 @@ public class CuentaFiltrada {
 		this.facultad = cuenta.getString("fac_usu");
 		this.descripcion = cuenta.getString("des_usu");
 	}
+	
+	/**
+	 * Construye la {@code CuentaFiltrada} a partir de una instancia de {@code Usuario}.
+	 * @param usuario {@code Usuario} con los atributos que se copiaran a la instancia de {@code CuentaFiltrada}.
+	 * @see {@link Usuario}.
+	 */
+	public CuentaFiltrada(Usuario usuario) {
+		this.tipo = usuario.getTip_usu();
+		this.nombre = usuario.getNom_usu();
+		this.genero = usuario.getGen_usu();
+		this.instrumento = usuario.getIns_usu();
+		this.facultad = usuario.getFac_usu();
+		this.descripcion = usuario.getDes_usu();
+	}
 
 	public int getTipo() {
 		return tipo;
