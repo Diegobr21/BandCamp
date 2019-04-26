@@ -1,7 +1,6 @@
 package interfaces;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -23,27 +22,9 @@ import sistema.Usuario;
  * Solicita llenar la descripción de la cuenta e ingresar un código para verificar el correo electrónico ingresado.
  */
 class Registro2 extends JFrame implements ActionListener {
-
 	private JPanel contentPane;
 	private JTextField txtcodigo;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Registro2 frame = new Registro2(null);
-					frame.setLocationRelativeTo(null);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
+	
 	private JTextArea txtdescripcion;
 	private Usuario nuevaCuenta;
 	/**

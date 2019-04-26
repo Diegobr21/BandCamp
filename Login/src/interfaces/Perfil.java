@@ -1,47 +1,27 @@
 package interfaces;
 
-import java.awt.EventQueue;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import componentes.ComboBoxes;
 import sistema.EditarPerfil;
 import sistema.Usuario;
 
-import javax.swing.JLabel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.sql.SQLException;
-
-import javax.swing.JButton;
-import java.awt.Font;
-import java.awt.Point;
-import java.awt.Color;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-
 @SuppressWarnings("serial")
 class Perfil extends JFrame implements ActionListener {
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Perfil frame = new Perfil(null);
-					frame.setLocationRelativeTo(null);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
 	private ComboBoxes perfilCmbs;
 	private JLabel lblFacultad, lblGenero, lblInstrumento, lblNombre;
 	

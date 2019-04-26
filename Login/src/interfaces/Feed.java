@@ -26,23 +26,6 @@ import sistema.Usuario;
 
 @SuppressWarnings("serial")
 public class Feed extends JFrame implements ActionListener {
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Feed frame = new Feed(null);
-					frame.setLocationRelativeTo(null);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
 	private Usuario cuenta;
 	private JPanel pnlFichas;
 	private JScrollPane scrollPane;

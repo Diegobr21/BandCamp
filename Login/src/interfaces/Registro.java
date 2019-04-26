@@ -1,7 +1,6 @@
 package interfaces;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -23,24 +22,6 @@ import sistema.Usuario;
 
 @SuppressWarnings("serial")
 class Registro extends JFrame implements ActionListener {
-	
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Registro frame = new Registro(null);
-					frame.setLocationRelativeTo(null);
-					frame.setVisible(true);
-				}
-				catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	private JTextField txtCorreo, txtNombre;
 	private JPasswordField pswdPassword, pswdDuplicate;
