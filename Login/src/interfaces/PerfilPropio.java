@@ -24,7 +24,7 @@ import sistema.Usuario;
  * @see {@link sistema.Usuario}
  */
 @SuppressWarnings("serial")
-public class PerfilPropio extends Perfil implements ActionListener{
+class PerfilPropio extends Perfil implements ActionListener{
 	private ComboBoxes perfilCmbs;
 	private JButton btnEditar, btnRegresar, btnCerrarSesion;
 	private JTextField txtNombre;

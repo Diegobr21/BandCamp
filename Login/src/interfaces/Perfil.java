@@ -21,7 +21,7 @@ import sistema.CuentaFiltrada;
  * @see {@link sistema.CuentaFiltrada}
  */
 @SuppressWarnings("serial")
-public class Perfil extends JFrame {
+class Perfil extends JFrame {
 	protected JLabel lblFacultad, lblGenero, lblInstrumento, lblNombre, UserPic;
 
 	protected JTextArea txtDescripcion;

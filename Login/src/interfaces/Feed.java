@@ -23,7 +23,7 @@ import sistema.Muro;
 import sistema.Usuario;
 
 @SuppressWarnings("serial")
-public class Feed extends JFrame implements ActionListener {
+class Feed extends JFrame implements ActionListener {
 	private JPanel pnlFichas;
 	private JScrollPane scrollPane;
 	
