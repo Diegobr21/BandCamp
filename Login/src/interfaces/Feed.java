@@ -1,8 +1,5 @@
 package interfaces;
 
-import java.awt.Dimension;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,17 +7,14 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
-import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneLayout;
 import javax.swing.border.EmptyBorder;
 
 import componentes.Ficha;
@@ -130,6 +124,10 @@ public class Feed extends JFrame implements ActionListener {
 			return;
 		}
 
+		Point punto = new Point(Feed.this.getLocation());
+		punto.x += 25;
+		punto.y += 64;
+		
 		for (CuentaFiltrada cuentaFiltrada : cuentasFiltradas) {
 			System.out.println("añadiendo");
 			
@@ -139,9 +137,6 @@ public class Feed extends JFrame implements ActionListener {
 					@Override
 					public void mouseClicked(MouseEvent event) {
 						Perfil otroPerfil = new Perfil(cuentaFiltrada);
-						Point punto = new Point(Feed.this.getLocation());
-						punto.x += 25;
-						punto.y += 64;
 						otroPerfil.setLocation(punto);
 						otroPerfil.setVisible(true);
 					}

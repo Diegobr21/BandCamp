@@ -3,6 +3,8 @@ package componentes;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -27,6 +29,20 @@ public class Ficha extends JPanel {
 		setBorder(new LineBorder(Color.DARK_GRAY, 2, true));
 		setLayout(null);
 		setVisible(true);
+		setBackground(Color.WHITE);
+		addMouseListener(
+			new MouseAdapter() {
+				@Override
+				public void mouseEntered(MouseEvent event) {
+					setBackground(Color.LIGHT_GRAY);
+				}
+				
+				@Override
+				public void mouseExited(MouseEvent event) {
+					setBackground(Color.WHITE);
+				}
+			}
+		);
 		
 		JLabel lblImagen = new JLabel();
 		lblImagen.setIcon(new ImageIcon(Ficha.class.getResource("/img/userpic2.png")));
