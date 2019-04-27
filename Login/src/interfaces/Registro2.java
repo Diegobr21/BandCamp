@@ -14,6 +14,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import sistema.Login;
 import sistema.Registrar;
 import sistema.Usuario;
 
@@ -97,12 +98,12 @@ class Registro2 extends JFrame implements ActionListener {
 			boolean cuentaCreada = new Registrar().createAccount(nuevaCuenta, codigo);
 			if (cuentaCreada) {
 				Point punto = this.getLocation();
-//				Feed framefeed = new Feed(nuevaCuenta);
-//				framefeed.setLocation(punto);
-//				framefeed.setVisible(true);
-				UserLogin login = new UserLogin();
-				login.setLocation(punto);
-				login.setVisible(true);
+				
+				Usuario sesionIniciada = new Login().ingresar(nuevaCuenta.getCor_usu(), nuevaCuenta.getPas_usu());
+				
+				Feed framefeed = new Feed(sesionIniciada);
+				framefeed.setLocation(punto);
+				framefeed.setVisible(true);
 				Registro2.this.dispose();
 			}
 			
