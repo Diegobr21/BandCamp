@@ -1,6 +1,7 @@
 package componentes;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 
 import javax.swing.ImageIcon;
@@ -9,18 +10,20 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
 import sistema.CuentaFiltrada;
+import javax.swing.SwingConstants;
 
 @SuppressWarnings("serial")
 /**
  * Plantilla de la ficha para las cuentas que pasen los filtros del muro de la sesión iniciada.
  */
 public class Ficha extends JPanel {
+	private Dimension size = new Dimension(600, 148);
 	
 	/**
 	 * Create the panel.
 	 */
 	public Ficha(CuentaFiltrada cuentaFiltrada) {
-		setSize(614, 148);
+		setSize(size);
 		setBorder(new LineBorder(Color.DARK_GRAY, 2, true));
 		setLayout(null);
 		setVisible(true);
@@ -48,23 +51,36 @@ public class Ficha extends JPanel {
 		lblGenero.setBounds(148, 69, 149, 20);
 		add(lblGenero);
 		
-		String info;
+		String info = "<html>";
 		switch (cuentaFiltrada.getTipo()) {
 		case 1:
-			info = "Busco bandas que les haga falta: ";
+			info += "Busco bandas que les haga falta:<br>";
 			break;
 		case 2:
-			info = "Buscamos artistas que toquen: ";
-			break;
-		default:
-			info = "";
+			info += "Buscamos artistas que toquen:<br>";
 			break;
 		}
 		
-		JLabel lblInfo = new JLabel(info + cuentaFiltrada.getInstrumento());
+		JLabel lblInfo = new JLabel(info + cuentaFiltrada.getInstrumento() + "</html>");
+		lblInfo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblInfo.setForeground(new Color(0, 0, 0));
-		lblInfo.setFont(new Font("Arial", Font.PLAIN, 20));
-		lblInfo.setBounds(331, 11, 269, 128);
+		lblInfo.setFont(new Font("Arial", Font.PLAIN, 18));
+		lblInfo.setBounds(289, 11, 301, 128);
 		add(lblInfo);
+	}
+	
+	@Override
+	public Dimension getPreferredSize() {
+		return size;
+	}
+	
+	@Override
+	public Dimension getMaximumSize() {
+		return size;
+	}
+	
+	@Override
+	public Dimension getMinimumSize() {
+		return size;
 	}
 }

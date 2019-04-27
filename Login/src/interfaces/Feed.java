@@ -1,6 +1,8 @@
 package interfaces;
 
 import java.awt.Dimension;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,6 +13,7 @@ import java.util.List;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
@@ -60,20 +63,18 @@ public class Feed extends JFrame implements ActionListener {
 		btnAyuda.setActionCommand("Ayuda");
 		btnAyuda.addActionListener(this);
 		
-		pnlFichas = new JPanel();
-		pnlFichas.setVisible(true);
-		pnlFichas.setPreferredSize(new Dimension(624, 355));
-//		pnlFichas.setSize(624, 355);
-		agregarFichas(cuenta);
-		pnlFichas.setLayout(new BoxLayout(pnlFichas, BoxLayout.Y_AXIS));
-		
-		scrollPane = new JScrollPane(pnlFichas);
-		scrollPane.setLocation(5, 24);
-		scrollPane.setPreferredSize(new Dimension(624, 355));
-		scrollPane.setLayout(new ScrollPaneLayout());
-		scrollPane.setSize(new Dimension(624, 355));
+		scrollPane = new JScrollPane();
+		scrollPane.setBounds(5, 24, 624, 355);
 		scrollPane.setVisible(true);
 		contentPane.add(scrollPane);
+
+		pnlFichas = new JPanel();
+		pnlFichas.setLayout(new BoxLayout(pnlFichas, BoxLayout.Y_AXIS));
+		pnlFichas.setVisible(true);
+		
+		scrollPane.setViewportView(pnlFichas);
+		
+		agregarFichas(cuenta);
 	}	
 		
 		/*	Ayuda ayuda = new Ayuda();
@@ -124,7 +125,7 @@ public class Feed extends JFrame implements ActionListener {
 	 */
 	private void agregarFichas(Usuario sesionIniciada) {
 		List<CuentaFiltrada> cuentasFiltradas = new Muro().filtrarCuentas(sesionIniciada);
-		if (cuentasFiltradas.size() == 0) {
+		if (cuentasFiltradas == null || cuentasFiltradas.size() == 0) {
 			pnlFichas.add(new JLabel("No hay cuentas que coincidan."));
 			return;
 		}
@@ -146,10 +147,10 @@ public class Feed extends JFrame implements ActionListener {
 					}
 				}
 			);
-			
 			pnlFichas.add(ficha);
-			pnlFichas.add(Box.createRigidArea(new Dimension(1, 3)));
-			pnlFichas.validate();
+			
+			scrollPane.repaint();
+			scrollPane.revalidate();
 		}
 	}
 }
