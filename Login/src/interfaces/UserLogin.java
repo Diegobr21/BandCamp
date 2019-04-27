@@ -7,7 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -118,17 +117,13 @@ public class UserLogin extends JFrame implements ActionListener, KeyListener {
 		String correo = txtCorreo.getText();
 		String password = String.valueOf(passwordField.getPassword());
 		
-		try {
-			Usuario sesionIniciada = new Login().ingresar(correo, password);
-			if (sesionIniciada != null) {
-				Feed framefeed = new Feed(sesionIniciada);
-				Point punto = this.getLocation();
-				framefeed.setLocation(punto);
-				framefeed.setVisible(true);
-				UserLogin.this.dispose();
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		Usuario sesionIniciada = new Login().ingresar(correo, password);
+		if (sesionIniciada != null) {
+			Feed framefeed = new Feed(sesionIniciada);
+			Point punto = this.getLocation();
+			framefeed.setLocation(punto);
+			framefeed.setVisible(true);
+			UserLogin.this.dispose();
 		}
 	}
 }

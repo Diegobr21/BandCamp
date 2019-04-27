@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -21,7 +23,7 @@ import sistema.Registrar;
 import sistema.Usuario;
 
 @SuppressWarnings("serial")
-class Registro extends JFrame implements ActionListener {
+class Registro extends JFrame implements ActionListener, KeyListener {
 
 	private JTextField txtCorreo, txtNombre;
 	private JPasswordField pswdPassword, pswdDuplicate;
@@ -85,7 +87,7 @@ class Registro extends JFrame implements ActionListener {
 		lblInstrumento.setBounds(358, 249, 191, 14);
 		contentPane.add(lblInstrumento);
 		
-		btnCrearCuenta = new JButton("Registrarse");
+		btnCrearCuenta = new JButton("Continuar");
 		btnCrearCuenta.setForeground(Color.BLACK);
 		btnCrearCuenta.setBackground(Color.WHITE);
 		btnCrearCuenta.setFont(new Font("Verdana", Font.BOLD, 12));
@@ -99,12 +101,14 @@ class Registro extends JFrame implements ActionListener {
 		contentPane.add(txtCorreo);
 		txtCorreo.setColumns(10);
 		txtCorreo.setText(nuevaCuenta.getCor_usu());
+		txtCorreo.addKeyListener(this);
 		
 		txtNombre = new JTextField();
 		txtNombre.setBounds(54, 137, 166, 20);
 		contentPane.add(txtNombre);
 		txtNombre.setColumns(10);
 		txtNombre.setText(nuevaCuenta.getNom_usu());
+		txtNombre.addKeyListener(this);
 		
 		JLabel lblCorreoElectrnico = new JLabel("Correo electr\u00F3nico");
 		lblCorreoElectrnico.setForeground(Color.YELLOW);
@@ -161,10 +165,12 @@ class Registro extends JFrame implements ActionListener {
 		pswdPassword = new JPasswordField();
 		pswdPassword.setBounds(54, 206, 166, 20);
 		contentPane.add(pswdPassword);
+		pswdPassword.addKeyListener(this);
 		
 		pswdDuplicate = new JPasswordField();
 		pswdDuplicate.setBounds(54, 274, 166, 20);
 		contentPane.add(pswdDuplicate);
+		pswdDuplicate.addKeyListener(this);
 		
 		JButton btnRegresar = new JButton("");
 		btnRegresar.setIcon(new ImageIcon(Registro.class.getResource("/com/sun/javafx/scene/web/skin/Undo_16x16_JFX.png")));
@@ -183,9 +189,38 @@ class Registro extends JFrame implements ActionListener {
 		contentPane.add(lblSelecciona);
 	}
 	
-	private int tipo = 1;
+	private int tipo;
+	
+	private void continuarRegistro() {
+		String[] passwords = new String[2];
+		passwords[0] = String.valueOf(pswdPassword.getPassword());
+		passwords[1] = String.valueOf(pswdDuplicate.getPassword());
+		
+		nuevaCuenta.setCor_usu(txtCorreo.getText());
+		nuevaCuenta.setTip_usu(tipo);
+		nuevaCuenta.setNom_usu(txtNombre.getText());
+		nuevaCuenta.setGen_usu(registroCmbs.cmbGeneros.getSelectedItem().toString());
+		nuevaCuenta.setIns_usu(registroCmbs.cmbInstrumentos.getSelectedItem().toString());
+		nuevaCuenta.setFac_usu(registroCmbs.cmbFacultades.getSelectedItem().toString());
+		
+		boolean cuentaValida = new Registrar().checkAccount(nuevaCuenta, passwords);
+		
+		if (cuentaValida) {
+			nuevaCuenta.setPas_usu(passwords[0]);
+			
+			Registro2 registro2 = new Registro2(nuevaCuenta);
+			Point punto = this.getLocation();
+			registro2.setLocation(punto);
+			registro2.setVisible(true);
+			Registro.this.dispose();
+		} else {
+			pswdPassword.setText("");
+			pswdDuplicate.setText("");
+		}
+	}
+	
 	@Override
-	public void actionPerformed(ActionEvent e) {		
+	public void actionPerformed(ActionEvent e) {
 		//---Botones---
 		String command = e.getActionCommand();
 		if (command.contentEquals("Artista")){
@@ -196,8 +231,7 @@ class Registro extends JFrame implements ActionListener {
 			tglbtnBanda.setSelected(false);
 			
 			lblInstrumento.setText(askInstrument + "tocas?");
-		}
-		else if (command.contentEquals("Banda")) {
+		} else if (command.contentEquals("Banda")) {
 			tipo = 2;
 			tglbtnBanda.setEnabled(false);
 			
@@ -205,36 +239,9 @@ class Registro extends JFrame implements ActionListener {
 			tglbtnArtista.setSelected(false);
 			
 			lblInstrumento.setText(askInstrument + "buscas?");
-		}
-		else if (command.contentEquals("Crear")) {
-			String[] passwords = new String[2];
-			passwords[0] = String.valueOf(pswdPassword.getPassword());
-			passwords[1] = String.valueOf(pswdDuplicate.getPassword());
-			
-			nuevaCuenta.setCor_usu(txtCorreo.getText());
-			nuevaCuenta.setTip_usu(tipo);
-			nuevaCuenta.setNom_usu(txtNombre.getText());
-			nuevaCuenta.setGen_usu(registroCmbs.cmbGeneros.getSelectedItem().toString());
-			nuevaCuenta.setIns_usu(registroCmbs.cmbInstrumentos.getSelectedItem().toString());
-			nuevaCuenta.setFac_usu(registroCmbs.cmbFacultades.getSelectedItem().toString());
-			
-			boolean cuentaValida = new Registrar().checkAccount(nuevaCuenta, passwords);
-			
-			if (cuentaValida) {
-				nuevaCuenta.setPas_usu(passwords[0]);
-				
-				Registro2 registro2 = new Registro2(nuevaCuenta);
-				Point punto = this.getLocation();
-				registro2.setLocation(punto);
-				registro2.setVisible(true);
-				Registro.this.dispose();
-			} else {
-				pswdPassword.setText("");
-				pswdDuplicate.setText("");
-			}
-		}
-		
-		else if (command.contentEquals("Regresar")) {
+		} else if (command.contentEquals("Crear")) {
+			continuarRegistro();
+		} else if (command.contentEquals("Regresar")) {
 			UserLogin frameLogin = new UserLogin();
 			Point punto = this.getLocation();
 			frameLogin.setLocation(punto);
@@ -242,4 +249,14 @@ class Registro extends JFrame implements ActionListener {
 			Registro.this.dispose();
 		}
 	}
+	
+	@Override
+	public void keyPressed(KeyEvent event) {
+		int key = event.getKeyCode();
+		if (key == KeyEvent.VK_ENTER) {
+			continuarRegistro();
+		}
+	}
+	@Override public void keyTyped(KeyEvent e) {}
+	@Override public void keyReleased(KeyEvent e) {}
 }

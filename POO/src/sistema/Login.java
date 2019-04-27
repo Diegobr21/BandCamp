@@ -18,9 +18,8 @@ public class Login {
 	 * @param password <code>String</code> de la contraseña (no encriptada).
 	 * @return Si los datos son correctos retorna un instancia de <code>Usuario</code>,
 	 * si no coinciden retorna <code>null</code>.
-	 * @throws SQLException 
 	 */
-	public Usuario ingresar(String correo, String password) throws SQLException {
+	public Usuario ingresar(String correo, String password) {
 		MD5 hasher = new MD5();
 		String hashedPswd = hasher.hashPassword(password);
 		
@@ -42,50 +41,38 @@ public class Login {
 			selectCor = con.prepareStatement(selectCorreos);
 			selectPas = con.prepareStatement(selectPasswords);
 			selectUsu = con.prepareStatement(selectUsuarios);
+			
+			boolean correoValido = false;
+			boolean passwordValido = false;
+			
+			correos = selectCor.executeQuery();
+			
+			while (correos.next()) {
+				if (correo.equals(correos.getString("cor_usu"))) {
+					correoValido = true;
+					break;
+				}
+			}
+			
+			passwords = selectPas.executeQuery();
+			
+			while (passwords.next()) {
+				if (hashedPswd.equals(passwords.getString("pas_usu"))) {
+					passwordValido = true;
+					break;
+				}
+			}
+			
+			usuarios = selectUsu.executeQuery();
+			
+			if (usuarios.next() && correoValido && passwordValido) {
+				return new Usuario(usuarios);
+			} else {
+				JOptionPane.showMessageDialog(null, "No pudimos encontrar el correo y la contraseña que ingresaste.\n¡Prueba a registrarte!",
+						"Correo y contraseña no coinciden", JOptionPane.ERROR_MESSAGE);
+			}
 		} catch(SQLException e) {
-			System.out.println(e.getMessage());
-		}
-		
-		boolean correoValido = false;
-		boolean passwordValido = false;
-		
-		correos = selectCor.executeQuery();
-		
-		while (correos.next()) {
-			if (correo.equals(correos.getString("cor_usu"))) {
-				correoValido = true;
-				break;
-			}
-		}
-		
-		passwords = selectPas.executeQuery();
-		
-		while (passwords.next()) {
-			if (hashedPswd.equals(passwords.getString("pas_usu"))) {
-				passwordValido = true;
-				break;
-			}
-		}
-		
-		Usuario cuenta = new Usuario(0, "", "", 0, "", "", "", "", "");
-		
-		usuarios = selectUsu.executeQuery();
-		
-		if (usuarios.next() && correoValido && passwordValido) {
-			cuenta.setId(usuarios.getInt("id_usu"));
-			cuenta.setCor_usu(usuarios.getString("cor_usu"));
-			cuenta.setPas_usu(usuarios.getString("pas_usu"));
-			cuenta.setTip_usu(usuarios.getInt("tip_usu"));
-			cuenta.setNom_usu(usuarios.getString("nom_usu"));
-			cuenta.setGen_usu(usuarios.getString("gen_usu"));
-			cuenta.setIns_usu(usuarios.getString("ins_usu"));
-			cuenta.setFac_usu(usuarios.getString("fac_usu"));
-			cuenta.setDes_usu(usuarios.getString("des_usu"));
-			System.out.println(cuenta.toString());
-			return cuenta;
-		} else {
-			JOptionPane.showMessageDialog(null, "No pudimos encontrar el correo y la contraseña que ingresaste.\n¡Prueba a registrarte!",
-					"Correo y contraseña no coinciden", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
 		}
 		
 		return null;
