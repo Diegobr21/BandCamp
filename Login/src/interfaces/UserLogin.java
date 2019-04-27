@@ -111,6 +111,9 @@ public class UserLogin extends JFrame implements ActionListener, KeyListener {
 	@Override public void keyTyped(KeyEvent e) {}
 	@Override public void keyReleased(KeyEvent e) {}
 	
+	/**
+	 * Hace un intento de inicio de sesión.
+	 */
 	private void tryLogIn() {
 		String correo = txtCorreo.getText();
 		String password = String.valueOf(passwordField.getPassword());
