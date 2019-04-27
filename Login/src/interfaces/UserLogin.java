@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.sql.SQLException;
 
 import javax.swing.JButton;
@@ -19,7 +21,7 @@ import sistema.Login;
 import sistema.Usuario;
 
 @SuppressWarnings("serial")
-public class UserLogin extends JFrame implements ActionListener {
+public class UserLogin extends JFrame implements ActionListener, KeyListener {
 	private JTextField txtCorreo;
 	private JPasswordField passwordField;
 	
@@ -61,6 +63,7 @@ public class UserLogin extends JFrame implements ActionListener {
 		txtCorreo.setBounds(186, 90, 217, 20);
 		contentPane.add(txtCorreo);
 		txtCorreo.setColumns(10);
+		txtCorreo.addKeyListener(this);
 		
 		JButton Iniciarbtn = new JButton("Iniciar sesi\u00F3n");
 		Iniciarbtn.setFont(new Font("Verdana", Font.BOLD, 12));
@@ -78,6 +81,8 @@ public class UserLogin extends JFrame implements ActionListener {
 		passwordField = new JPasswordField();
 		passwordField.setBounds(186, 129, 219, 20);
 		contentPane.add(passwordField);
+		passwordField.addKeyListener(this);
+		
 		Registrarsebtn.addActionListener(this);
 	}
 
@@ -86,21 +91,7 @@ public class UserLogin extends JFrame implements ActionListener {
 		//---botones
 		String command = event.getActionCommand();
 		if (command.contentEquals("Inicio")) {
-			String correo = txtCorreo.getText();
-			String password = String.valueOf(passwordField.getPassword());
-			
-			try {
-				Usuario sesionIniciada = new Login().ingresar(correo, password);
-				if (sesionIniciada != null) {
-					Feed framefeed = new Feed(sesionIniciada);
-					Point punto = this.getLocation();
-					framefeed.setLocation(punto);
-					framefeed.setVisible(true);
-					UserLogin.this.dispose();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			tryLogIn();
 		}
 		else if(command.contentEquals("Registro")) {
 		    Registro frameregistro = new Registro(null);
@@ -108,6 +99,34 @@ public class UserLogin extends JFrame implements ActionListener {
 		    frameregistro.setLocation(punto);
 			frameregistro.setVisible(true);
 			UserLogin.this.dispose();
+		}
+	}
+	
+	@Override
+	public void keyPressed(KeyEvent event) {
+		int key = event.getKeyCode();
+		if (key == KeyEvent.VK_ENTER) {
+			tryLogIn();
+		}
+	}
+	@Override public void keyTyped(KeyEvent e) {}
+	@Override public void keyReleased(KeyEvent e) {}
+	
+	private void tryLogIn() {
+		String correo = txtCorreo.getText();
+		String password = String.valueOf(passwordField.getPassword());
+		
+		try {
+			Usuario sesionIniciada = new Login().ingresar(correo, password);
+			if (sesionIniciada != null) {
+				Feed framefeed = new Feed(sesionIniciada);
+				Point punto = this.getLocation();
+				framefeed.setLocation(punto);
+				framefeed.setVisible(true);
+				UserLogin.this.dispose();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
 }
