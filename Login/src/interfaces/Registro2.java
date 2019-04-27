@@ -30,7 +30,7 @@ class Registro2 extends JFrame implements ActionListener {
 	/**
 	 * Create the frame.
 	 */
-	public Registro2(Usuario cuentaParam) {
+	Registro2(Usuario cuentaParam) {
 		nuevaCuenta = cuentaParam;
 		
 		setTitle("Bandcamp - Registro");

@@ -5,7 +5,6 @@ import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -32,7 +31,7 @@ public class PerfilPropio extends Perfil implements ActionListener{
 	
 	private Usuario cuenta;
 	
-	public PerfilPropio(Usuario sesion) {
+	PerfilPropio(Usuario sesion) {
 		super(new CuentaFiltrada(sesion));
 		setTitle("Mi perfil");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -129,37 +128,33 @@ public class PerfilPropio extends Perfil implements ActionListener{
 			Usuario editado = new Usuario(cuenta.getId(), cuenta.getCor_usu(), cuenta.getPas_usu(), cuenta.getTip_usu(), nombre,
 					genero, instrumento, facultad, descripcion);
 			
-			try {
-				boolean cuentaEditada = new EditarPerfil().editarCuenta(cuenta, editado);
-				if (cuentaEditada) {
-					lblNombre.setVisible(true);
-					lblNombre.setText(editado.getNom_usu());
-					txtNombre.setVisible(false);
-					
-					lblFacultad.setVisible(true);
-					lblFacultad.setText(editado.getFac_usu());
-					perfilCmbs.cmbFacultades.setVisible(false);
-					
-					lblGenero.setVisible(true);
-					lblGenero.setText(editado.getGen_usu());
-					perfilCmbs.cmbGeneros.setVisible(false);
-					
-					lblInstrumento.setVisible(true);
-					lblInstrumento.setText(editado.getIns_usu());
-					perfilCmbs.cmbInstrumentos.setVisible(false);
-					
-					txtDescripcion.setEditable(false);
-					txtDescripcion.setText(editado.getDes_usu());
-					
-					btnEditar.setText("Editar");
-					btnEditar.setActionCommand("Editar");
-					btnRegresar.setEnabled(true);
-					btnCerrarSesion.setEnabled(true);
-					
-					cuenta = editado;
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
+			boolean cuentaEditada = new EditarPerfil().editarCuenta(cuenta, editado);
+			if (cuentaEditada) {
+				lblNombre.setVisible(true);
+				lblNombre.setText(editado.getNom_usu());
+				txtNombre.setVisible(false);
+				
+				lblFacultad.setVisible(true);
+				lblFacultad.setText(editado.getFac_usu());
+				perfilCmbs.cmbFacultades.setVisible(false);
+				
+				lblGenero.setVisible(true);
+				lblGenero.setText(editado.getGen_usu());
+				perfilCmbs.cmbGeneros.setVisible(false);
+				
+				lblInstrumento.setVisible(true);
+				lblInstrumento.setText(editado.getIns_usu());
+				perfilCmbs.cmbInstrumentos.setVisible(false);
+				
+				txtDescripcion.setEditable(false);
+				txtDescripcion.setText(editado.getDes_usu());
+				
+				btnEditar.setText("Editar");
+				btnEditar.setActionCommand("Editar");
+				btnRegresar.setEnabled(true);
+				btnCerrarSesion.setEnabled(true);
+				
+				cuenta = editado;
 			}
 		}
 		

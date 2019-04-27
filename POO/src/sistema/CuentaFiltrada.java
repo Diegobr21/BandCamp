@@ -13,7 +13,7 @@ public class CuentaFiltrada {
 	/**
 	 * Construye la {@code CuentaFiltrada} con cada atributo especificado.
 	 */
-	public CuentaFiltrada(int tipo, String nombre, String genero, String instrumento, String facultad, String descripcion) {
+	CuentaFiltrada(int tipo, String nombre, String genero, String instrumento, String facultad, String descripcion) {
 		this.tipo = tipo;
 		this.nombre = nombre;
 		this.genero = genero;
@@ -27,7 +27,7 @@ public class CuentaFiltrada {
 	 * @param cuenta {@code ResultSet} del cual se usarán solo los atributos que se mostrarán.
 	 * @throws SQLException 
 	 */
-	public CuentaFiltrada(ResultSet cuenta) throws SQLException {
+	CuentaFiltrada(ResultSet cuenta) throws SQLException {
 		this.tipo = cuenta.getInt("tip_usu");
 		this.nombre = cuenta.getString("nom_usu");
 		this.genero = cuenta.getString("gen_usu");

@@ -31,7 +31,7 @@ public class Perfil extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Perfil(CuentaFiltrada cuenta) {
+	Perfil(CuentaFiltrada cuenta) {
 		setTitle(cuenta.getNombre());
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(630, 420);

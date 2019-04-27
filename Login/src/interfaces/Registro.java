@@ -37,7 +37,7 @@ class Registro extends JFrame implements ActionListener {
 	/**
 	 * Create the frame.
 	 */	
-	public Registro(Usuario cuentaParam) {
+	Registro(Usuario cuentaParam) {
 		if (cuentaParam == null) {
 			cuentaParam = new Usuario(0, "", "", 1, "", "Rock", "Guitarra", "FIME", "");
 		}

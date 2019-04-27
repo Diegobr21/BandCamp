@@ -32,7 +32,7 @@ public class Feed extends JFrame implements ActionListener {
 	/**
 	 * Create the frame.
 	 */
-	public Feed(Usuario sesion) {
+	Feed(Usuario sesion) {
 		cuenta = sesion;
 	
 		setResizable(false);

@@ -1,5 +1,8 @@
 package sistema;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 /**
  * Clase que contiene los atributos de una cuenta. Cuenta con métodos de acceso.
  */
@@ -24,6 +27,23 @@ public class Usuario {
 		this.ins_usu = ins_usu;
 		this.fac_usu = fac_usu;
 		this.des_usu = des_usu;
+	}
+	
+	/**
+	 * Construye un {@code Usuario} a partir del resultado de una consulta a la tabla de la base de datos.
+	 * @param resultSet {@code ResultSet} que almacena la respuesta de la consulta, de la cual se obtendrán los datos de cada campo.
+	 * @throws SQLException
+	 */
+	Usuario(ResultSet resultSet) throws SQLException {
+		this.id = resultSet.getInt("id_usu");
+		this.cor_usu = resultSet.getString("cor_usu");
+		this.pas_usu = resultSet.getString("pas_usu");
+		this.tip_usu = resultSet.getInt("tip_usu");
+		this.nom_usu = resultSet.getString("nom_usu");
+		this.gen_usu = resultSet.getString("gen_usu");
+		this.ins_usu = resultSet.getString("ins_usu");
+		this.fac_usu = resultSet.getString("fac_usu");
+		this.des_usu = resultSet.getString("des_usu");
 	}
 	
 	public String toString(){
