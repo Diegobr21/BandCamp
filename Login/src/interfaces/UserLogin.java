@@ -76,14 +76,13 @@ public class UserLogin extends JFrame implements ActionListener, KeyListener {
 		Registrarsebtn.setFont(new Font("Verdana", Font.BOLD, 12));
 		Registrarsebtn.setBounds(227, 260, 128, 25);
 		Registrarsebtn.setActionCommand("Registro");
+		Registrarsebtn.addActionListener(this);
 		contentPane.add(Registrarsebtn);
 		
 		passwordField = new JPasswordField();
 		passwordField.setBounds(186, 129, 219, 20);
 		contentPane.add(passwordField);
 		passwordField.addKeyListener(this);
-		
-		Registrarsebtn.addActionListener(this);
 	}
 
 	@Override
