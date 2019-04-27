@@ -1,10 +1,11 @@
 package interfaces;
 
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 import javax.swing.Box;
@@ -26,9 +27,11 @@ import sistema.Usuario;
 
 @SuppressWarnings("serial")
 public class Feed extends JFrame implements ActionListener {
-	private Usuario cuenta;
 	private JPanel pnlFichas;
 	private JScrollPane scrollPane;
+	
+	private Usuario cuenta;
+	
 	/**
 	 * Create the frame.
 	 */
@@ -52,11 +55,6 @@ public class Feed extends JFrame implements ActionListener {
 		btnPerfil.setActionCommand("PerfilUser");
 		btnPerfil.addActionListener(this);
 		
-		JButton btnCerrarSesin = new JButton("Cerrar Sesi\u00F3n");
-		menuBar.add(btnCerrarSesin);
-		btnCerrarSesin.setActionCommand("Cerrar");
-		btnCerrarSesin.addActionListener(this);
-		
 		JButton btnAyuda = new JButton("Ayuda");
 		menuBar.add(btnAyuda);
 		btnAyuda.setActionCommand("Ayuda");
@@ -74,8 +72,6 @@ public class Feed extends JFrame implements ActionListener {
 		scrollPane.setPreferredSize(new Dimension(624, 355));
 		scrollPane.setLayout(new ScrollPaneLayout());
 		scrollPane.setSize(new Dimension(624, 355));
-//		scrollPane.setMinimumSize(new Dimension(624, 355));
-//		scrollPane.setMaximumSize(null);
 		scrollPane.setVisible(true);
 		contentPane.add(scrollPane);
 	}	
@@ -114,17 +110,10 @@ public class Feed extends JFrame implements ActionListener {
 			JOptionPane.showMessageDialog(null, "Links de ayuda: \n www.help.mx \n www.oracle.com");
 		}
 		else if (command.contentEquals("PerfilUser")) {
-			Perfil profileframe = new Perfil(cuenta);
-			Point punto = this.getLocation();
+			PerfilPropio profileframe = new PerfilPropio(cuenta);
+			Point punto = Feed.this.getLocation();
 			profileframe.setLocation(punto);
 			profileframe.setVisible(true);
-			Feed.this.dispose();
-		}
-		else if (command.contentEquals("Cerrar")) {
-			UserLogin frameLogin = new UserLogin();
-			Point punto = this.getLocation();
-			frameLogin.setLocation(punto);
-			frameLogin.setVisible(true);
 			Feed.this.dispose();
 		}
 	}
@@ -142,9 +131,24 @@ public class Feed extends JFrame implements ActionListener {
 
 		for (CuentaFiltrada cuentaFiltrada : cuentasFiltradas) {
 			System.out.println("añadiendo");
-			pnlFichas.add(new Ficha(cuentaFiltrada));
-			pnlFichas.add(Box.createRigidArea(new Dimension(1, 3)));
 			
+			Ficha ficha = new Ficha(cuentaFiltrada);
+			ficha.addMouseListener(
+				new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent event) {
+						Perfil otroPerfil = new Perfil(cuentaFiltrada);
+						Point punto = new Point(Feed.this.getLocation());
+						punto.x += 25;
+						punto.y += 64;
+						otroPerfil.setLocation(punto);
+						otroPerfil.setVisible(true);
+					}
+				}
+			);
+			
+			pnlFichas.add(ficha);
+			pnlFichas.add(Box.createRigidArea(new Dimension(1, 3)));
 			pnlFichas.validate();
 		}
 	}

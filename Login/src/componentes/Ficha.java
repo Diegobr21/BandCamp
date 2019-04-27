@@ -15,7 +15,7 @@ import sistema.CuentaFiltrada;
  * Plantilla de la ficha para las cuentas que pasen los filtros del muro de la sesión iniciada.
  */
 public class Ficha extends JPanel {
-
+	
 	/**
 	 * Create the panel.
 	 */
