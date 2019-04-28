@@ -32,35 +32,38 @@ public class Registrar {
 		}
 		else return false;
 		
-		try {
-			Connection con = DriverManager.getConnection(DBInfo.url, DBInfo.usuario, DBInfo.password);
-			System.out.println("Conexion establecida");
+		String selectCorreos = "SELECT cor_usu FROM Usuarios;";
+		String selectNombres = "SELECT nom_usu FROM Usuarios;";
+		try ( Connection con = DriverManager.getConnection(DBInfo.url, DBInfo.usuario, DBInfo.password);
+				PreparedStatement select = con.prepareStatement(selectCorreos); 
+				PreparedStatement selNom = con.prepareStatement(selectNombres) ) {
 			
-			String selectCorreos = "SELECT cor_usu FROM Usuarios";
-			PreparedStatement select = con.prepareStatement(selectCorreos);
-			ResultSet correos = select.executeQuery();
-			while (correos.next()) {
-				if ( correo.equals(correos.getString("cor_usu")) ) {
-					JOptionPane.showMessageDialog(null, "El correo ingresado ya está registrado.",
-							"Correo en uso", JOptionPane.ERROR_MESSAGE);
+			System.out.println("Conexion establecida");
+
+			try(ResultSet correos = select.executeQuery()) {
+				while (correos.next()) {
+					if ( correo.equals(correos.getString("cor_usu")) ) {
+						JOptionPane.showMessageDialog(null, "El correo ingresado ya está registrado.",
+								"Correo en uso", JOptionPane.ERROR_MESSAGE);
+						return false;
+					}
+				}	
+			}
+			
+			try (ResultSet nombres = selNom.executeQuery()) {
+				if (validSignup.usernameExists(nombres, nombre)) {
 					return false;
 				}
 			}
 			
-			String selectNombres = "SELECT nom_usu FROM Usuarios";
-			PreparedStatement selNom = con.prepareStatement(selectNombres);
-			ResultSet nombres = selNom.executeQuery();
-			if (validSignup.usernameExists(nombres, nombre)) {
-				return false;
-			}
+			return true;
 		} catch(SQLException e) {
 			e.printStackTrace();
-			return false;
 		}
 		
 		imprimir(nuevaCuenta);
 		
-		return true;
+		return false;
 	}
 	
 	/**
@@ -72,13 +75,13 @@ public class Registrar {
 	public boolean createAccount(Usuario nuevaCuenta, String emailCode) {
 		// si el código de verificación no coincide, regresar false
 		
-		try {
-			String insertDatos = "INSERT INTO Usuarios(cor_usu, pas_usu, tip_usu, nom_usu, gen_usu, ins_usu, fac_usu, des_usu)";
-			insertDatos += "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+		String insertDatos = "INSERT INTO Usuarios(cor_usu, pas_usu, tip_usu, nom_usu, gen_usu, ins_usu, fac_usu, des_usu)";
+		insertDatos += "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+		try ( Connection con = DriverManager.getConnection(DBInfo.url, DBInfo.usuario, DBInfo.password);
+				PreparedStatement statement = con.prepareStatement(insertDatos) ) {
 			
-			Connection con = DriverManager.getConnection(DBInfo.url, DBInfo.usuario, DBInfo.password);
 			System.out.println("Conexion establecida");
-			PreparedStatement statement = con.prepareStatement(insertDatos);
+			
 			String hashed = new MD5().hashPassword(nuevaCuenta.getPas_usu());
 			
 			statement.setString(1, nuevaCuenta.getCor_usu());
@@ -96,16 +99,16 @@ public class Registrar {
 						"Error de servidor", JOptionPane.ERROR_MESSAGE);
 				return false;
 			}
+			
+			imprimir(nuevaCuenta);
+			return true;
 		} catch(SQLException e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(null, "Lo sentimos, no fue posible crear tu cuenta.\nVuelve a intentarlo en unos minutos.",
 					"Error de servidor", JOptionPane.ERROR_MESSAGE);
-			return false;
 		}
 		
-		imprimir(nuevaCuenta);
-		
-		return true;
+		return false;
 	}
 	
 	/**

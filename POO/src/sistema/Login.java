@@ -20,57 +20,31 @@ public class Login {
 	 * si no coinciden retorna <code>null</code>.
 	 */
 	public Usuario ingresar(String correo, String password) {
-		MD5 hasher = new MD5();
-		String hashedPswd = hasher.hashPassword(password);
+		String selectUsuarios = "SELECT * FROM Usuarios WHERE cor_usu = ? ;";
 		
-		Connection con = null;
-		PreparedStatement selectCor = null;
-		PreparedStatement selectPas = null;
-		PreparedStatement selectUsu = null;
-		ResultSet correos = null;
-		ResultSet passwords = null;
-		ResultSet usuarios = null;
-		
-		String selectCorreos = "SELECT cor_usu FROM Usuarios";
-		String selectPasswords = "SELECT pas_usu FROM Usuarios";
-		String selectUsuarios = "SELECT * FROM Usuarios WHERE cor_usu = '" + correo + "'";
-		
-		try {
-			con = DriverManager.getConnection(DBInfo.url, DBInfo.usuario, DBInfo.password);
-			System.out.println("Conexion establecida");
-			selectCor = con.prepareStatement(selectCorreos);
-			selectPas = con.prepareStatement(selectPasswords);
-			selectUsu = con.prepareStatement(selectUsuarios);
+		try ( 	Connection con = DriverManager.getConnection(DBInfo.url, DBInfo.usuario, DBInfo.password);
+				PreparedStatement selectUsu = con.prepareStatement(selectUsuarios) ) {
 			
-			boolean correoValido = false;
-			boolean passwordValido = false;
+			System.out.println("Conexión establecida");
 			
-			correos = selectCor.executeQuery();
-			
-			while (correos.next()) {
-				if (correo.equals(correos.getString("cor_usu"))) {
-					correoValido = true;
-					break;
+			selectUsu.setString(1, correo);
+			try ( ResultSet usuarios = selectUsu.executeQuery() ) {
+				while (usuarios.next()) {
+					String hashedPswd = new MD5().hashPassword(password);
+					if (hashedPswd.equals(usuarios.getString("pas_usu"))) {
+						return new Usuario(usuarios);
+
+					} else {
+						JOptionPane.showMessageDialog(null, "El correo y la contraseña no coinciden con nuestros registros.",
+							"Correo y contraseña no concuerdan", JOptionPane.ERROR_MESSAGE);
+						return null;
+					}
 				}
+				
+				JOptionPane.showMessageDialog(null, "El correo que ingresaste no se encuentra en nuestros servidores.\n¡Prueba a registrarte!",
+						"Correo sin registrar", JOptionPane.ERROR_MESSAGE);
 			}
-			
-			passwords = selectPas.executeQuery();
-			
-			while (passwords.next()) {
-				if (hashedPswd.equals(passwords.getString("pas_usu"))) {
-					passwordValido = true;
-					break;
-				}
-			}
-			
-			usuarios = selectUsu.executeQuery();
-			
-			if (usuarios.next() && correoValido && passwordValido) {
-				return new Usuario(usuarios);
-			} else {
-				JOptionPane.showMessageDialog(null, "No pudimos encontrar el correo y la contraseña que ingresaste.\n¡Prueba a registrarte!",
-						"Correo y contraseña no coinciden", JOptionPane.ERROR_MESSAGE);
-			}
+						
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}

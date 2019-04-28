@@ -24,24 +24,20 @@ public class EditarPerfil {
 			return false;
 		}
 		
-		Connection con = null;
-		PreparedStatement selectNom = null;
-		PreparedStatement insertNom = null;
-		ResultSet nombres = null;
-		
 		String sql = "SELECT nom_usu FROM Usuarios";
 		String insert = "UPDATE Usuarios SET nom_usu = ?, gen_usu = ?, ins_usu = ?, fac_usu = ?, des_usu = ? WHERE id_usu = ?";
-		try {
-			con = DriverManager.getConnection(DBInfo.url, DBInfo.usuario, DBInfo.password);
+		
+		try ( Connection con = DriverManager.getConnection(DBInfo.url, DBInfo.usuario, DBInfo.password);
+				PreparedStatement selectNom = con.prepareStatement(sql);
+				PreparedStatement insertNom = con.prepareStatement(insert);
+				ResultSet nombres = selectNom.executeQuery() ) {
+			
 			System.out.println("Conexion establecida");
-			selectNom = con.prepareStatement(sql);
-			insertNom = con.prepareStatement(insert);
 			
 			String nuevoNombre = editado.getNom_usu();
 			if ( !original.getNom_usu().equals(nuevoNombre) ) {
 				ValidSignup editName = new ValidSignup();
 				if (editName.isValidName(nuevoNombre)) {	
-					nombres = selectNom.executeQuery();
 					if (editName.usernameExists(nombres, nuevoNombre)) {
 						return false;
 					}

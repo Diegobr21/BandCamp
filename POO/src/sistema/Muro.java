@@ -21,12 +21,11 @@ public class Muro {
 	 * @return lista de {@code Usuario}s que fueron filtrados.
 	 */
 	public List<CuentaFiltrada> filtrarCuentas(Usuario sesionIniciada) {
-		try {
-			Connection connection = DriverManager.getConnection(DBInfo.url, DBInfo.usuario, DBInfo.password);
-			System.out.println("Conectado");
+		String selectUserString = "SELECT * FROM Usuarios WHERE tip_usu = ? AND gen_usu = ? AND ins_usu = ? ;";
+		try( Connection connection = DriverManager.getConnection(DBInfo.url, DBInfo.usuario, DBInfo.password);
+				PreparedStatement selectUsersPreparedStatement = connection.prepareStatement(selectUserString) ) {
 			
-			String selectUserString = "SELECT * FROM Usuarios WHERE tip_usu = ? AND gen_usu = ? AND ins_usu = ? ;";
-			PreparedStatement selectUsersPreparedStatement = connection.prepareStatement(selectUserString);
+			System.out.println("Conectado");
 			
 			int tipo = 0;
 			switch (sesionIniciada.getTip_usu()) {
@@ -42,12 +41,14 @@ public class Muro {
 			selectUsersPreparedStatement.setString(2, sesionIniciada.getGen_usu());
 			selectUsersPreparedStatement.setString(3, sesionIniciada.getIns_usu());
 			
-			ResultSet filteredUsers = selectUsersPreparedStatement.executeQuery();
-			
 			List<CuentaFiltrada> cuentasFiltradas = new ArrayList<CuentaFiltrada>();
-			while (filteredUsers.next()) {
-				cuentasFiltradas.add(new CuentaFiltrada(filteredUsers));
+			
+			try (ResultSet filteredUsers = selectUsersPreparedStatement.executeQuery()){
+				while (filteredUsers.next()) {
+					cuentasFiltradas.add(new CuentaFiltrada(filteredUsers));
+				}
 			}
+			
 			return cuentasFiltradas;
 			
 		} catch (SQLException e) {
