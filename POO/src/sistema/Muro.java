@@ -20,7 +20,7 @@ public class Muro {
 	 * @param sesionIniciada {@code Usuario} de la sesión iniciada para filtrar las cuentas.
 	 * @return lista de {@code Usuario}s que fueron filtrados.
 	 */
-	public List<CuentaFiltrada> filtrarCuentas(Usuario sesionIniciada) {
+	public List<Usuario> filtrarCuentas(Usuario sesionIniciada) {
 		String selectUserString = "SELECT * FROM Usuarios WHERE tip_usu = ? AND gen_usu = ? AND ins_usu = ? ;";
 		try( Connection connection = DriverManager.getConnection(DBInfo.url, DBInfo.usuario, DBInfo.password);
 				PreparedStatement selectUsersPreparedStatement = connection.prepareStatement(selectUserString) ) {
@@ -41,11 +41,18 @@ public class Muro {
 			selectUsersPreparedStatement.setString(2, sesionIniciada.getGen_usu());
 			selectUsersPreparedStatement.setString(3, sesionIniciada.getIns_usu());
 			
-			List<CuentaFiltrada> cuentasFiltradas = new ArrayList<CuentaFiltrada>();
+			List<Usuario> cuentasFiltradas = new ArrayList<Usuario>();
 			
 			try (ResultSet filteredUsers = selectUsersPreparedStatement.executeQuery()){
 				while (filteredUsers.next()) {
-					cuentasFiltradas.add(new CuentaFiltrada(filteredUsers));
+					Usuario cuentaFiltrada = new Usuario(filteredUsers);
+					cuentaFiltrada.setCor_usu("");
+					cuentaFiltrada.setPas_usu("");
+					
+					if (cuentaFiltrada.getFac_usu().equals(sesionIniciada.getFac_usu())) {
+						cuentasFiltradas.add(0, cuentaFiltrada);
+					}
+					else cuentasFiltradas.add(cuentaFiltrada);
 				}
 			}
 			

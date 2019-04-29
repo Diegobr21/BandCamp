@@ -11,14 +11,14 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
-import sistema.CuentaFiltrada;
+import sistema.Usuario;
 
 /**
  * Interfaz de los componentes visibles y no editables de un perfil ajeno al de la sesión iniciada y 
- * se construye a partir de una instancia de {@code CuentaFiltrada}. <p>
+ * se construye a partir de una instancia de {@code Usuario}. <p>
  * La hereda {@code PerfilPropio}.
  * @see {@link PerfilPropio} <i>(subclase)</i>
- * @see {@link sistema.CuentaFiltrada}
+ * @see {@link sistema.Usuario}
  */
 @SuppressWarnings("serial")
 class Perfil extends JFrame {
@@ -31,8 +31,8 @@ class Perfil extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	Perfil(CuentaFiltrada cuenta) {
-		setTitle(cuenta.getNombre());
+	Perfil(Usuario cuenta) {
+		setTitle(cuenta.getNom_usu());
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(630, 420);
 		setResizable(false);
@@ -51,31 +51,31 @@ class Perfil extends JFrame {
 		contentPane.add(UserPic);
 		
 		txtDescripcion = new JTextArea();
-		txtDescripcion.setText(cuenta.getDescripcion());
+		txtDescripcion.setText(cuenta.getDes_usu());
 		txtDescripcion.setBounds(34, 205, 549, 103);
 		txtDescripcion.setEditable(false);
 		contentPane.add(txtDescripcion);
 		
-		lblNombre = new JLabel(cuenta.getNombre());
+		lblNombre = new JLabel(cuenta.getNom_usu());
 		lblNombre.setFont(new Font("Verdana", Font.BOLD, 16));
 		lblNombre.setBackground(Color.WHITE);
 		lblNombre.setForeground(new Color(255, 255, 0));
 		lblNombre.setBounds(158, 43, 128, 21);
 		contentPane.add(lblNombre);
 		
-		lblFacultad = new JLabel(cuenta.getFacultad());
+		lblFacultad = new JLabel(cuenta.getFac_usu());
 		lblFacultad.setForeground(Color.LIGHT_GRAY);
 		lblFacultad.setFont(new Font("Tahoma", Font.ITALIC, 12));
 		lblFacultad.setBounds(158, 156, 62, 14);
 		contentPane.add(lblFacultad);
 		
-		lblGenero = new JLabel(cuenta.getGenero());
+		lblGenero = new JLabel(cuenta.getGen_usu());
 		lblGenero.setForeground(Color.WHITE);
 		lblGenero.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblGenero.setBounds(391, 112, 88, 21);
 		contentPane.add(lblGenero);
 		
-		lblInstrumento = new JLabel(cuenta.getInstrumento());
+		lblInstrumento = new JLabel(cuenta.getIns_usu());
 		lblInstrumento.setForeground(Color.WHITE);
 		lblInstrumento.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblInstrumento.setBounds(391, 144, 88, 27);

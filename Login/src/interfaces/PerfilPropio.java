@@ -12,7 +12,6 @@ import javax.swing.JFrame;
 import javax.swing.JTextField;
 
 import componentes.ComboBoxes;
-import sistema.CuentaFiltrada;
 import sistema.EditarPerfil;
 import sistema.Usuario;
 
@@ -32,7 +31,7 @@ class PerfilPropio extends Perfil implements ActionListener{
 	private Usuario cuenta;
 	
 	PerfilPropio(Usuario sesion) {
-		super(new CuentaFiltrada(sesion));
+		super(sesion);
 		setTitle("Mi perfil");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		

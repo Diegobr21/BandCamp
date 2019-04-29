@@ -18,7 +18,6 @@ import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
 import componentes.Ficha;
-import sistema.CuentaFiltrada;
 import sistema.Muro;
 import sistema.Usuario;
 
@@ -37,7 +36,7 @@ class Feed extends JFrame implements ActionListener {
 	
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 650, 419);
+		setBounds(100, 100, 650, 650);
 		JPanel contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -58,7 +57,7 @@ class Feed extends JFrame implements ActionListener {
 		btnAyuda.addActionListener(this);
 		
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(5, 24, 624, 355);
+		scrollPane.setBounds(5, 24, 624, 586);
 		scrollPane.setVisible(true);
 		contentPane.add(scrollPane);
 
@@ -118,7 +117,7 @@ class Feed extends JFrame implements ActionListener {
 	 * @param sesionIniciada {@code Usuario} de la sesión iniciada para filtrar las cuentas.
 	 */
 	private void agregarFichas(Usuario sesionIniciada) {
-		List<CuentaFiltrada> cuentasFiltradas = new Muro().filtrarCuentas(sesionIniciada);
+		List<Usuario> cuentasFiltradas = new Muro().filtrarCuentas(sesionIniciada);
 		if (cuentasFiltradas == null || cuentasFiltradas.size() == 0) {
 			pnlFichas.add(new JLabel("No hay cuentas que coincidan."));
 			return;
@@ -128,15 +127,15 @@ class Feed extends JFrame implements ActionListener {
 		punto.x += 25;
 		punto.y += 64;
 		
-		for (CuentaFiltrada cuentaFiltrada : cuentasFiltradas) {
+		for (Usuario Usuario : cuentasFiltradas) {
 			System.out.println("añadiendo");
 			
-			Ficha ficha = new Ficha(cuentaFiltrada);
+			Ficha ficha = new Ficha(Usuario);
 			ficha.addMouseListener(
 				new MouseAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent event) {
-						Perfil otroPerfil = new Perfil(cuentaFiltrada);
+						Perfil otroPerfil = new Perfil(Usuario);
 						otroPerfil.setLocation(punto);
 						otroPerfil.setVisible(true);
 					}
