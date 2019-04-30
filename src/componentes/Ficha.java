@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
+import interfaces.Perfil;
 import sistema.Usuario;
 
 @SuppressWarnings("serial")
@@ -24,7 +25,8 @@ public class Ficha extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public Ficha(Usuario Usuario) {
+	
+	public Ficha(Usuario usuario) {
 		setSize(size);
 		setBorder(new LineBorder(Color.DARK_GRAY, 2, true));
 		setLayout(null);
@@ -32,6 +34,19 @@ public class Ficha extends JPanel {
 		setBackground(Color.WHITE);
 		addMouseListener(
 			new MouseAdapter() {
+				Perfil otroPerfil = new Perfil(usuario);
+				
+				@Override
+				public void mouseClicked(MouseEvent event) {
+					if (otroPerfil.is_open) {
+						otroPerfil.setLocationRelativeTo(null);
+						otroPerfil.toFront();
+					} else {
+						otroPerfil.setLocationRelativeTo(null);
+						otroPerfil.setVisible(true);
+					}
+				}
+				
 				@Override
 				public void mouseEntered(MouseEvent event) {
 					setBackground(Color.LIGHT_GRAY);
@@ -49,26 +64,26 @@ public class Ficha extends JPanel {
 		lblImagen.setBounds(10, 11, 128, 128);
 		add(lblImagen);
 		
-		JLabel lblNombre = new JLabel(Usuario.getNom_usu());
+		JLabel lblNombre = new JLabel(usuario.getNom_usu());
 		lblNombre.setForeground(Color.RED);
 		lblNombre.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblNombre.setBounds(148, 11, 173, 33);
 		add(lblNombre);
 		
-		JLabel lblFacultad = new JLabel(Usuario.getFac_usu());
+		JLabel lblFacultad = new JLabel(usuario.getFac_usu());
 		lblFacultad.setForeground(Color.DARK_GRAY);
 		lblFacultad.setFont(new Font("Tahoma", Font.ITALIC, 11));
 		lblFacultad.setBounds(148, 119, 63, 20);
 		add(lblFacultad);
 		
-		JLabel lblGenero = new JLabel(Usuario.getGen_usu());
+		JLabel lblGenero = new JLabel(usuario.getGen_usu());
 		lblGenero.setForeground(Color.BLACK);
 		lblGenero.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblGenero.setBounds(148, 69, 149, 20);
 		add(lblGenero);
 		
 		String info = "<html>";
-		switch (Usuario.getTip_usu()) {
+		switch (usuario.getTip_usu()) {
 		case 1:
 			info += "Busco bandas que les haga falta:<br>";
 			break;
@@ -77,7 +92,7 @@ public class Ficha extends JPanel {
 			break;
 		}
 		
-		JLabel lblInfo = new JLabel(info + Usuario.getIns_usu() + "</html>");
+		JLabel lblInfo = new JLabel(info + usuario.getIns_usu() + "</html>");
 		lblInfo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblInfo.setForeground(new Color(0, 0, 0));
 		lblInfo.setFont(new Font("Arial", Font.PLAIN, 18));

@@ -3,8 +3,6 @@ package interfaces;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.List;
 
 import javax.swing.BoxLayout;
@@ -122,25 +120,11 @@ class Feed extends JFrame implements ActionListener {
 			pnlFichas.add(new JLabel("No hay cuentas que coincidan."));
 			return;
 		}
-
-		Point punto = new Point(Feed.this.getLocation());
-		punto.x += 25;
-		punto.y += 64;
 		
 		for (Usuario Usuario : cuentasFiltradas) {
 			System.out.println("añadiendo");
 			
 			Ficha ficha = new Ficha(Usuario);
-			ficha.addMouseListener(
-				new MouseAdapter() {
-					@Override
-					public void mouseClicked(MouseEvent event) {
-						Perfil otroPerfil = new Perfil(Usuario);
-						otroPerfil.setLocation(punto);
-						otroPerfil.setVisible(true);
-					}
-				}
-			);
 			pnlFichas.add(ficha);
 			
 			scrollPane.repaint();

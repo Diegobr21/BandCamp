@@ -2,6 +2,8 @@ package interfaces;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -21,21 +23,24 @@ import sistema.Usuario;
  * @see {@link sistema.Usuario}
  */
 @SuppressWarnings("serial")
-class Perfil extends JFrame {
+public class Perfil extends JFrame implements WindowListener {
 	protected JLabel lblFacultad, lblGenero, lblInstrumento, lblNombre, UserPic;
 
 	protected JTextArea txtDescripcion;
 	
 	protected JPanel contentPane;
 	
+	public boolean is_open = false;
+	
 	/**
 	 * Create the frame.
 	 */
-	Perfil(Usuario cuenta) {
+	public Perfil(Usuario cuenta) {
 		setTitle(cuenta.getNom_usu());
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(630, 420);
 		setResizable(false);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		addWindowListener(this);
 		
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.DARK_GRAY);
@@ -86,4 +91,19 @@ class Perfil extends JFrame {
 		btnNewButton.setBounds(527, 11, 56, 47);
 		contentPane.add(btnNewButton);
 	}
+
+	@Override
+	public void windowOpened(WindowEvent e) {
+		this.is_open = true;
+	}
+	@Override
+	public void windowClosed(WindowEvent e) {
+		this.is_open = false;
+	}
+	
+	@Override public void windowClosing(WindowEvent e) {}
+	@Override public void windowIconified(WindowEvent e) {}
+	@Override public void windowDeiconified(WindowEvent e) {}
+	@Override public void windowActivated(WindowEvent e) {}
+	@Override public void windowDeactivated(WindowEvent e) {}
 }
