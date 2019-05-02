@@ -77,8 +77,8 @@ public class Registrar {
 	public boolean createAccount(Usuario nuevaCuenta, String emailCode) {
 		// si el código de verificación no coincide, regresar false
 		
-		String insertDatos = "INSERT INTO Usuarios(cor_usu, pas_usu, tip_usu, nom_usu, gen_usu, ins_usu, fac_usu, des_usu)";
-		insertDatos += "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+		String insertDatos = "INSERT INTO Usuarios(cor_usu, pas_usu, tip_usu, nom_usu, gen_usu, ins_usu, fac_usu, des_usu, dis_usu)";
+		insertDatos += "VALUES(?, ?, ?, ?, ?, ?, ?, ?, 1)";
 		try ( Connection con = DriverManager.getConnection(DBInfo.URL, DBInfo.USER, DBInfo.PASSWORD);
 				PreparedStatement statement = con.prepareStatement(insertDatos) ) {
 			

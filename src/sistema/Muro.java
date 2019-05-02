@@ -21,7 +21,8 @@ public class Muro {
 	 * @return lista de {@code Usuario}s que fueron filtrados.
 	 */
 	public static List<Usuario> filtrarCuentas(Usuario sesionIniciada) {
-		String selectUserString = "SELECT * FROM Usuarios WHERE tip_usu = ? AND gen_usu = ? AND ins_usu = ? ;";
+		String selectUserString = "SELECT * FROM Usuarios WHERE"
+				+ "tip_usu = ? AND gen_usu = ? AND ins_usu = ? AND dis_usu = 1;";
 		try( Connection connection = DriverManager.getConnection(DBInfo.URL, DBInfo.USER, DBInfo.PASSWORD);
 				PreparedStatement selectUsersPreparedStatement = connection.prepareStatement(selectUserString) ) {
 			

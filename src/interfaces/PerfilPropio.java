@@ -123,9 +123,10 @@ class PerfilPropio extends Perfil implements ActionListener{
 			String genero = perfilCmbs.cmbGeneros.getSelectedItem().toString();
 			String instrumento = perfilCmbs.cmbInstrumentos.getSelectedItem().toString();
 			String descripcion = txtDescripcion.getText();
+			boolean disponible = true;
 			
 			Usuario editado = new Usuario(cuenta.getId(), cuenta.getCor_usu(), cuenta.getPas_usu(), cuenta.getTip_usu(), nombre,
-					genero, instrumento, facultad, descripcion);
+					genero, instrumento, facultad, descripcion, disponible);
 			
 			boolean cuentaEditada = EditarPerfil.editarCuenta(cuenta, editado);
 			if (cuentaEditada) {

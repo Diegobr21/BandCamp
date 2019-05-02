@@ -25,20 +25,22 @@ public class EditarPerfil {
 		}
 		
 		String sql = "SELECT nom_usu FROM Usuarios";
-		String insert = "UPDATE Usuarios SET nom_usu = ?, gen_usu = ?, ins_usu = ?, fac_usu = ?, des_usu = ? WHERE id_usu = ?";
+		String insert = "UPDATE Usuarios SET nom_usu = ?, gen_usu = ?, ins_usu = ?, "
+				+ "fac_usu = ?, des_usu = ?, dis_usu = ? WHERE id_usu = ?";
 		
 		try ( Connection con = DriverManager.getConnection(DBInfo.URL, DBInfo.USER, DBInfo.PASSWORD);
 				PreparedStatement selectNom = con.prepareStatement(sql);
-				PreparedStatement insertNom = con.prepareStatement(insert);
-				ResultSet nombres = selectNom.executeQuery() ) {
+				PreparedStatement insertNom = con.prepareStatement(insert) ) {
 			
 			System.out.println("Conexion establecida");
 			
 			String nuevoNombre = editado.getNom_usu();
 			if ( !original.getNom_usu().equals(nuevoNombre) ) {
-				if (ValidUsername.isValidName(nuevoNombre)) {	
-					if (ValidUsername.usernameExists(nombres, nuevoNombre)) {
-						return false;
+				if (ValidUsername.isValidName(nuevoNombre)) {
+					try (ResultSet nombres = selectNom.executeQuery()) {
+						if (ValidUsername.usernameExists(nombres, nuevoNombre)) {
+							return false;
+						}
 					}
 				} else {
 					return false;
@@ -50,7 +52,8 @@ public class EditarPerfil {
 			insertNom.setString(3, editado.getIns_usu());
 			insertNom.setString(4, editado.getFac_usu());
 			insertNom.setString(5, editado.getDes_usu());
-			insertNom.setInt(6, editado.getId());
+			insertNom.setBoolean(6, editado.isDis_usu());
+			insertNom.setInt(7, editado.getId());
 			
 			int rsu = insertNom.executeUpdate();
 			if (rsu == 0) {
@@ -63,6 +66,7 @@ public class EditarPerfil {
 			e.printStackTrace();
 		}
 		
+
 		return false;
 	}
 	

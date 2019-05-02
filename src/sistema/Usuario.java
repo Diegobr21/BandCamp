@@ -16,8 +16,11 @@ public class Usuario {
 	private String ins_usu;
 	private String fac_usu;
 	private String des_usu;
+	private boolean dis_usu;
+//	private int img_usu;
 	
-	public Usuario(int id ,String cor_usu, String pas_usu, int tip_usu, String nom_usu, String gen_usu, String ins_usu, String fac_usu, String des_usu) {
+	public Usuario(int id ,String cor_usu, String pas_usu, int tip_usu, String nom_usu,
+			String gen_usu, String ins_usu, String fac_usu, String des_usu, boolean dis_usu) {
 		this.id = id;
 		this.cor_usu = cor_usu;
 		this.pas_usu = pas_usu;
@@ -27,6 +30,8 @@ public class Usuario {
 		this.ins_usu = ins_usu;
 		this.fac_usu = fac_usu;
 		this.des_usu = des_usu;
+		this.dis_usu = dis_usu;
+//		this.img_usu = img_usu;
 	}
 	
 	/**
@@ -44,6 +49,8 @@ public class Usuario {
 		this.ins_usu = resultSet.getString("ins_usu");
 		this.fac_usu = resultSet.getString("fac_usu");
 		this.des_usu = resultSet.getString("des_usu");
+		this.dis_usu = resultSet.getBoolean("dis_usu");
+//		this.img_usu = resultSet.getInt("img_usu");
 	}
 	
 	public String toString(){
@@ -113,4 +120,19 @@ public class Usuario {
 	public void setDes_usu(String des_usu) {
 		this.des_usu = des_usu;
 	}
+
+	public boolean isDis_usu() {
+		return dis_usu;
+	}
+	public void setDis_usu(boolean dis_usu) {
+		this.dis_usu = dis_usu;
+	}
+
+//	public int getImg_usu() {
+//		return img_usu;
+//	}
+//
+//	public void setImg_usu(int img_usu) {
+//		this.img_usu = img_usu;
+//	}
 }
