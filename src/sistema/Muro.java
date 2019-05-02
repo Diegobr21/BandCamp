@@ -21,8 +21,8 @@ public class Muro {
 	 * @return lista de {@code Usuario}s que fueron filtrados.
 	 */
 	public static List<Usuario> filtrarCuentas(Usuario sesionIniciada) {
-		String selectUserString = "SELECT * FROM Usuarios WHERE"
-				+ "tip_usu = ? AND gen_usu = ? AND ins_usu = ? AND dis_usu = 1;";
+		String selectUserString = "SELECT * FROM Usuarios WHERE "
+				+ "tip_usu = ? AND gen_usu = ? AND ins_usu = ? AND dis_usu = ?;";
 		try( Connection connection = DriverManager.getConnection(DBInfo.URL, DBInfo.USER, DBInfo.PASSWORD);
 				PreparedStatement selectUsersPreparedStatement = connection.prepareStatement(selectUserString) ) {
 			
@@ -41,6 +41,7 @@ public class Muro {
 			selectUsersPreparedStatement.setInt(1, tipo);
 			selectUsersPreparedStatement.setString(2, sesionIniciada.getGen_usu());
 			selectUsersPreparedStatement.setString(3, sesionIniciada.getIns_usu());
+			selectUsersPreparedStatement.setBoolean(4, true);
 			
 			List<Usuario> cuentasFiltradas = new ArrayList<Usuario>();
 			
@@ -65,5 +66,30 @@ public class Muro {
 		
 		JOptionPane.showMessageDialog(null, "Ha ocurrido un error al iniciar el muro.", "Error de servidor", JOptionPane.ERROR_MESSAGE);
 		return null;
+	}
+	
+	/**
+	 * Consulta todas las notificaciones registradas de la base de datos.
+	 * @return cantidad de notificaciones aceptadas.
+	 */
+	public static int countMatches() {
+		String selectAcceptedString = "SELECT est_not FROM Notificaciones;";
+		try ( Connection connection = DriverManager.getConnection(DBInfo.URL, DBInfo.USER, DBInfo.PASSWORD);
+				PreparedStatement selectAcceptedPreparedStatement = connection.prepareStatement(selectAcceptedString);
+				ResultSet acceptedResultSet = selectAcceptedPreparedStatement.executeQuery() ) {
+			System.out.println("Conectado");
+			
+			int count = 0;
+			while (acceptedResultSet.next()) {
+				if (acceptedResultSet.getInt("est_not") == 2) {
+					++count;
+				}
+			}
+			return count;
+		} catch (SQLException error) {
+			error.printStackTrace();
+		}
+		
+		return 0;
 	}
 }

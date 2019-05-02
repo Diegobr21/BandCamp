@@ -18,6 +18,8 @@ import javax.swing.border.EmptyBorder;
 import componentes.Ficha;
 import sistema.Muro;
 import sistema.Usuario;
+import java.awt.Font;
+import javax.swing.SwingConstants;
 
 @SuppressWarnings("serial")
 class Feed extends JFrame implements ActionListener {
@@ -55,7 +57,7 @@ class Feed extends JFrame implements ActionListener {
 		btnAyuda.addActionListener(this);
 		
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(5, 24, 624, 586);
+		scrollPane.setBounds(5, 52, 624, 558);
 		scrollPane.setVisible(true);
 		contentPane.add(scrollPane);
 
@@ -63,7 +65,16 @@ class Feed extends JFrame implements ActionListener {
 		pnlFichas.setLayout(new BoxLayout(pnlFichas, BoxLayout.Y_AXIS));
 		pnlFichas.setVisible(true);
 		
-		scrollPane.setViewportView(pnlFichas);
+		scrollPane.setColumnHeaderView(pnlFichas);
+		
+		JLabel lblContador = new JLabel("");
+		lblContador.setHorizontalAlignment(SwingConstants.CENTER);
+		lblContador.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblContador.setBounds(5, 21, 619, 27);
+		int count = Muro.countMatches();
+		lblContador.setText("BandCamp ha hecho posible el ingreso de " + count + " artistas a nuevas bandas.");
+		
+		contentPane.add(lblContador);
 		
 		agregarFichas(cuenta);
 	}	
