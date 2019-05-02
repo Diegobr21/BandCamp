@@ -49,6 +49,7 @@ public class Login {
 			e.printStackTrace();
 		}
 		
+		JOptionPane.showMessageDialog(null, "Lo sentimos, no es posible iniciar sesión.", "Error de servidor", JOptionPane.ERROR_MESSAGE);
 		return null;
 	}
 }

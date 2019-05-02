@@ -66,7 +66,8 @@ public class EditarPerfil {
 			e.printStackTrace();
 		}
 		
-
+		JOptionPane.showMessageDialog(null, "Lo sentimos, no pudimos actualizar tu perfil.",
+				"Error de servidor", JOptionPane.ERROR_MESSAGE);
 		return false;
 	}
 	

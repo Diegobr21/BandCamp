@@ -58,13 +58,13 @@ public class Registrar {
 				}
 			}
 			
+			System.out.println(nuevaCuenta.toString());
 			return true;
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
 		
-		System.out.println(nuevaCuenta.toString());
-		
+		errorPopup();
 		return false;
 	}
 	
@@ -107,10 +107,9 @@ public class Registrar {
 			return true;
 		} catch(SQLException e) {
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, "Lo sentimos, no fue posible crear tu cuenta.\nVuelve a intentarlo en unos minutos.",
-					"Error de servidor", JOptionPane.ERROR_MESSAGE);
 		}
 		
+		errorPopup();
 		return false;
 	}
 	
@@ -166,5 +165,10 @@ public class Registrar {
 					"Correo no válido" ,JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
+	}
+	
+	private static void errorPopup() {
+		JOptionPane.showMessageDialog(null, "Lo sentimos, no fue posible crear tu cuenta.\nVuelve a intentarlo en unos minutos.",
+				"Error de servidor", JOptionPane.ERROR_MESSAGE);
 	}
 }

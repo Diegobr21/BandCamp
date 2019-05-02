@@ -60,10 +60,10 @@ public class Muro {
 			return cuentasFiltradas;
 			
 		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, "Ha ocurrido un error al iniciar el muro.", "Error", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
 		
+		JOptionPane.showMessageDialog(null, "Ha ocurrido un error al iniciar el muro.", "Error de servidor", JOptionPane.ERROR_MESSAGE);
 		return null;
 	}
 }
