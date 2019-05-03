@@ -73,23 +73,62 @@ public class Muro {
 	 * @return cantidad de notificaciones aceptadas.
 	 */
 	public static int countMatches() {
-		String selectAcceptedString = "SELECT est_not FROM Notificaciones;";
+		String selectAcceptedString = "SELECT * FROM Notificaciones WHERE est_not = ? ;";
 		try ( Connection connection = DriverManager.getConnection(DBInfo.URL, DBInfo.USER, DBInfo.PASSWORD);
-				PreparedStatement selectAcceptedPreparedStatement = connection.prepareStatement(selectAcceptedString);
-				ResultSet acceptedResultSet = selectAcceptedPreparedStatement.executeQuery() ) {
+				PreparedStatement selectAcceptedPreparedStatement = connection.prepareStatement(selectAcceptedString) ) {
 			System.out.println("Conectado");
 			
+			selectAcceptedPreparedStatement.setInt(1, 2);
+			
 			int count = 0;
-			while (acceptedResultSet.next()) {
-				if (acceptedResultSet.getInt("est_not") == 2) {
+			try (ResultSet acceptedResultSet = selectAcceptedPreparedStatement.executeQuery()) {
+				while (acceptedResultSet.next()) {
 					++count;
 				}
 			}
 			return count;
+			
 		} catch (SQLException error) {
 			error.printStackTrace();
 		}
 		
 		return 0;
+	}
+	
+	/**
+	 * Lista los usuarios que han enviado una notificación a la sesión iniciada.
+	 * @param id_destinatario {@code int} que almacena el id_usu de la sesión iniciada.
+	 * @return {@code List} con los usuarios remitentes.
+	 * @see {@link Usuario}
+	 */
+	public static List<Usuario> listarRemitentes (int id_destinatario) {
+		String selectUserString = "SELECT * FROM Usuarios WHERE id_usu IN "
+				+ "(SELECT orig_not FROM Notificaciones WHERE dest_not = ? AND est_not = ?) ;";
+		try ( Connection connection = DriverManager.getConnection(DBInfo.URL, DBInfo.USER, DBInfo.PASSWORD);
+				PreparedStatement selectUserStatement = connection.prepareStatement(selectUserString) ) {
+			System.out.println("Conectado");
+			
+			selectUserStatement.setInt(1, id_destinatario);
+			selectUserStatement.setInt(2, 1);
+			
+			List<Usuario> listRemitentes = new ArrayList<Usuario>();
+			try (ResultSet selectedUsers = selectUserStatement.executeQuery()) {
+				while (selectedUsers.next()) {
+					Usuario remitente = new Usuario(selectedUsers);
+					remitente.setCor_usu("");
+					remitente.setPas_usu("");
+					listRemitentes.add(remitente);
+				}
+			}
+			
+			return listRemitentes;
+			
+		} catch (SQLException error) {
+			error.printStackTrace();
+		}
+		JOptionPane.showMessageDialog(null, "Lo sentimos, no fue posible cargar las notificaciones.", 
+				"Error de servidor", JOptionPane.ERROR_MESSAGE);
+		
+		return null;
 	}
 }

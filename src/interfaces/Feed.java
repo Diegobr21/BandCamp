@@ -16,6 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
 import componentes.Ficha;
+import componentes.Notificacion;
 import sistema.Muro;
 import sistema.Usuario;
 import java.awt.Font;
@@ -23,8 +24,9 @@ import javax.swing.SwingConstants;
 
 @SuppressWarnings("serial")
 class Feed extends JFrame implements ActionListener {
-	private JPanel pnlFichas;
-	private JScrollPane scrollPane;
+	private JPanel pnlFichas, pnlNotificaciones;
+	private JScrollPane scrFichas, scrNotificaciones;
+	private JButton btnNotificaciones;
 	
 	private Usuario cuenta;
 	
@@ -57,16 +59,30 @@ class Feed extends JFrame implements ActionListener {
 		btnAyuda.setActionCommand("Ayuda");
 		btnAyuda.addActionListener(this);
 		
-		scrollPane = new JScrollPane();
-		scrollPane.setBounds(5, 52, 624, 558);
-		scrollPane.setVisible(true);
-		contentPane.add(scrollPane);
+		btnNotificaciones = new JButton("Notificaciones");
+		btnNotificaciones.setActionCommand("abrirNots");
+		btnNotificaciones.addActionListener(this);
+		menuBar.add(btnNotificaciones);
+		
+		scrNotificaciones = new JScrollPane();
+		scrNotificaciones.setVisible(false);
+		scrNotificaciones.setBounds(127, 21, 200, 200);
+		contentPane.add(scrNotificaciones);
+		
+		pnlNotificaciones = new JPanel();
+		pnlNotificaciones.setLayout(new BoxLayout(pnlNotificaciones, BoxLayout.Y_AXIS));
+		
+		scrNotificaciones.setColumnHeaderView(pnlNotificaciones);
+		
+		scrFichas = new JScrollPane();
+		scrFichas.setBounds(5, 52, 624, 558);
+		scrFichas.setVisible(true);
+		contentPane.add(scrFichas);
 
 		pnlFichas = new JPanel();
 		pnlFichas.setLayout(new BoxLayout(pnlFichas, BoxLayout.Y_AXIS));
-		pnlFichas.setVisible(true);
 		
-		scrollPane.setViewportView(pnlFichas);
+		scrFichas.setViewportView(pnlFichas);
 		
 		JLabel lblContador = new JLabel("");
 		lblContador.setHorizontalAlignment(SwingConstants.CENTER);
@@ -79,6 +95,7 @@ class Feed extends JFrame implements ActionListener {
 		
 		if (cuenta.isDis_usu()) {
 			agregarFichas(cuenta);
+			agregarNotificaciones(cuenta);
 		} else {
 			JLabel lblDeshabilitado = new JLabel("Habilita tu cuenta para ver a otros usuarios.");
 			lblDeshabilitado.setHorizontalAlignment(SwingConstants.CENTER);
@@ -116,17 +133,25 @@ class Feed extends JFrame implements ActionListener {
 		
 	@Override
 	public void actionPerformed(ActionEvent i) {
-				//--botones
 		String command = i.getActionCommand();
-		if(command.contentEquals("Ayuda")){
+		
+		if (command.contentEquals("Ayuda")){
 			JOptionPane.showMessageDialog(null, "Links de ayuda: \n www.help.mx \n www.oracle.com");
-		}
-		else if (command.contentEquals("PerfilUser")) {
+			
+		} else if (command.contentEquals("PerfilUser")) {
 			PerfilPropio profileframe = new PerfilPropio(cuenta);
 			Point punto = Feed.this.getLocation();
 			profileframe.setLocation(punto);
 			profileframe.setVisible(true);
 			Feed.this.dispose();
+			
+		} else if (command.contentEquals("abrirNots")) {
+			scrNotificaciones.setVisible(true);
+			btnNotificaciones.setActionCommand("cerrarNots");
+			
+		} else if (command.contentEquals("cerrarNots")) {
+			scrNotificaciones.setVisible(false);
+			btnNotificaciones.setActionCommand("abrirNots");
 		}
 	}
 	
@@ -152,8 +177,34 @@ class Feed extends JFrame implements ActionListener {
 			Ficha ficha = new Ficha(Usuario);
 			pnlFichas.add(ficha);
 			
-			scrollPane.repaint();
-			scrollPane.revalidate();
+			scrFichas.repaint();
+			scrFichas.revalidate();
+		}
+	}
+	
+	/**
+	 * Agrega las notificaciones correspondientes.
+	 * @param sesionIniciada {@code Usuario} destinatario de las notificaciones.
+	 */
+	private void agregarNotificaciones(Usuario sesionIniciada) {
+		List<Usuario> remitentes = Muro.listarRemitentes(sesionIniciada.getId());
+		if (remitentes == null || remitentes.size() == 0) {
+			JLabel lblNoNotifs = new JLabel("No tienes notificaciones.");
+			lblNoNotifs.setHorizontalAlignment(SwingConstants.CENTER);
+			lblNoNotifs.setFont(new Font("Tahoma", Font.BOLD, 12));
+			pnlNotificaciones.add(lblNoNotifs);
+			
+			return;
+		}
+		
+		for (Usuario remitente : remitentes) {
+			System.out.println("notificación");
+			
+			Notificacion notificacion = new Notificacion(remitente);
+			pnlNotificaciones.add(notificacion);
+			
+			scrNotificaciones.repaint();
+			scrNotificaciones.revalidate();
 		}
 	}
 }
