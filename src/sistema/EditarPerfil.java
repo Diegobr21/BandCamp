@@ -24,41 +24,43 @@ public class EditarPerfil {
 			return false;
 		}
 		
-		String sql = "SELECT nom_usu FROM Usuarios";
-		String insert = "UPDATE Usuarios SET nom_usu = ?, gen_usu = ?, ins_usu = ?, "
-				+ "fac_usu = ?, des_usu = ?, dis_usu = ? WHERE id_usu = ?";
-		
-		try ( Connection con = DriverManager.getConnection(DBInfo.URL, DBInfo.USER, DBInfo.PASSWORD);
-				PreparedStatement selectNom = con.prepareStatement(sql);
-				PreparedStatement insertNom = con.prepareStatement(insert) ) {
+		try (Connection con = DriverManager.getConnection(DBInfo.URL, DBInfo.USER, DBInfo.PASSWORD)) {
 			
 			System.out.println("Conexion establecida");
 			
 			String nuevoNombre = editado.getNom_usu();
 			if ( !original.getNom_usu().equals(nuevoNombre) ) {
 				if (ValidUsername.isValidName(nuevoNombre)) {
-					try (ResultSet nombres = selectNom.executeQuery()) {
+					
+					String sql = "SELECT nom_usu FROM Usuarios";
+					try ( PreparedStatement selectNom = con.prepareStatement(sql);
+							ResultSet nombres = selectNom.executeQuery() ) {
 						if (ValidUsername.usernameExists(nombres, nuevoNombre)) {
 							return false;
 						}
 					}
+					
 				} else {
 					return false;
 				}
 			}
 			
-			insertNom.setString(1, nuevoNombre);
-			insertNom.setString(2, editado.getGen_usu());
-			insertNom.setString(3, editado.getIns_usu());
-			insertNom.setString(4, editado.getFac_usu());
-			insertNom.setString(5, editado.getDes_usu());
-			insertNom.setBoolean(6, editado.isDis_usu());
-			insertNom.setInt(7, editado.getId());
-			
-			int rsu = insertNom.executeUpdate();
-			if (rsu == 0) {
-				JOptionPane.showMessageDialog(null, "0 filas afectadas", "ERROR", JOptionPane.ERROR_MESSAGE);
-				return false;
+			String insert = "UPDATE Usuarios SET nom_usu = ?, gen_usu = ?, ins_usu = ?, "
+					+ "fac_usu = ?, des_usu = ?, dis_usu = ? WHERE id_usu = ?";
+			try (PreparedStatement insertNom = con.prepareStatement(insert)) {
+				insertNom.setString(1, nuevoNombre);
+				insertNom.setString(2, editado.getGen_usu());
+				insertNom.setString(3, editado.getIns_usu());
+				insertNom.setString(4, editado.getFac_usu());
+				insertNom.setString(5, editado.getDes_usu());
+				insertNom.setBoolean(6, editado.isDis_usu());
+				insertNom.setInt(7, editado.getId());
+				
+				int rsu = insertNom.executeUpdate();
+				if (rsu == 0) {
+					JOptionPane.showMessageDialog(null, "0 filas afectadas", "ERROR", JOptionPane.ERROR_MESSAGE);
+					return false;
+				}
 			}
 			
 			return true;

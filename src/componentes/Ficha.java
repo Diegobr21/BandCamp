@@ -33,31 +33,31 @@ public class Ficha extends JPanel {
 		setVisible(true);
 		setBackground(Color.WHITE);
 		addMouseListener(
-			new MouseAdapter() {
-				Perfil otroPerfil = new Perfil(usuario);
-				
-				@Override
-				public void mouseClicked(MouseEvent event) {
-					if (otroPerfil.is_open) {
-						otroPerfil.setLocationRelativeTo(null);
-						otroPerfil.toFront();
-					} else {
-						otroPerfil.setLocationRelativeTo(null);
-						otroPerfil.setVisible(true);
+				new MouseAdapter() {
+					Perfil otroPerfil = new Perfil(usuario);
+					
+					@Override
+					public void mouseClicked(MouseEvent event) {
+						if (otroPerfil.is_open) {
+							otroPerfil.setLocationRelativeTo(null);
+							otroPerfil.toFront();
+						} else {
+							otroPerfil.setLocationRelativeTo(null);
+							otroPerfil.setVisible(true);
+						}
+					}
+					
+					@Override
+					public void mouseEntered(MouseEvent event) {
+						setBackground(Color.LIGHT_GRAY);
+					}
+					
+					@Override
+					public void mouseExited(MouseEvent event) {
+						setBackground(Color.WHITE);
 					}
 				}
-				
-				@Override
-				public void mouseEntered(MouseEvent event) {
-					setBackground(Color.LIGHT_GRAY);
-				}
-				
-				@Override
-				public void mouseExited(MouseEvent event) {
-					setBackground(Color.WHITE);
-				}
-			}
-		);
+			);
 		
 		JLabel lblImagen = new JLabel();
 		lblImagen.setIcon(new ImageIcon(Ficha.class.getResource("/userpic2.png")));

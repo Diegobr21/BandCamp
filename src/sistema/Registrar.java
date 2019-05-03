@@ -34,15 +34,13 @@ public class Registrar {
 		}
 		else return false;
 		
-		String selectCorreos = "SELECT cor_usu FROM Usuarios;";
-		String selectNombres = "SELECT nom_usu FROM Usuarios;";
-		try ( Connection con = DriverManager.getConnection(DBInfo.URL, DBInfo.USER, DBInfo.PASSWORD);
-				PreparedStatement select = con.prepareStatement(selectCorreos); 
-				PreparedStatement selNom = con.prepareStatement(selectNombres) ) {
+		try (Connection con = DriverManager.getConnection(DBInfo.URL, DBInfo.USER, DBInfo.PASSWORD)) {
 			
 			System.out.println("Conexion establecida");
-
-			try(ResultSet correos = select.executeQuery()) {
+			
+			String selectCorreos = "SELECT cor_usu FROM Usuarios;";
+			try( PreparedStatement select = con.prepareStatement(selectCorreos);
+					ResultSet correos = select.executeQuery() ) {
 				while (correos.next()) {
 					if ( correo.equals(correos.getString("cor_usu")) ) {
 						JOptionPane.showMessageDialog(null, "El correo ingresado ya está registrado.",
@@ -52,7 +50,9 @@ public class Registrar {
 				}	
 			}
 			
-			try (ResultSet nombres = selNom.executeQuery()) {
+			String selectNombres = "SELECT nom_usu FROM Usuarios;";
+			try ( PreparedStatement selNom = con.prepareStatement(selectNombres);
+					ResultSet nombres = selNom.executeQuery() ) {
 				if (ValidUsername.usernameExists(nombres, nombre)) {
 					return false;
 				}
