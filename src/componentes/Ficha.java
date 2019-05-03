@@ -26,38 +26,38 @@ public class Ficha extends JPanel {
 	 * Create the panel.
 	 */
 	
-	public Ficha(Usuario usuario) {
+	public Ficha(int id, Usuario usuario) {
 		setSize(size);
 		setBorder(new LineBorder(Color.DARK_GRAY, 2, true));
 		setLayout(null);
 		setVisible(true);
 		setBackground(Color.WHITE);
 		addMouseListener(
-				new MouseAdapter() {
-					Perfil otroPerfil = new Perfil(usuario);
-					
-					@Override
-					public void mouseClicked(MouseEvent event) {
-						if (otroPerfil.is_open) {
-							otroPerfil.setLocationRelativeTo(null);
-							otroPerfil.toFront();
-						} else {
-							otroPerfil.setLocationRelativeTo(null);
-							otroPerfil.setVisible(true);
-						}
-					}
-					
-					@Override
-					public void mouseEntered(MouseEvent event) {
-						setBackground(Color.LIGHT_GRAY);
-					}
-					
-					@Override
-					public void mouseExited(MouseEvent event) {
-						setBackground(Color.WHITE);
+			new MouseAdapter() {
+				Perfil otroPerfil = new Perfil(id, usuario);
+				
+				@Override
+				public void mouseClicked(MouseEvent event) {
+					if (otroPerfil.is_open) {
+						otroPerfil.setLocationRelativeTo(null);
+						otroPerfil.toFront();
+					} else {
+						otroPerfil.setLocationRelativeTo(null);
+						otroPerfil.setVisible(true);
 					}
 				}
-			);
+				
+				@Override
+				public void mouseEntered(MouseEvent event) {
+					setBackground(Color.LIGHT_GRAY);
+				}
+				
+				@Override
+				public void mouseExited(MouseEvent event) {
+					setBackground(Color.WHITE);
+				}
+			}
+		);
 		
 		JLabel lblImagen = new JLabel();
 		lblImagen.setIcon(new ImageIcon(Ficha.class.getResource("/userpic2.png")));

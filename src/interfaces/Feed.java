@@ -1,8 +1,11 @@
 package interfaces;
 
+import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 import javax.swing.BoxLayout;
@@ -13,14 +16,13 @@ import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import componentes.Ficha;
 import componentes.Notificacion;
 import sistema.Muro;
 import sistema.Usuario;
-import java.awt.Font;
-import javax.swing.SwingConstants;
 
 @SuppressWarnings("serial")
 class Feed extends JFrame implements ActionListener {
@@ -65,6 +67,7 @@ class Feed extends JFrame implements ActionListener {
 		menuBar.add(btnNotificaciones);
 		
 		scrNotificaciones = new JScrollPane();
+		scrNotificaciones.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		scrNotificaciones.setVisible(false);
 		scrNotificaciones.setBounds(127, 21, 200, 200);
 		contentPane.add(scrNotificaciones);
@@ -72,7 +75,15 @@ class Feed extends JFrame implements ActionListener {
 		pnlNotificaciones = new JPanel();
 		pnlNotificaciones.setLayout(new BoxLayout(pnlNotificaciones, BoxLayout.Y_AXIS));
 		
-		scrNotificaciones.setColumnHeaderView(pnlNotificaciones);
+		scrNotificaciones.setViewportView(pnlNotificaciones);
+		scrNotificaciones.addMouseListener(
+			new MouseAdapter() {
+				@Override
+				public void mouseExited(MouseEvent event) {
+					scrNotificaciones.setVisible(false);
+				}
+			}
+		);
 		
 		scrFichas = new JScrollPane();
 		scrFichas.setBounds(5, 52, 624, 558);
@@ -147,11 +158,7 @@ class Feed extends JFrame implements ActionListener {
 			
 		} else if (command.contentEquals("abrirNots")) {
 			scrNotificaciones.setVisible(true);
-			btnNotificaciones.setActionCommand("cerrarNots");
 			
-		} else if (command.contentEquals("cerrarNots")) {
-			scrNotificaciones.setVisible(false);
-			btnNotificaciones.setActionCommand("abrirNots");
 		}
 	}
 	
@@ -174,7 +181,7 @@ class Feed extends JFrame implements ActionListener {
 		for (Usuario Usuario : cuentasFiltradas) {
 			System.out.println("añadiendo");
 			
-			Ficha ficha = new Ficha(Usuario);
+			Ficha ficha = new Ficha(cuenta.getId(), Usuario);
 			pnlFichas.add(ficha);
 			
 			scrFichas.repaint();
@@ -200,7 +207,7 @@ class Feed extends JFrame implements ActionListener {
 		for (Usuario remitente : remitentes) {
 			System.out.println("notificación");
 			
-			Notificacion notificacion = new Notificacion(remitente);
+			Notificacion notificacion = new Notificacion(cuenta.getId(), remitente);
 			pnlNotificaciones.add(notificacion);
 			
 			scrNotificaciones.repaint();

@@ -16,44 +16,48 @@ import javax.swing.SwingConstants;
 
 @SuppressWarnings("serial")
 public class Notificacion extends JPanel {
-	protected Dimension dimension = new Dimension(200, 100);
+	protected Dimension dimension = new Dimension(200, 70);
 	
-	public Notificacion(Usuario usuario) {
+	public Notificacion(int id, Usuario usuario) {
 		setSize(dimension);
 		setVisible(true);
 		setLayout(null);
 		setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		addMouseListener(
-				new MouseAdapter() {
-					Perfil otroPerfil = new Perfil(usuario);
-					
-					@Override
-					public void mouseClicked(MouseEvent event) {
-						if (otroPerfil.is_open) {
-							otroPerfil.setLocationRelativeTo(null);
-							otroPerfil.toFront();
-						} else {
-							otroPerfil.setLocationRelativeTo(null);
-							otroPerfil.setVisible(true);
-						}
-					}
-					
-					@Override
-					public void mouseEntered(MouseEvent event) {
-						setBackground(Color.LIGHT_GRAY);
-					}
-					
-					@Override
-					public void mouseExited(MouseEvent event) {
-						setBackground(Color.WHITE);
+			new MouseAdapter() {
+				Perfil otroPerfil = new Perfil(id, usuario);
+				
+				@Override
+				public void mouseClicked(MouseEvent event) {
+					if (otroPerfil.is_open) {
+						otroPerfil.setLocationRelativeTo(null);
+						otroPerfil.toFront();
+					} else {
+						otroPerfil.setLocationRelativeTo(null);
+						otroPerfil.setVisible(true);
 					}
 				}
-			);
+				
+				@Override
+				public void mouseEntered(MouseEvent event) {
+					setBackground(new Color(240, 240, 240));
+				}
+				
+				@Override
+				public void mouseExited(MouseEvent event) {
+					setBackground(Color.WHITE);
+				}
+			}
+		);
 		
-		JLabel lblNombre = new JLabel();
+		String notifText = "<html>"
+			+ "<b><font color='red'>" + usuario.getNom_usu() + "</font></b>"
+			+ " quiere contactarse contigo.";
+		
+		JLabel lblNombre = new JLabel(notifText);
 		lblNombre.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNombre.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNombre.setBounds(10, 11, 180, 78);
+		lblNombre.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblNombre.setBounds(10, 11, 180, 48);
 		add(lblNombre);
 	}
 	

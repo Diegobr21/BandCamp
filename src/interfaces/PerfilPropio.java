@@ -33,7 +33,7 @@ class PerfilPropio extends Perfil implements ActionListener{
 	private Usuario cuenta;
 	
 	PerfilPropio(Usuario sesion) {
-		super(sesion);
+		super(sesion.getId(), sesion);
 		btnContactar.setVisible(false);
 		btnContactar.setEnabled(false);
 		setTitle("Mi perfil");

@@ -103,13 +103,12 @@ public class Muro {
 	 */
 	public static List<Usuario> listarRemitentes (int id_destinatario) {
 		String selectUserString = "SELECT * FROM Usuarios WHERE id_usu IN "
-				+ "(SELECT orig_not FROM Notificaciones WHERE dest_not = ? AND est_not = ?) ;";
+				+ "(SELECT orig_not FROM Notificaciones WHERE dest_not = ? AND est_not = 1) ;";
 		try ( Connection connection = DriverManager.getConnection(DBInfo.URL, DBInfo.USER, DBInfo.PASSWORD);
 				PreparedStatement selectUserStatement = connection.prepareStatement(selectUserString) ) {
 			System.out.println("Conectado");
 			
 			selectUserStatement.setInt(1, id_destinatario);
-			selectUserStatement.setInt(2, 1);
 			
 			List<Usuario> listRemitentes = new ArrayList<Usuario>();
 			try (ResultSet selectedUsers = selectUserStatement.executeQuery()) {
