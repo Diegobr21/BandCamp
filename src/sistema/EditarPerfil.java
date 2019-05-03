@@ -70,5 +70,4 @@ public class EditarPerfil {
 				"Error de servidor", JOptionPane.ERROR_MESSAGE);
 		return false;
 	}
-	
 }

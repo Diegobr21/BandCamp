@@ -2,6 +2,8 @@ package interfaces;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
@@ -23,12 +25,12 @@ import sistema.Usuario;
  * @see {@link sistema.Usuario}
  */
 @SuppressWarnings("serial")
-public class Perfil extends JFrame implements WindowListener {
-	protected JLabel lblFacultad, lblGenero, lblInstrumento, lblNombre, UserPic;
-
-	protected JTextArea txtDescripcion;
+public class Perfil extends JFrame implements WindowListener, ActionListener {
 	
+	protected JLabel lblFacultad, lblGenero, lblInstrumento, lblNombre, UserPic;
+	protected JTextArea txtDescripcion;
 	protected JPanel contentPane;
+	protected JButton btnContactar;
 	
 	public boolean is_open = false;
 	
@@ -64,7 +66,7 @@ public class Perfil extends JFrame implements WindowListener {
 		lblNombre = new JLabel(cuenta.getNom_usu());
 		lblNombre.setFont(new Font("Verdana", Font.BOLD, 16));
 		lblNombre.setBackground(Color.WHITE);
-		lblNombre.setForeground(new Color(255, 255, 0));
+		lblNombre.setForeground(Color.YELLOW);
 		lblNombre.setBounds(158, 43, 128, 21);
 		contentPane.add(lblNombre);
 		
@@ -86,10 +88,20 @@ public class Perfil extends JFrame implements WindowListener {
 		lblInstrumento.setBounds(391, 144, 88, 27);
 		contentPane.add(lblInstrumento);
 		
-		JButton btnNewButton = new JButton("");
-		btnNewButton.setIcon(new ImageIcon(Perfil.class.getResource("/com/sun/java/swing/plaf/windows/icons/Computer.gif")));
-		btnNewButton.setBounds(527, 11, 56, 47);
-		contentPane.add(btnNewButton);
+		btnContactar = new JButton("Contactar");
+		btnContactar.setForeground(Color.BLACK);
+		btnContactar.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnContactar.setBounds(243, 336, 134, 27);
+		btnContactar.setActionCommand("contactar");
+		contentPane.add(btnContactar);
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent event) {
+		String actionCommand = event.getActionCommand();
+		if (actionCommand.contentEquals("contactar")) {
+			
+		}
 	}
 
 	@Override

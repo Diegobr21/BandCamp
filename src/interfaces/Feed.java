@@ -37,6 +37,7 @@ class Feed extends JFrame implements ActionListener {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 650, 650);
+		setLocationRelativeTo(null);
 		JPanel contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -65,7 +66,7 @@ class Feed extends JFrame implements ActionListener {
 		pnlFichas.setLayout(new BoxLayout(pnlFichas, BoxLayout.Y_AXIS));
 		pnlFichas.setVisible(true);
 		
-		scrollPane.setColumnHeaderView(pnlFichas);
+		scrollPane.setViewportView(pnlFichas);
 		
 		JLabel lblContador = new JLabel("");
 		lblContador.setHorizontalAlignment(SwingConstants.CENTER);
@@ -76,7 +77,15 @@ class Feed extends JFrame implements ActionListener {
 		
 		contentPane.add(lblContador);
 		
-		agregarFichas(cuenta);
+		if (cuenta.isDis_usu()) {
+			agregarFichas(cuenta);
+		} else {
+			JLabel lblDeshabilitado = new JLabel("Habilita tu cuenta para ver a otros usuarios.");
+			lblDeshabilitado.setHorizontalAlignment(SwingConstants.CENTER);
+			lblDeshabilitado.setFont(new Font("Tahoma", Font.BOLD, 12));
+			lblDeshabilitado.setSize(624, 27);
+			pnlFichas.add(lblDeshabilitado);
+		}
 	}	
 		
 		/*	Ayuda ayuda = new Ayuda();
@@ -128,7 +137,12 @@ class Feed extends JFrame implements ActionListener {
 	private void agregarFichas(Usuario sesionIniciada) {
 		List<Usuario> cuentasFiltradas = Muro.filtrarCuentas(sesionIniciada);
 		if (cuentasFiltradas == null || cuentasFiltradas.size() == 0) {
-			pnlFichas.add(new JLabel("No hay cuentas que coincidan."));
+			JLabel lblNoMatch = new JLabel("No hay cuentas que coincidan con lo que buscas.");
+			lblNoMatch.setHorizontalAlignment(SwingConstants.CENTER);
+			lblNoMatch.setFont(new Font("Tahoma", Font.BOLD, 12));
+			lblNoMatch.setSize(624, 27);
+			pnlFichas.add(lblNoMatch);
+			
 			return;
 		}
 		

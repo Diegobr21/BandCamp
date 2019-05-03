@@ -65,7 +65,7 @@ public class Ficha extends JPanel {
 		add(lblImagen);
 		
 		JLabel lblNombre = new JLabel(usuario.getNom_usu());
-		lblNombre.setForeground(Color.RED);
+		lblNombre.setForeground(Color.BLUE);
 		lblNombre.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblNombre.setBounds(148, 11, 173, 33);
 		add(lblNombre);

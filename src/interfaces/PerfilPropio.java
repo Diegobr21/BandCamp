@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import componentes.ComboBoxes;
@@ -25,21 +26,25 @@ import sistema.Usuario;
 @SuppressWarnings("serial")
 class PerfilPropio extends Perfil implements ActionListener{
 	private ComboBoxes perfilCmbs;
-	private JButton btnEditar, btnRegresar, btnCerrarSesion;
+	private JButton btnEditar, btnRegresar, btnCerrarSesion, btnDisponibilidad;
 	private JTextField txtNombre;
 	
+	private boolean disponible;
 	private Usuario cuenta;
 	
 	PerfilPropio(Usuario sesion) {
 		super(sesion);
+		btnContactar.setVisible(false);
+		btnContactar.setEnabled(false);
 		setTitle("Mi perfil");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		cuenta = sesion;
+		disponible = cuenta.isDis_usu();
 		
 		txtNombre = new JTextField();
 		txtNombre.setFont(new Font("Verdana", Font.BOLD, 16));
-		txtNombre.setForeground(new Color(150, 150, 0));
+		txtNombre.setForeground(Color.BLACK);
 		txtNombre.setBounds(158, 43, 128, 21);
 		txtNombre.setVisible(false);
 		contentPane.add(txtNombre);
@@ -83,6 +88,15 @@ class PerfilPropio extends Perfil implements ActionListener{
 		contentPane.add(btnEditar);
 		btnEditar.addActionListener(this);
 		btnEditar.setActionCommand("Editar");
+		
+		btnDisponibilidad = new JButton();
+		btnDisponibilidad.setVisible(false);
+		btnDisponibilidad.setEnabled(false);
+		btnDisponibilidad.setBounds(390, 43, 200, 34);
+		btnDisponibilidad.setFont(new Font("Verdana", Font.BOLD, 12));
+		btnDisponibilidad.setBackground(Color.WHITE);
+		btnDisponibilidad.addActionListener(this);
+		contentPane.add(btnDisponibilidad);
 	}
 	
 	@Override
@@ -116,14 +130,17 @@ class PerfilPropio extends Perfil implements ActionListener{
 			btnEditar.setActionCommand("Guardar");
 			btnRegresar.setEnabled(false);
 			btnCerrarSesion.setEnabled(false);
-		}
-		else if (command.contentEquals("Guardar")) {
+			
+			btnDisponibilidad = modificarBoton(btnDisponibilidad);
+			btnDisponibilidad.setVisible(true);
+			btnDisponibilidad.setEnabled(true);
+			
+		} else if (command.contentEquals("Guardar")) {
 			String nombre = txtNombre.getText();
 			String facultad = perfilCmbs.cmbFacultades.getSelectedItem().toString();
 			String genero = perfilCmbs.cmbGeneros.getSelectedItem().toString();
 			String instrumento = perfilCmbs.cmbInstrumentos.getSelectedItem().toString();
 			String descripcion = txtDescripcion.getText();
-			boolean disponible = true;
 			
 			Usuario editado = new Usuario(cuenta.getId(), cuenta.getCor_usu(), cuenta.getPas_usu(), cuenta.getTip_usu(), nombre,
 					genero, instrumento, facultad, descripcion, disponible);
@@ -154,23 +171,60 @@ class PerfilPropio extends Perfil implements ActionListener{
 				btnRegresar.setEnabled(true);
 				btnCerrarSesion.setEnabled(true);
 				
+				btnDisponibilidad.setEnabled(false);
+				btnDisponibilidad.setVisible(false);
+				
 				cuenta = editado;
 			}
-		}
-		
-		else if (command.contentEquals("Regresar")) {
+		} else if (command.contentEquals("Regresar")) {
 			Feed feedframe = new Feed(cuenta);
-			Point punto = this.getLocation();
-			feedframe.setLocation(punto);
 			feedframe.setVisible(true);
 			PerfilPropio.this.dispose();
-		}
-		else if(command.contentEquals("Cerrar")) {
+			
+		} else if(command.contentEquals("Cerrar")) {
 			UserLogin inicio = new UserLogin();
 			Point punto = this.getLocation();
 			inicio.setLocation(punto);
 			inicio.setVisible(true);
 			PerfilPropio.this.dispose();
+			
+		} else if (command.contentEquals("Deshabilitar")) {
+			int respuesta = JOptionPane.showConfirmDialog(this, "Si deshabilita su cuenta, otros usuarios no podrán verlo en el muro. ¿Continuar?",
+					"Advertencia", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+			if (respuesta == JOptionPane.YES_OPTION) {
+				disponible = false;
+				btnDisponibilidad = modificarBoton(btnDisponibilidad);
+			}
+		} else if (command.contentEquals("Habilitar")) {
+			disponible = true;
+			btnDisponibilidad = modificarBoton(btnDisponibilidad);
 		}
+	}
+	
+	/**
+	 * Modifica el texto, el color de letra y el comando de acción del botón que habilita o deshabilita la cuenta.
+	 * @param btnDisponibilidad {@code JButton} a modificar.
+	 * @return el parámetro {@code btnDisponibilidad} con los atributos modificados.
+	 */
+	private JButton modificarBoton(JButton btnDisponibilidad) {
+		String disponibilidad;
+		String actionCmd;
+		Color color;
+		if (disponible) {
+			disponibilidad = "Deshabilitar";
+			actionCmd = "Deshabilitar";
+			color = Color.RED;
+		} else {
+			disponibilidad = "Habilitar";
+			actionCmd = disponibilidad;
+			color = new Color(15, 170, 0);
+		}
+		disponibilidad += " mi cuenta";
+		
+		btnDisponibilidad.setText(disponibilidad);
+		btnDisponibilidad.setForeground(color);
+		btnDisponibilidad.setActionCommand(actionCmd);
+		
+		return btnDisponibilidad;
 	}
 }

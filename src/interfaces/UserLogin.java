@@ -120,8 +120,6 @@ public class UserLogin extends JFrame implements ActionListener, KeyListener {
 		Usuario sesionIniciada = Login.ingresar(correo, password);
 		if (sesionIniciada != null) {
 			Feed framefeed = new Feed(sesionIniciada);
-			Point punto = this.getLocation();
-			framefeed.setLocation(punto);
 			framefeed.setVisible(true);
 			UserLogin.this.dispose();
 		}
