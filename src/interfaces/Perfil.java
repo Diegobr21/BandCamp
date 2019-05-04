@@ -40,8 +40,8 @@ public class Perfil extends JFrame implements WindowListener, ActionListener {
 	/**
 	 * Create the frame.
 	 */
-	public Perfil(int id_propia ,Usuario ssesion) {
-		scuenta = ssesion;
+	public Perfil(int id_propia, Usuario sesion) {
+		scuenta = sesion;
 		id_iniciada = id_propia;
 		
 		setTitle(scuenta.getNom_usu());
@@ -97,13 +97,37 @@ public class Perfil extends JFrame implements WindowListener, ActionListener {
 		btnContactar = new JButton("Contactar");
 		btnContactar.setForeground(Color.BLACK);
 		btnContactar.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnContactar.setBounds(243, 336, 134, 27);
+		btnContactar.setBounds(243, 336, 110, 25);
 		contentPane.add(btnContactar);
 		
-		if (Contacto.alreadyContacted(id_iniciada, scuenta.getId())) {
+		JButton btnAceptar = new JButton("Aceptar");
+		btnAceptar.setVisible(false);
+		btnAceptar.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnAceptar.setBounds(133, 336, 110, 25);
+		btnAceptar.setActionCommand("aceptar");
+		btnAceptar.addActionListener(this);
+		contentPane.add(btnAceptar);
+		
+		JButton btnRechazar = new JButton("Rechazar");
+		btnRechazar.setVisible(false);
+		btnRechazar.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnRechazar.setBounds(351, 336, 110, 25);
+		btnRechazar.setActionCommand("rechazar");
+		btnRechazar.addActionListener(this);
+		contentPane.add(btnRechazar);
+		
+		if (Contacto.alreadyContacted(scuenta.getId(), id_iniciada)) {
+			// si la cuenta vista le envió una notificación a la sesión iniciada
+			btnContactar.setVisible(false);
+			btnAceptar.setVisible(true);
+			btnRechazar.setVisible(true);
+			
+		} else if (Contacto.alreadyContacted(id_iniciada, scuenta.getId())) {
+			// si la sesión iniciada le envió una notificación a la cuenta vista
 			btnContactar.setEnabled(false);
 			
 		} else {
+			// si no hay contacto
 			btnContactar.setActionCommand("contactar");
 			btnContactar.addActionListener(this);
 		}
@@ -112,9 +136,15 @@ public class Perfil extends JFrame implements WindowListener, ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		String actionCommand = event.getActionCommand();
+		
 		if (actionCommand.contentEquals("contactar")) {
 			Contacto.crearNotificacion(id_iniciada, scuenta.getId());
 			btnContactar.setEnabled(false);
+			
+		} else if (actionCommand.contentEquals("aceptar")) {
+			
+		} else if (actionCommand.contentEquals("rechazar")) {
+			
 		}
 	}
 
