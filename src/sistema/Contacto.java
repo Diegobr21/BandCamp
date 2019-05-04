@@ -58,6 +58,13 @@ public class Contacto {
 		}
 	}
 	
+	/**
+	 * Verifica si ya ha sido enviada una notificación para evitar duplicadas.
+	 * @param id_remitente {@code int} del ID del {@code Usuario} que envió la notificación.
+	 * @param id_destinatario {@code int} del ID del {@code Usuario} que la recibió.
+	 * @return {@code true} si ya existía un contacto entre ambos usuarios.
+	 * @see {@link Usuario}
+	 */
 	public static boolean alreadyContacted(int id_remitente, int id_destinatario) {
 		try (Connection connection = DriverManager.getConnection(DBInfo.URL, DBInfo.USER, DBInfo.PASSWORD)) {
 			System.out.println("conectado notif");
