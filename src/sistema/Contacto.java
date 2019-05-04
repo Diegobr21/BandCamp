@@ -15,6 +15,21 @@ import javax.swing.JOptionPane;
 public class Contacto {
 	
 	/**
+	 * Notificación rechazada.
+	 */
+	public static final int REJECT = 0;
+	
+	/**
+	 * Notificación pendiente.
+	 */
+	public static final int PENDING = 1;
+	
+	/**
+	 * Notificación aceptada.
+	 */
+	public static final int ACCEPT = 2;
+	
+	/**
 	 * Crea un registro de notificación en la tabla <i>Notificaciones</i> de la base de datos.
 	 * @param id_remitente {@code int} que almacena el ID de la sesión iniciada.
 	 * @param id_destinatario {@code int} que almacena el ID del {@code Usuario} destino.
