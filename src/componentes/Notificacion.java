@@ -23,6 +23,7 @@ public class Notificacion extends JPanel {
 		setVisible(true);
 		setLayout(null);
 		setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+		setBackground(Color.WHITE);
 		addMouseListener(
 			new MouseAdapter() {
 				Perfil otroPerfil = new Perfil(id, usuario);
