@@ -2,12 +2,8 @@ package componentes;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
 import javax.swing.JPanel;
 
-import interfaces.Perfil;
 import sistema.Usuario;
 import javax.swing.border.LineBorder;
 import javax.swing.JLabel;
@@ -18,38 +14,12 @@ import javax.swing.SwingConstants;
 public class Notificacion extends JPanel {
 	protected Dimension dimension = new Dimension(200, 70);
 	
-	public Notificacion(int id, Usuario usuario) {
+	public Notificacion(Usuario usuario) {
 		setSize(dimension);
 		setVisible(true);
 		setLayout(null);
 		setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		setBackground(Color.WHITE);
-		addMouseListener(
-			new MouseAdapter() {
-				Perfil otroPerfil = new Perfil(id, usuario);
-				
-				@Override
-				public void mouseClicked(MouseEvent event) {
-					if (otroPerfil.is_open) {
-						otroPerfil.setLocationRelativeTo(null);
-						otroPerfil.toFront();
-					} else {
-						otroPerfil.setLocationRelativeTo(null);
-						otroPerfil.setVisible(true);
-					}
-				}
-				
-				@Override
-				public void mouseEntered(MouseEvent event) {
-					setBackground(new Color(240, 240, 240));
-				}
-				
-				@Override
-				public void mouseExited(MouseEvent event) {
-					setBackground(Color.WHITE);
-				}
-			}
-		);
 		
 		String notifText = "<html>"
 			+ "<b><font color='red'>" + usuario.getNom_usu() + "</font></b>"
