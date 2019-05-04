@@ -98,9 +98,15 @@ public class Perfil extends JFrame implements WindowListener, ActionListener {
 		btnContactar.setForeground(Color.BLACK);
 		btnContactar.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnContactar.setBounds(243, 336, 134, 27);
-		btnContactar.setActionCommand("contactar");
-		btnContactar.addActionListener(this);
 		contentPane.add(btnContactar);
+		
+		if (Contacto.alreadyContacted(id_iniciada, scuenta.getId())) {
+			btnContactar.setEnabled(false);
+			
+		} else {
+			btnContactar.setActionCommand("contactar");
+			btnContactar.addActionListener(this);
+		}
 	}
 	
 	@Override
@@ -108,6 +114,7 @@ public class Perfil extends JFrame implements WindowListener, ActionListener {
 		String actionCommand = event.getActionCommand();
 		if (actionCommand.contentEquals("contactar")) {
 			Contacto.crearNotificacion(id_iniciada, scuenta.getId());
+			btnContactar.setEnabled(false);
 		}
 	}
 

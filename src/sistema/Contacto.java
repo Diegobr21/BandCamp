@@ -3,6 +3,7 @@ package sistema;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.swing.JOptionPane;
@@ -21,7 +22,7 @@ public class Contacto {
 	 */
 	public static void crearNotificacion(int id_remitente, int id_destinatario) {
 		try (Connection connection = DriverManager.getConnection(DBInfo.URL, DBInfo.USER, DBInfo.PASSWORD)) {
-			System.out.println("\tconectado notif");
+			System.out.println("conectado notif");
 			
 			String insertNotifQuery = "INSERT INTO Notificaciones VALUES(?, ?, 1);";
 			try (PreparedStatement insertNotifStatement = connection.prepareStatement(insertNotifQuery)) {
@@ -40,5 +41,27 @@ public class Contacto {
 			JOptionPane.showMessageDialog(null, "Hubo un error al contactar al usuario.",
 					"Error de servidor", JOptionPane.ERROR_MESSAGE);
 		}
+	}
+	
+	public static boolean alreadyContacted(int id_remitente, int id_destinatario) {
+		try (Connection connection = DriverManager.getConnection(DBInfo.URL, DBInfo.USER, DBInfo.PASSWORD)) {
+			System.out.println("conectado notif");
+			
+			String selectNotifQuery = "SELECT * FROM Notificaciones WHERE orig_not = ? AND dest_not = ? AND est_not = 1;";
+			try (PreparedStatement selectNotifStatement = connection.prepareStatement(selectNotifQuery)) {
+				selectNotifStatement.setInt(1, id_remitente);
+				selectNotifStatement.setInt(2, id_destinatario);
+				
+				try (ResultSet selectedNotifSet = selectNotifStatement.executeQuery()) {
+					while (selectedNotifSet.next()) {
+						return true;
+					}
+				}
+			}
+		} catch (SQLException error) {
+			error.printStackTrace();
+		}
+		
+		return false;
 	}
 }
