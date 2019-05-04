@@ -94,7 +94,7 @@ class PerfilPropio extends Perfil implements ActionListener{
 		btnDisponibilidad.setEnabled(false);
 		btnDisponibilidad.setBounds(390, 43, 200, 34);
 		btnDisponibilidad.setFont(new Font("Verdana", Font.BOLD, 12));
-		btnDisponibilidad.setBackground(Color.WHITE);
+		btnDisponibilidad.setForeground(Color.BLACK);
 		btnDisponibilidad.addActionListener(this);
 		contentPane.add(btnDisponibilidad);
 	}
@@ -189,7 +189,10 @@ class PerfilPropio extends Perfil implements ActionListener{
 			PerfilPropio.this.dispose();
 			
 		} else if (command.contentEquals("Deshabilitar")) {
-			int respuesta = JOptionPane.showConfirmDialog(this, "Si deshabilita su cuenta, otros usuarios no podrán verlo en el muro. ¿Continuar?",
+			int respuesta = JOptionPane.showConfirmDialog(this, "<html><center>"
+					+ "Al deshabilitar tu cuenta, las notificaciones que tengas pendientes serán rechazadas automáticamente, <br>"
+					+ "además de que otros usuarios no podrán verte en su muro, aunque podrás habilitarla de nuevo cuando gustes. <br>"
+					+ "¿Continuar?</center></html>",
 					"Advertencia", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 			if (respuesta == JOptionPane.YES_OPTION) {
 				disponible = false;
@@ -212,17 +215,17 @@ class PerfilPropio extends Perfil implements ActionListener{
 		Color color;
 		if (disponible) {
 			disponibilidad = "Deshabilitar";
-			actionCmd = "Deshabilitar";
-			color = Color.RED;
+			actionCmd = disponibilidad;
+			color = new Color(255, 50, 50);
 		} else {
 			disponibilidad = "Habilitar";
 			actionCmd = disponibilidad;
-			color = new Color(15, 170, 0);
+			color = Color.WHITE;
 		}
 		disponibilidad += " mi cuenta";
 		
 		btnDisponibilidad.setText(disponibilidad);
-		btnDisponibilidad.setForeground(color);
+		btnDisponibilidad.setBackground(color);
 		btnDisponibilidad.setActionCommand(actionCmd);
 		
 		return btnDisponibilidad;

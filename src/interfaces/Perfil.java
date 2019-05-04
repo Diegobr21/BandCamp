@@ -11,6 +11,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
@@ -31,9 +32,11 @@ public class Perfil extends JFrame implements WindowListener, ActionListener {
 	protected JLabel lblFacultad, lblGenero, lblInstrumento, lblNombre, UserPic;
 	protected JTextArea txtDescripcion;
 	protected JPanel contentPane;
-	protected JButton btnContactar;
+	protected JButton btnContactar, btnAceptar, btnRechazar;
 	
-	public boolean is_open = false;
+	public boolean closed = false;
+	public boolean cambios = false;
+	public boolean deshab = false;
 	
 	private Usuario scuenta;
 	private int id_iniciada;
@@ -98,38 +101,43 @@ public class Perfil extends JFrame implements WindowListener, ActionListener {
 		btnContactar.setForeground(Color.BLACK);
 		btnContactar.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnContactar.setBounds(243, 336, 110, 25);
+		btnContactar.setActionCommand("contactar");
+		btnContactar.addActionListener(this);
 		contentPane.add(btnContactar);
 		
-		JButton btnAceptar = new JButton("Aceptar");
+		btnAceptar = new JButton("Aceptar");
 		btnAceptar.setVisible(false);
 		btnAceptar.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnAceptar.setBounds(133, 336, 110, 25);
-		btnAceptar.setActionCommand("aceptar");
+		btnAceptar.setForeground(new Color(0, 100, 0));
 		btnAceptar.addActionListener(this);
 		contentPane.add(btnAceptar);
 		
-		JButton btnRechazar = new JButton("Rechazar");
+		btnRechazar = new JButton("Rechazar");
 		btnRechazar.setVisible(false);
 		btnRechazar.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnRechazar.setBounds(351, 336, 110, 25);
-		btnRechazar.setActionCommand("rechazar");
 		btnRechazar.addActionListener(this);
 		contentPane.add(btnRechazar);
 		
-		if (Contacto.alreadyContacted(scuenta.getId(), id_iniciada)) {
-			// si la cuenta vista le envió una notificación a la sesión iniciada
-			btnContactar.setVisible(false);
-			btnAceptar.setVisible(true);
-			btnRechazar.setVisible(true);
-			
-		} else if (Contacto.alreadyContacted(id_iniciada, scuenta.getId())) {
-			// si la sesión iniciada le envió una notificación a la cuenta vista
-			btnContactar.setEnabled(false);
-			
-		} else {
-			// si no hay contacto
-			btnContactar.setActionCommand("contactar");
-			btnContactar.addActionListener(this);
+		if (id_iniciada != scuenta.getId()) {
+			if (Contacto.alreadyContacted(scuenta.getId(), id_iniciada)) {
+				// si la cuenta vista le envió una notificación a la sesión iniciada
+				btnContactar.setVisible(false);
+				btnAceptar.setVisible(true);
+				btnAceptar.setActionCommand("aceptar");
+				btnRechazar.setVisible(true);
+				btnRechazar.setActionCommand("rechazar");
+				
+			} else if (Contacto.alreadyContacted(id_iniciada, scuenta.getId())) {
+				// si la sesión iniciada le envió una notificación a la cuenta vista
+				btnContactar.setEnabled(false);
+				
+			} else {
+				// si no hay contacto
+				btnContactar.setVisible(true);
+				btnContactar.setEnabled(true);
+			}	
 		}
 	}
 	
@@ -142,22 +150,42 @@ public class Perfil extends JFrame implements WindowListener, ActionListener {
 			btnContactar.setEnabled(false);
 			
 		} else if (actionCommand.contentEquals("aceptar")) {
+			int dialog = JOptionPane.showConfirmDialog(this, "<html><center>"
+					+ "Al aceptar a este usuario confirmas que ya se contactaron y lograron asociarse,<br>"
+					+ "por lo tanto, el resto de notificaciones que tengas pendientes pasarán a ser rechazadas.<br>"
+					+ "¿Continuar?</center></html>", 
+					"Aceptar unión", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+			if (dialog == JOptionPane.YES_OPTION) {
+				this.deshab = true;
+				this.cambios = true;
+				Contacto.replyContact(scuenta.getId(), id_iniciada, Contacto.ACCEPT);
+				Contacto.deshabilitarCuentas(id_iniciada, scuenta.getId());
+				this.dispose();
+			}
 			
 		} else if (actionCommand.contentEquals("rechazar")) {
-			
+			this.cambios = true;
+			Contacto.replyContact(scuenta.getId(), id_iniciada, Contacto.REJECT);
+			btnAceptar.setVisible(false);
+			btnRechazar.setVisible(false);
+			btnContactar.setVisible(true);
+			btnContactar.setEnabled(true);
 		}
 	}
 
 	@Override
 	public void windowOpened(WindowEvent e) {
-		this.is_open = true;
-	}
-	@Override
-	public void windowClosed(WindowEvent e) {
-		this.is_open = false;
 	}
 	
-	@Override public void windowClosing(WindowEvent e) {}
+	@Override
+	public void windowClosed(WindowEvent e) {
+		this.closed = true;
+	}
+	
+	@Override
+	public void windowClosing(WindowEvent e) {
+	}
+	
 	@Override public void windowIconified(WindowEvent e) {}
 	@Override public void windowDeiconified(WindowEvent e) {}
 	@Override public void windowActivated(WindowEvent e) {}

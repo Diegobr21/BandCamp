@@ -1,5 +1,6 @@
 package interfaces;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -178,15 +179,46 @@ class Feed extends JFrame implements ActionListener {
 			return;
 		}
 		
-		for (Usuario Usuario : cuentasFiltradas) {
+		for (Usuario usuario : cuentasFiltradas) {
 			System.out.println("añadiendo");
 			
-			Ficha ficha = new Ficha(cuenta.getId(), Usuario);
+			Ficha ficha = new Ficha(usuario);
+			ficha.addMouseListener(
+				new MouseAdapter() {
+					Perfil otroPerfil = new Perfil(cuenta.getId(), usuario);
+					
+					@Override
+					public void mouseClicked(MouseEvent event) {
+						otroPerfil.setLocationRelativeTo(Feed.this);
+						otroPerfil.setVisible(true);
+					}
+					
+					@Override
+					public void mouseEntered(MouseEvent event) {
+						ficha.setBackground(Color.LIGHT_GRAY);
+					}
+					
+					@Override
+					public void mouseExited(MouseEvent event) {
+						ficha.setBackground(Color.WHITE);
+						if (otroPerfil.closed && otroPerfil.cambios) {
+							otroPerfil.closed = false;
+							otroPerfil.cambios = false;
+							Feed.this.dispose();
+							System.out.println("\trefresh");
+							if (otroPerfil.deshab) {
+								cuenta.setDis_usu(false);
+							}
+							Feed feed = new Feed(cuenta);
+							feed.setVisible(true);
+						}
+					}
+				}
+			);
 			pnlFichas.add(ficha);
-			
-			scrFichas.repaint();
-			scrFichas.revalidate();
 		}
+		scrFichas.repaint();
+		scrFichas.revalidate();
 	}
 	
 	/**
@@ -207,11 +239,31 @@ class Feed extends JFrame implements ActionListener {
 		for (Usuario remitente : remitentes) {
 			System.out.println("notificación");
 			
-			Notificacion notificacion = new Notificacion(cuenta.getId(), remitente);
+			Notificacion notificacion = new Notificacion(remitente);
+			notificacion.addMouseListener(
+				new MouseAdapter() {
+					Perfil otroPerfil = new Perfil(cuenta.getId(), remitente);
+					
+					@Override
+					public void mouseClicked(MouseEvent event) {
+						otroPerfil.setLocationRelativeTo(Feed.this);
+						otroPerfil.setVisible(true);
+					}
+					
+					@Override
+					public void mouseEntered(MouseEvent event) {
+						notificacion.setBackground(new Color(240, 240, 240));
+					}
+					
+					@Override
+					public void mouseExited(MouseEvent event) {
+						notificacion.setBackground(Color.WHITE);
+					}
+				}
+			);
 			pnlNotificaciones.add(notificacion);
-			
-			scrNotificaciones.repaint();
-			scrNotificaciones.revalidate();
 		}
+		scrNotificaciones.repaint();
+		scrNotificaciones.revalidate();
 	}
 }

@@ -156,9 +156,10 @@ public class Contacto {
 	 */
 	static void rechazarNotifs(int id_destinatario, Connection connection) {
 		String updateNotifsQuery = "UPDATE Notificaciones SET est_not = 0 "
-								+ "WHERE dest_not = ? AND est_not = 1;";
+								+ "WHERE (orig_not = ? OR dest_not = ?) AND est_not = 1;";
 		try (PreparedStatement updateNotifStatement = connection.prepareStatement(updateNotifsQuery)) {
 			updateNotifStatement.setInt(1, id_destinatario);
+			updateNotifStatement.setInt(2, id_destinatario);
 			int rows_updated = updateNotifStatement.executeUpdate();
 
 			System.out.println(rows_updated);
