@@ -63,6 +63,10 @@ public class EditarPerfil {
 				}
 			}
 			
+			if (!editado.isDis_usu()) {
+				Contacto.rechazarNotifs(editado.getId(), con);
+			}
+			
 			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
