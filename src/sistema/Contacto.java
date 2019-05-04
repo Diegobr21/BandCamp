@@ -44,8 +44,8 @@ public class Contacto {
 				insertNotifStatement.setInt(1, id_remitente);
 				insertNotifStatement.setInt(2, id_destinatario);
 				
-				int rowsAdded = insertNotifStatement.executeUpdate();
-				if (rowsAdded == 0) {
+				int rows_added = insertNotifStatement.executeUpdate();
+				if (rows_added == 0) {
 					JOptionPane.showMessageDialog(null, "Hubo un error al contactar al usuario.", 
 							"No se creó notificación", JOptionPane.ERROR_MESSAGE);
 				}
@@ -94,6 +94,7 @@ public class Contacto {
 	 * @see {@link Contacto#REJECT}
 	 * @see {@link Contacto#PENDING}
 	 * @see {@link Contacto#ACCEPT}
+	 * @see {@link Usuario}
 	 */
 	public static void replyContact(int id_remitente, int id_destinatario, short estado) {
 		try (Connection connection = DriverManager.getConnection(DBInfo.URL, DBInfo.USER, DBInfo.PASSWORD)) {
@@ -106,9 +107,9 @@ public class Contacto {
 				selectNotifStatement.setInt(2, id_remitente);
 				selectNotifStatement.setInt(3, id_destinatario);
 				
-				int rowsUpdated = selectNotifStatement.executeUpdate();
-				if (rowsUpdated == 0) {
-					JOptionPane.showMessageDialog(null, "Ha ocurrido un error al modificar el contacto.", 
+				int rows_updated = selectNotifStatement.executeUpdate();
+				if (rows_updated == 0) {
+					JOptionPane.showMessageDialog(null, "Ha ocurrido un error al responder el contacto.", 
 							"Contacto sin modificar", JOptionPane.ERROR_MESSAGE);
 				}
 			}
@@ -116,6 +117,28 @@ public class Contacto {
 			error.printStackTrace();
 			JOptionPane.showMessageDialog(null, "Hubo un error al modificar el contacto.", 
 					"Error de servidor", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+	
+	/**
+	 * Rechaza todas las notificaciones pendientes que tenga el usuario.
+	 * @param id_destinatario {@code int} del ID del {@code Usuario} destinatario de las notificaciones.
+	 * @see {@link Usuario}
+	 */
+	private static void rejectNotifs(int id_destinatario) {
+		try (Connection connection = DriverManager.getConnection(DBInfo.URL, DBInfo.USER, DBInfo.PASSWORD)) {
+			String selectNotifsQuery = "UPDATE Notificaciones SET est_not = 0 "
+									+ "WHERE dest_not = ? AND est_not = 1;";
+			try (PreparedStatement selectNotifStatement = connection.prepareStatement(selectNotifsQuery)) {
+				selectNotifStatement.setInt(1, id_destinatario);
+				int rows_updated = selectNotifStatement.executeUpdate();
+
+				System.out.println(rows_updated);
+			}
+		} catch (SQLException error) {
+			JOptionPane.showMessageDialog(null, "Ocurrió un problema al modificar las notificaciones.", 
+					"Error de servidor", JOptionPane.ERROR_MESSAGE);
+			error.printStackTrace();
 		}
 	}
 }
