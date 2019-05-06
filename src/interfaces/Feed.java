@@ -202,15 +202,17 @@ class Feed extends JFrame implements ActionListener {
 					public void mouseExited(MouseEvent event) {
 						ficha.setBackground(Color.WHITE);
 						if (otroPerfil.closed && otroPerfil.cambios) {
-							otroPerfil.closed = false;
-							otroPerfil.cambios = false;
-							Feed.this.dispose();
 							System.out.println("\trefresh");
 							if (otroPerfil.deshab) {
 								cuenta.setDis_usu(false);
 							}
+							
+							Feed.this.dispose();
 							Feed feed = new Feed(cuenta);
 							feed.setVisible(true);
+							
+							otroPerfil.closed = false;
+							otroPerfil.cambios = false;
 						}
 					}
 				}
@@ -258,6 +260,19 @@ class Feed extends JFrame implements ActionListener {
 					@Override
 					public void mouseExited(MouseEvent event) {
 						notificacion.setBackground(Color.WHITE);
+						if (otroPerfil.closed && otroPerfil.cambios) {
+							System.out.println("\trefresh");
+							if (otroPerfil.deshab) {
+								cuenta.setDis_usu(false);
+							}
+							
+							Feed.this.dispose();
+							Feed feed = new Feed(cuenta);
+							feed.setVisible(true);
+							
+							otroPerfil.closed = false;
+							otroPerfil.cambios = false;
+						}
 					}
 				}
 			);
