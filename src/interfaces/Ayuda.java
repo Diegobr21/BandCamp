@@ -1,56 +1,51 @@
 package interfaces;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
+import java.awt.Font;
 
-import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import java.awt.Dimension;
 
 @SuppressWarnings("serial")
 class Ayuda extends JDialog {
-	private final JPanel contentPanel = new JPanel();
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			Ayuda dialog = new Ayuda();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 
 	/**
 	 * Create the dialog.
 	 */
 	public Ayuda() {
-		setBounds(100, 100, 450, 173);
-		getContentPane().setLayout(new BorderLayout());
-		contentPanel.setLayout(new FlowLayout());
-		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		{
-			JTextArea txtrLinksDeAyuda = new JTextArea();
-			txtrLinksDeAyuda.setText("Links de Ayuda\r\nwww.br.com\r\nwww.oracle.com\r\nwww.help.com.mx");
-			contentPanel.add(txtrLinksDeAyuda);
-		}
-		{
-			JPanel buttonPane = new JPanel();
-			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			getContentPane().add(buttonPane, BorderLayout.SOUTH);
-			{
-				JButton okButton = new JButton("OK");
-				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
-			}
-		}
-	}
+		setTitle("Bienvenido");
+		setLocationRelativeTo(null);
+		setSize(450, 400);
+		setResizable(false);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		
+		JPanel contentPane = new JPanel();
+		contentPane.setLayout(null);
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
 
+		JLabel lblAyuda = new JLabel();
+		lblAyuda.setLocation(0, 0);
+		lblAyuda.setSize(new Dimension(444, 371));
+		lblAyuda.setHorizontalAlignment(SwingConstants.CENTER);
+		lblAyuda.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblAyuda.setText("<html><center>"
+				+ "¡Gracias por unirte a BandCamp! A continuación verás tu muro, que no es más que una ventana "
+				+ "donde podrás conocer bandas y artistas acorde a tus gustos.<br><br>"
+				+ "Cuando encuentras un usuario de tu agrado, haz clic en su ficha y selecciona el botón 'Contactar' para "
+				+ "hacerle saber que te interesa asociarte con él.<br>"
+				+ "Si el usuario acepta tu contacto, tendrán un periodo de 7 días para acordar reuniones y así poder hablar "
+				+ "sobre una unión. Si deciden asociarse, pueden hacerlo saber al seleccionar el botón 'Unirse' en el perfil "
+				+ "del usuario, quien tendrá 3 días para aceptar. Cuando acepten la unión, sabremos que "
+				+ "hicimos posible una unión más en el mundo de la música.<br><br>"
+				+ "Cuando hayas tenido éxito en una asociación, el resto de notificaciones que tengas serán rechazadas "
+				+ "automáticamente y tu cuenta pasará a estar deshabilitada, para evitar que otros usuarios sigan "
+				+ "tratando de contactarte. Si tu cuenta es de una banda y te hacen falta más miembros, puedes habilitar nuevamente "
+				+ "tu cuenta iniciando sesión y editando tu perfil."
+				+ "</center></html>");
+		contentPane.add(lblAyuda);
+	}
 }
