@@ -130,6 +130,9 @@ class Registro2 extends JFrame implements ActionListener {
 				framefeed.setLocation(punto);
 				framefeed.setVisible(true);
 				Registro2.this.dispose();
+				Ayuda ayuda = new Ayuda();
+				ayuda.setLocationRelativeTo(null);
+				ayuda.setVisible(true);
 			}
 			
 		} else if(command.contentEquals("Regresar")){

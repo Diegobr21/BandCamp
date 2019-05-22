@@ -17,7 +17,6 @@ class Ayuda extends JDialog {
 	 */
 	public Ayuda() {
 		setTitle("Bienvenido");
-		setLocationRelativeTo(null);
 		setSize(450, 400);
 		setResizable(false);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
