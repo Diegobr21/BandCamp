@@ -21,7 +21,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import componentes.Ficha;
-import componentes.Notificacion;
+import componentes.NotifContacto;
 import sistema.Muro;
 import sistema.Usuario;
 
@@ -241,8 +241,8 @@ class Feed extends JFrame implements ActionListener {
 		for (Usuario remitente : remitentes) {
 			System.out.println("notificación");
 			
-			Notificacion notificacion = new Notificacion(remitente);
-			notificacion.addMouseListener(
+			NotifContacto notifContacto = new NotifContacto(remitente);
+			notifContacto.addMouseListener(
 				new MouseAdapter() {
 					Perfil otroPerfil = new Perfil(cuenta.getId(), remitente);
 					
@@ -254,12 +254,12 @@ class Feed extends JFrame implements ActionListener {
 					
 					@Override
 					public void mouseEntered(MouseEvent event) {
-						notificacion.setBackground(new Color(240, 240, 240));
+						notifContacto.setBackground(new Color(240, 240, 240));
 					}
 					
 					@Override
 					public void mouseExited(MouseEvent event) {
-						notificacion.setBackground(Color.WHITE);
+						notifContacto.setBackground(Color.WHITE);
 						if (otroPerfil.closed && otroPerfil.cambios) {
 							System.out.println("\trefresh");
 							if (otroPerfil.deshab) {
@@ -276,7 +276,7 @@ class Feed extends JFrame implements ActionListener {
 					}
 				}
 			);
-			pnlNotificaciones.add(notificacion);
+			pnlNotificaciones.add(notifContacto);
 		}
 		scrNotificaciones.repaint();
 		scrNotificaciones.revalidate();

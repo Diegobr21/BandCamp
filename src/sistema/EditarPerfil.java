@@ -46,7 +46,7 @@ public class EditarPerfil {
 			}
 			
 			String insert = "UPDATE Usuarios SET nom_usu = ?, gen_usu = ?, ins_usu = ?, "
-					+ "fac_usu = ?, des_usu = ?, dis_usu = ? WHERE id_usu = ?";
+					+ "fac_usu = ?, des_usu = ?, dis_usu = ?, con_usu = ? WHERE id_usu = ?";
 			try (PreparedStatement insertNom = con.prepareStatement(insert)) {
 				insertNom.setString(1, nuevoNombre);
 				insertNom.setString(2, editado.getGen_usu());
@@ -54,7 +54,8 @@ public class EditarPerfil {
 				insertNom.setString(4, editado.getFac_usu());
 				insertNom.setString(5, editado.getDes_usu());
 				insertNom.setBoolean(6, editado.isDis_usu());
-				insertNom.setInt(7, editado.getId());
+				insertNom.setString(7, editado.getCon_usu());
+				insertNom.setInt(8, editado.getId());
 				
 				int rsu = insertNom.executeUpdate();
 				if (rsu == 0) {
@@ -64,7 +65,7 @@ public class EditarPerfil {
 			}
 			
 			if (!editado.isDis_usu()) {
-				Contacto.rechazarNotifs(editado.getId(), con);
+				Union.rechazarNotifs(editado.getId(), con);
 			}
 			
 			return true;

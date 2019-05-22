@@ -73,12 +73,12 @@ public class Muro {
 	 * @return cantidad de notificaciones aceptadas.
 	 */
 	public static int countMatches() {
-		String selectAcceptedString = "SELECT * FROM Notificaciones WHERE est_not = ? ;";
+		String selectAcceptedString = "SELECT * FROM Uniones WHERE est_uni = ? ;";
 		try ( Connection connection = DriverManager.getConnection(DBInfo.URL, DBInfo.USER, DBInfo.PASSWORD);
 				PreparedStatement selectAcceptedPreparedStatement = connection.prepareStatement(selectAcceptedString) ) {
 			System.out.println("Conectado");
 			
-			selectAcceptedPreparedStatement.setInt(1, 2);
+			selectAcceptedPreparedStatement.setInt(1, Contacto.ACCEPT);
 			
 			int count = 0;
 			try (ResultSet acceptedResultSet = selectAcceptedPreparedStatement.executeQuery()) {

@@ -41,7 +41,7 @@ class Registro extends JFrame implements ActionListener, KeyListener {
 	 */	
 	Registro(Usuario cuentaParam) {
 		if (cuentaParam == null) {
-			cuentaParam = new Usuario(0, "", "", 1, "", "Rock", "Guitarra", "FIME", "", true);
+			cuentaParam = new Usuario(0, "", "", 1, "", "Rock", "Guitarra", "FIME", "", true, "");
 		}
 		nuevaCuenta = cuentaParam;
 		

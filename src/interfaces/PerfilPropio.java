@@ -42,24 +42,27 @@ class PerfilPropio extends Perfil implements ActionListener{
 		cuenta = sesion;
 		disponible = cuenta.isDis_usu();
 		
+		txtContacto.setFont(null);
+		txtContacto.setText(cuenta.getCon_usu());
+		
 		txtNombre = new JTextField();
 		txtNombre.setFont(new Font("Verdana", Font.BOLD, 16));
 		txtNombre.setForeground(Color.BLACK);
-		txtNombre.setBounds(158, 43, 128, 21);
+		txtNombre.setBounds(158, 11, 128, 21);
 		txtNombre.setVisible(false);
 		contentPane.add(txtNombre);
 		
 		perfilCmbs = new ComboBoxes();
 		
-		perfilCmbs.cmbFacultades.setLocation(158, 156);
+		perfilCmbs.cmbFacultades.setLocation(158, 119);
 		perfilCmbs.cmbFacultades.setVisible(false);
 		contentPane.add(perfilCmbs.cmbFacultades);
 		
-		perfilCmbs.cmbGeneros.setLocation(391, 112);
+		perfilCmbs.cmbGeneros.setLocation(391, 80);
 		perfilCmbs.cmbGeneros.setVisible(false);
 		contentPane.add(perfilCmbs.cmbGeneros);
 
-		perfilCmbs.cmbInstrumentos.setLocation(391, 144);
+		perfilCmbs.cmbInstrumentos.setLocation(391, 112);
 		perfilCmbs.cmbInstrumentos.setVisible(false);
 		contentPane.add(perfilCmbs.cmbInstrumentos);
 		
@@ -68,7 +71,7 @@ class PerfilPropio extends Perfil implements ActionListener{
 		btnRegresar.setForeground(Color.RED);
 		btnRegresar.setBackground(Color.WHITE);
 		btnRegresar.setFont(new Font("Palatino Linotype", Font.BOLD, 15));
-		btnRegresar.setBounds(10, 11, 67, 21);
+		btnRegresar.setBounds(10, 11, 40, 21);
 		contentPane.add(btnRegresar);
 		btnRegresar.setActionCommand("Regresar");
 		btnRegresar.addActionListener(this);
@@ -76,7 +79,7 @@ class PerfilPropio extends Perfil implements ActionListener{
 		btnCerrarSesion = new JButton("Cerrar sesión");
 		btnCerrarSesion.setFont(new Font("Verdana", Font.BOLD, 12));
 		btnCerrarSesion.setBackground(Color.WHITE);
-		btnCerrarSesion.setBounds(34, 336, 139, 34);
+		btnCerrarSesion.setBounds(20, 455, 139, 25);
 		contentPane.add(btnCerrarSesion);
 		btnCerrarSesion.setActionCommand("Cerrar");
 		btnCerrarSesion.addActionListener(this);
@@ -84,7 +87,7 @@ class PerfilPropio extends Perfil implements ActionListener{
 		btnEditar = new JButton("Editar");
 		btnEditar.setBackground(Color.WHITE);
 		btnEditar.setFont(new Font("Verdana", Font.BOLD, 12));
-		btnEditar.setBounds(479, 336, 104, 34);
+		btnEditar.setBounds(479, 455, 110, 25);
 		contentPane.add(btnEditar);
 		btnEditar.addActionListener(this);
 		btnEditar.setActionCommand("Editar");
@@ -92,7 +95,7 @@ class PerfilPropio extends Perfil implements ActionListener{
 		btnDisponibilidad = new JButton();
 		btnDisponibilidad.setVisible(false);
 		btnDisponibilidad.setEnabled(false);
-		btnDisponibilidad.setBounds(390, 43, 200, 34);
+		btnDisponibilidad.setBounds(391, 30, 200, 34);
 		btnDisponibilidad.setFont(new Font("Verdana", Font.BOLD, 12));
 		btnDisponibilidad.setForeground(Color.BLACK);
 		btnDisponibilidad.addActionListener(this);
@@ -125,6 +128,7 @@ class PerfilPropio extends Perfil implements ActionListener{
 			perfilCmbs.cmbInstrumentos.setSelectedItem(instrumento);
 			
 			txtDescripcion.setEditable(true);
+			txtContacto.setEditable(true);
 			
 			btnEditar.setText("Guardar");
 			btnEditar.setActionCommand("Guardar");
@@ -141,9 +145,10 @@ class PerfilPropio extends Perfil implements ActionListener{
 			String genero = perfilCmbs.cmbGeneros.getSelectedItem().toString();
 			String instrumento = perfilCmbs.cmbInstrumentos.getSelectedItem().toString();
 			String descripcion = txtDescripcion.getText();
+			String contacto = txtContacto.getText();
 			
 			Usuario editado = new Usuario(cuenta.getId(), cuenta.getCor_usu(), cuenta.getPas_usu(), cuenta.getTip_usu(), nombre,
-					genero, instrumento, facultad, descripcion, disponible);
+					genero, instrumento, facultad, descripcion, disponible, contacto);
 			
 			boolean cuentaEditada = EditarPerfil.editarCuenta(cuenta, editado);
 			if (cuentaEditada) {
@@ -165,6 +170,8 @@ class PerfilPropio extends Perfil implements ActionListener{
 				
 				txtDescripcion.setEditable(false);
 				txtDescripcion.setText(editado.getDes_usu());
+				txtContacto.setEditable(false);
+				txtContacto.setText(editado.getCon_usu());
 				
 				btnEditar.setText("Editar");
 				btnEditar.setActionCommand("Editar");
