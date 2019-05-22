@@ -11,10 +11,10 @@ import java.awt.Font;
 import javax.swing.SwingConstants;
 
 @SuppressWarnings("serial")
-public class Notificacion extends JPanel {
+public class NotifContacto extends JPanel {
 	protected Dimension dimension = new Dimension(200, 70);
 	
-	public Notificacion(Usuario usuario) {
+	public NotifContacto(Usuario usuario) {
 		setSize(dimension);
 		setVisible(true);
 		setLayout(null);
