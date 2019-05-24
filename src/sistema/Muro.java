@@ -94,40 +94,4 @@ public class Muro {
 		
 		return 0;
 	}
-	
-	/**
-	 * Lista los usuarios que han enviado una notificación a la sesión iniciada.
-	 * @param id_destinatario {@code int} que almacena el id_usu de la sesión iniciada.
-	 * @return {@code List} con los usuarios remitentes.
-	 * @see {@link Usuario}
-	 */
-	public static List<Usuario> listarRemitentes (int id_destinatario) {
-		String selectUserString = "SELECT * FROM Usuarios WHERE id_usu IN "
-				+ "(SELECT orig_not FROM Notificaciones WHERE dest_not = ? AND est_not = 1) ;";
-		try ( Connection connection = DriverManager.getConnection(DBInfo.URL, DBInfo.USER, DBInfo.PASSWORD);
-				PreparedStatement selectUserStatement = connection.prepareStatement(selectUserString) ) {
-			System.out.println("Conectado");
-			
-			selectUserStatement.setInt(1, id_destinatario);
-			
-			List<Usuario> listRemitentes = new ArrayList<Usuario>();
-			try (ResultSet selectedUsers = selectUserStatement.executeQuery()) {
-				while (selectedUsers.next()) {
-					Usuario remitente = new Usuario(selectedUsers);
-					remitente.setCor_usu("");
-					remitente.setPas_usu("");
-					listRemitentes.add(remitente);
-				}
-			}
-			
-			return listRemitentes;
-			
-		} catch (SQLException error) {
-			error.printStackTrace();
-		}
-		JOptionPane.showMessageDialog(null, "Lo sentimos, no fue posible cargar las notificaciones.", 
-				"Error de servidor", JOptionPane.ERROR_MESSAGE);
-		
-		return null;
-	}
 }

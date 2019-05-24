@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
@@ -124,5 +126,41 @@ public class Union {
 					"Error de servidor", JOptionPane.ERROR_MESSAGE);
 			error.printStackTrace();
 		}
+	}
+	
+	/**
+	 * Lista los usuarios que han enviado una solicitud de unión a la sesión iniciada.
+	 * @param id_destinatario {@code int} que almacena el id_usu de la sesión iniciada.
+	 * @return {@code List} con los usuarios remitentes.
+	 * @see {@link Usuario}
+	 */
+	public static List<Usuario> listarRemitentes (int id_destinatario) {
+		String selectUserString = "SELECT * FROM Usuarios WHERE id_usu IN "
+				+ "(SELECT orig_uni FROM Uniones WHERE dest_uni = ? AND est_uni = 1) ;";
+		try ( Connection connection = DriverManager.getConnection(DBInfo.URL, DBInfo.USER, DBInfo.PASSWORD);
+				PreparedStatement selectUserStatement = connection.prepareStatement(selectUserString) ) {
+			System.out.println("Conectado");
+			
+			selectUserStatement.setInt(1, id_destinatario);
+			
+			List<Usuario> listRemitentes = new ArrayList<Usuario>();
+			try (ResultSet selectedUsers = selectUserStatement.executeQuery()) {
+				while (selectedUsers.next()) {
+					Usuario remitente = new Usuario(selectedUsers);
+					remitente.setCor_usu("");
+					remitente.setPas_usu("");
+					listRemitentes.add(remitente);
+				}
+			}
+			
+			return listRemitentes;
+			
+		} catch (SQLException error) {
+			error.printStackTrace();
+		}
+		JOptionPane.showMessageDialog(null, "Lo sentimos, no fue posible cargar las notificaciones.", 
+				"Error de servidor", JOptionPane.ERROR_MESSAGE);
+		
+		return null;
 	}
 }

@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BoxLayout;
@@ -21,7 +22,9 @@ import javax.swing.border.EmptyBorder;
 
 import componentes.Ficha;
 import componentes.NotifContacto;
+import sistema.Contacto;
 import sistema.Muro;
+import sistema.Union;
 import sistema.Usuario;
 
 @SuppressWarnings("serial")
@@ -203,7 +206,10 @@ class Feed extends JFrame implements ActionListener {
 	 * @param sesionIniciada {@code Usuario} destinatario de las notificaciones.
 	 */
 	private void agregarNotificaciones(Usuario sesionIniciada) {
-		List<Usuario> remitentes = Muro.listarRemitentes(sesionIniciada.getId());
+		List<Usuario> remitentes = new ArrayList<Usuario>();
+		remitentes.addAll(Contacto.listarRemitentes(sesionIniciada.getId()));
+		remitentes.addAll(Union.listarRemitentes(sesionIniciada.getId()));
+		
 		if (remitentes == null || remitentes.size() == 0) {
 			JLabel lblNoNotifs = new JLabel("No tienes notificaciones.");
 			lblNoNotifs.setHorizontalAlignment(SwingConstants.CENTER);
