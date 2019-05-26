@@ -14,14 +14,13 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import componentes.Ficha;
-import componentes.Notificacion;
+import componentes.NotifContacto;
 import sistema.Muro;
 import sistema.Usuario;
 
@@ -115,40 +114,16 @@ class Feed extends JFrame implements ActionListener {
 			lblDeshabilitado.setSize(624, 27);
 			pnlFichas.add(lblDeshabilitado);
 		}
-	}	
-		
-		/*	Ayuda ayuda = new Ayuda();
-		ayuda.getContentPane();
-		ayuda.pack();
-		Feed muro = new Feed();
-		
-		btnAyuda.addActionListener(new ActionListener() { 	
-			public void actionPerformed(ActionEvent e) { 	
-				muro.setVisible(false); 
-				ayuda.setVisible(true);	}
-			}); 
-	
-		// Hacer que al cerrarse la secundaria con la x de arriba a la  derecha, se muestre la primaria
-		ayuda.addWindowListener(new WindowAdapter() { 
-			public void windowClosing(WindowEvent e) { 
-				muro.setVisible(true); 	
-				ayuda.setVisible(false);
-				} 
-			public void windowClosed(WindowEvent e) { 
-				muro.setVisible(true); 
-				ayuda.setVisible(false); 
-				}
-			}); 	
-		// Mostrar la ventana principal
-		ayuda.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); 
-		muro.setVisible(true); 	*/
+	}
 		
 	@Override
 	public void actionPerformed(ActionEvent i) {
 		String command = i.getActionCommand();
 		
 		if (command.contentEquals("Ayuda")){
-			JOptionPane.showMessageDialog(null, "Links de ayuda: \n www.help.mx \n www.oracle.com");
+			Ayuda ayuda = new Ayuda();
+			ayuda.setLocationRelativeTo(null);
+			ayuda.setVisible(true);
 			
 		} else if (command.contentEquals("PerfilUser")) {
 			PerfilPropio profileframe = new PerfilPropio(cuenta);
@@ -202,15 +177,17 @@ class Feed extends JFrame implements ActionListener {
 					public void mouseExited(MouseEvent event) {
 						ficha.setBackground(Color.WHITE);
 						if (otroPerfil.closed && otroPerfil.cambios) {
-							otroPerfil.closed = false;
-							otroPerfil.cambios = false;
-							Feed.this.dispose();
 							System.out.println("\trefresh");
 							if (otroPerfil.deshab) {
 								cuenta.setDis_usu(false);
 							}
+							
+							Feed.this.dispose();
 							Feed feed = new Feed(cuenta);
 							feed.setVisible(true);
+							
+							otroPerfil.closed = false;
+							otroPerfil.cambios = false;
 						}
 					}
 				}
@@ -239,8 +216,8 @@ class Feed extends JFrame implements ActionListener {
 		for (Usuario remitente : remitentes) {
 			System.out.println("notificación");
 			
-			Notificacion notificacion = new Notificacion(remitente);
-			notificacion.addMouseListener(
+			NotifContacto notifContacto = new NotifContacto(remitente);
+			notifContacto.addMouseListener(
 				new MouseAdapter() {
 					Perfil otroPerfil = new Perfil(cuenta.getId(), remitente);
 					
@@ -252,16 +229,29 @@ class Feed extends JFrame implements ActionListener {
 					
 					@Override
 					public void mouseEntered(MouseEvent event) {
-						notificacion.setBackground(new Color(240, 240, 240));
+						notifContacto.setBackground(new Color(240, 240, 240));
 					}
 					
 					@Override
 					public void mouseExited(MouseEvent event) {
-						notificacion.setBackground(Color.WHITE);
+						notifContacto.setBackground(Color.WHITE);
+						if (otroPerfil.closed && otroPerfil.cambios) {
+							System.out.println("\trefresh");
+							if (otroPerfil.deshab) {
+								cuenta.setDis_usu(false);
+							}
+							
+							Feed.this.dispose();
+							Feed feed = new Feed(cuenta);
+							feed.setVisible(true);
+							
+							otroPerfil.closed = false;
+							otroPerfil.cambios = false;
+						}
 					}
 				}
 			);
-			pnlNotificaciones.add(notificacion);
+			pnlNotificaciones.add(notifContacto);
 		}
 		scrNotificaciones.repaint();
 		scrNotificaciones.revalidate();

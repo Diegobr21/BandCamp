@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
@@ -26,7 +27,7 @@ class Registro2 extends JFrame implements ActionListener {
 	private JPanel contentPane;
 	private JTextField txtcodigo;
 	
-	private JTextArea txtdescripcion;
+	private JTextArea txtDescripcion, txtContacto;
 	private Usuario nuevaCuenta;
 	/**
 	 * Create the frame.
@@ -54,7 +55,7 @@ class Registro2 extends JFrame implements ActionListener {
 		btnRegresar.addActionListener(this);
 		
 		txtcodigo = new JTextField();
-		txtcodigo.setBounds(232, 266, 113, 34);
+		txtcodigo.setBounds(234, 286, 113, 34);
 		contentPane.add(txtcodigo);
 		txtcodigo.setColumns(4);
 		txtcodigo.addActionListener(this);
@@ -63,28 +64,51 @@ class Registro2 extends JFrame implements ActionListener {
 		btnCrearCuenta.setForeground(Color.BLACK);
 		btnCrearCuenta.setBackground(Color.WHITE);
 		btnCrearCuenta.setFont(new Font("Verdana", Font.BOLD, 12));
-		btnCrearCuenta.setBounds(219, 331, 141, 35);
+		btnCrearCuenta.setBounds(222, 345, 141, 35);
 		contentPane.add(btnCrearCuenta);
 		btnCrearCuenta.setActionCommand("Crear");
 		
 		JLabel lblcodigo = new JLabel("Ingrese el c\u00F3digo de verificaci\u00F3n de su correo");
 		lblcodigo.setFont(new Font("Verdana", Font.BOLD, 11));
 		lblcodigo.setForeground(Color.YELLOW);
-		lblcodigo.setBounds(130, 231, 341, 24);
+		lblcodigo.setBounds(133, 251, 341, 24);
 		contentPane.add(lblcodigo);
 		
-		txtdescripcion = new JTextArea();
-		txtdescripcion.setText("Ej: Originario de Zacatecas, experiencia en BandaEjemplo por 2 a\u00F1os.\r\n\r\nFacebook: JuanPerezGzz\r\nWhatsapp: 8181170378");
-		txtdescripcion.setBounds(52, 108, 505, 102);
-		contentPane.add(txtdescripcion);
+		JLabel lblDescripcion = new JLabel("Descripci\u00F3n (informaci\u00F3n p\u00FAblica)");
+		lblDescripcion.setFont(new Font("Verdana", Font.BOLD, 11));
+		lblDescripcion.setForeground(Color.YELLOW);
+		lblDescripcion.setBounds(190, 9, 233, 28);
+		contentPane.add(lblDescripcion);
 		
-		JLabel lblDescripcinYContacto = new JLabel("Descripci\u00F3n y contacto");
-		lblDescripcinYContacto.setFont(new Font("Verdana", Font.BOLD, 11));
-		lblDescripcinYContacto.setForeground(Color.YELLOW);
-		lblDescripcinYContacto.setBounds(52, 70, 206, 27);
-		contentPane.add(lblDescripcinYContacto);
+		JScrollPane scrDescripcion = new JScrollPane();
+		scrDescripcion.setBounds(58, 49, 526, 68);
+		scrDescripcion.setVisible(true);
+		contentPane.add(scrDescripcion);
+		
+		txtDescripcion = new JTextArea();
+		txtDescripcion.setWrapStyleWord(true);
+		txtDescripcion.setLineWrap(true);
+		txtDescripcion.setText("ejemplo: Rockero desde peque\u00F1o, he estado en 4 bandas y participado en varios conciertos menores.");
+		scrDescripcion.setViewportView(txtDescripcion);
+		
+		JLabel lblContacto = new JLabel("Contacto (informaci\u00F3n privada)");
+		lblContacto.setForeground(Color.YELLOW);
+		lblContacto.setFont(new Font("Verdana", Font.BOLD, 11));
+		lblContacto.setBounds(190, 127, 210, 28);
+		contentPane.add(lblContacto);
+		
+		JScrollPane scrContacto = new JScrollPane();
+		scrContacto.setBounds(58, 166, 526, 74);
+		scrContacto.setVisible(true);
+		contentPane.add(scrContacto);
+		
+		txtContacto = new JTextArea();
+		txtContacto.setLineWrap(true);
+		txtContacto.setWrapStyleWord(true);
+		txtContacto.setText("ejemplo: WhatsApp: 8125456789");
+		scrContacto.setViewportView(txtContacto);
+		
 		btnCrearCuenta.addActionListener(this);
-		
 	}
 
 	@Override
@@ -92,7 +116,8 @@ class Registro2 extends JFrame implements ActionListener {
 		String command= e.getActionCommand();
 		
 		if (command.contentEquals("Crear")){
-			nuevaCuenta.setDes_usu(txtdescripcion.getText());
+			nuevaCuenta.setDes_usu(txtDescripcion.getText());
+			nuevaCuenta.setCon_usu(txtContacto.getText());
 			String codigo = txtcodigo.getText();
 			
 			boolean cuentaCreada = new Registrar().createAccount(nuevaCuenta, codigo);
@@ -105,6 +130,9 @@ class Registro2 extends JFrame implements ActionListener {
 				framefeed.setLocation(punto);
 				framefeed.setVisible(true);
 				Registro2.this.dispose();
+				Ayuda ayuda = new Ayuda();
+				ayuda.setLocationRelativeTo(null);
+				ayuda.setVisible(true);
 			}
 			
 		} else if(command.contentEquals("Regresar")){

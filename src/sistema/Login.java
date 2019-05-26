@@ -20,15 +20,25 @@ public class Login {
 	 * si no coinciden retorna <code>null</code>.
 	 */
 	public static Usuario ingresar(String correo, String password) {
-		String selectUsuarios = "SELECT * FROM Usuarios WHERE cor_usu = ? ;";
+		if (correo.equals("")) {
+			JOptionPane.showMessageDialog(null, "Por favor, ingresa un correo electrónico.", 
+					"Correo electrónico en blanco", JOptionPane.ERROR_MESSAGE);
+			return null;
+		} else if (password.equals("")) {
+			JOptionPane.showMessageDialog(null, "Por favor, ingresa una contraseña.", 
+					"Contraseña en blanco", JOptionPane.ERROR_MESSAGE);
+			return null;
+		}
 		
+		String selectUsuarios = "SELECT * FROM Usuarios WHERE cor_usu = ? ;";
 		try ( Connection con = DriverManager.getConnection(DBInfo.URL, DBInfo.USER, DBInfo.PASSWORD);
 				PreparedStatement selectUsu = con.prepareStatement(selectUsuarios) ) {
 			
 			System.out.println("Conexión establecida");
 			
 			selectUsu.setString(1, correo);
-			try ( ResultSet usuarios = selectUsu.executeQuery() ) {
+			
+			try (ResultSet usuarios = selectUsu.executeQuery()) {
 				while (usuarios.next()) {
 					String hashedPswd = MD5.hashPassword(password);
 					if (hashedPswd.equals(usuarios.getString("pas_usu"))) {
@@ -47,9 +57,9 @@ public class Login {
 						
 		} catch(SQLException e) {
 			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Lo sentimos, no es posible iniciar sesión.", "Error de servidor", JOptionPane.ERROR_MESSAGE);
 		}
 		
-		JOptionPane.showMessageDialog(null, "Lo sentimos, no es posible iniciar sesión.", "Error de servidor", JOptionPane.ERROR_MESSAGE);
 		return null;
 	}
 }

@@ -18,23 +18,25 @@ public class Usuario implements Serializable {
 	private String fac_usu;
 	private String des_usu;
 	private boolean dis_usu;
+	private String con_usu;
 //	private int img_usu;
 	
-	public Usuario(int id ,String cor_usu, String pas_usu, int tip_usu, String nom_usu,
-			String gen_usu, String ins_usu, String fac_usu, String des_usu, boolean dis_usu) {
-		this.id = id;
-		this.cor_usu = cor_usu;
-		this.pas_usu = pas_usu;
-		this.tip_usu = tip_usu;
-		this.nom_usu = nom_usu;
-		this.gen_usu = gen_usu;
-		this.ins_usu = ins_usu;
-		this.fac_usu = fac_usu;
-		this.des_usu = des_usu;
-		this.dis_usu = dis_usu;
-//		this.img_usu = img_usu;
-	}
-	
+	public Usuario(int id, String cor_usu, String pas_usu, int tip_usu, String nom_usu, String gen_usu, String ins_usu,
+		String fac_usu, String des_usu, boolean dis_usu, String con_usu) {
+	this.id = id;
+	this.cor_usu = cor_usu;
+	this.pas_usu = pas_usu;
+	this.tip_usu = tip_usu;
+	this.nom_usu = nom_usu;
+	this.gen_usu = gen_usu;
+	this.ins_usu = ins_usu;
+	this.fac_usu = fac_usu;
+	this.des_usu = des_usu;
+	this.dis_usu = dis_usu;
+	this.con_usu = con_usu;
+//	this.img_usu = img_usu;
+}
+
 	/**
 	 * Construye un {@code Usuario} a partir del resultado de una consulta a la tabla de la base de datos.
 	 * @param resultSet {@code ResultSet} que almacena la respuesta de la consulta, de la cual se obtendrán los datos de cada campo.
@@ -51,12 +53,14 @@ public class Usuario implements Serializable {
 		this.fac_usu = resultSet.getString("fac_usu");
 		this.des_usu = resultSet.getString("des_usu");
 		this.dis_usu = resultSet.getBoolean("dis_usu");
+		this.con_usu = resultSet.getString("con_usu");
 //		this.img_usu = resultSet.getInt("img_usu");
 	}
 	
-	public String toString(){
-		return id + " / " + cor_usu + " / " + pas_usu + " / " + tip_usu + " / " + nom_usu + " / " +
-				gen_usu + " / " + ins_usu + " / " + fac_usu + " / " + des_usu;
+	public String toString() {
+		return "Usuario [id=" + id + ", cor_usu=" + cor_usu + ", pas_usu=" + pas_usu + ", tip_usu=" + tip_usu
+				+ ", nom_usu=" + nom_usu + ", gen_usu=" + gen_usu + ", ins_usu=" + ins_usu + ", fac_usu=" + fac_usu
+				+ ", des_usu=" + des_usu + ", dis_usu=" + dis_usu + ", con_usu=" + con_usu + "]";
 	}
 	
 	public int getId() {
@@ -127,6 +131,14 @@ public class Usuario implements Serializable {
 	}
 	public void setDis_usu(boolean dis_usu) {
 		this.dis_usu = dis_usu;
+	}
+
+	public String getCon_usu() {
+		return con_usu;
+	}
+
+	public void setCon_usu(String con_usu) {
+		this.con_usu = con_usu;
 	}
 
 //	public int getImg_usu() {
