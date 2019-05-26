@@ -7,6 +7,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +34,9 @@ import sistema.Usuario;
 
 @SuppressWarnings("serial")
 class Feed extends JFrame implements ActionListener {
+	public static final String SERVER_IP = "localhost";
+	public static final int SERVER_PORT = 9000;
+	
 	private JPanel pnlFichas, pnlNotificaciones;
 	private JScrollPane scrFichas, scrNotificaciones;
 	private JButton btnNotificaciones;
@@ -37,8 +45,9 @@ class Feed extends JFrame implements ActionListener {
 	
 	/**
 	 * Create the frame.
+	 * @throws Exception 
 	 */
-	Feed(Usuario sesion) {
+	Feed(Usuario sesion) throws Exception {
 		cuenta = sesion;
 	
 		setResizable(false);
@@ -108,7 +117,11 @@ class Feed extends JFrame implements ActionListener {
 		contentPane.add(lblContador);
 		
 		if (cuenta.isDis_usu()) {
-			agregarFichas(cuenta);
+			try {
+				agregarFichas(cuenta);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			agregarNotificaciones(cuenta);
 		} else {
 			JLabel lblDeshabilitado = new JLabel("Habilita tu cuenta para ver a otros usuarios.");
@@ -129,11 +142,16 @@ class Feed extends JFrame implements ActionListener {
 			ayuda.setVisible(true);
 			
 		} else if (command.contentEquals("PerfilUser")) {
-			PerfilPropio profileframe = new PerfilPropio(cuenta);
-			Point punto = Feed.this.getLocation();
-			profileframe.setLocation(punto);
-			profileframe.setVisible(true);
-			Feed.this.dispose();
+			PerfilPropio profileframe;
+			try {
+				profileframe = new PerfilPropio(cuenta);
+				Point punto = Feed.this.getLocation();
+				profileframe.setLocation(punto);
+				profileframe.setVisible(true);
+				Feed.this.dispose();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			
 		} else if (command.contentEquals("abrirNots")) {
 			scrNotificaciones.setVisible(true);
@@ -144,9 +162,17 @@ class Feed extends JFrame implements ActionListener {
 	/**
 	 * Agrega las fichas de las cuentas que se filtraron al {@code JScrollPane} del muro.
 	 * @param sesionIniciada {@code Usuario} de la sesión iniciada para filtrar las cuentas.
+	 * @throws Exception 
 	 */
-	private void agregarFichas(Usuario sesionIniciada) {
-		List<Usuario> cuentasFiltradas = Muro.filtrarCuentas(sesionIniciada);
+	private void agregarFichas(Usuario sesionIniciada) throws Exception {
+		Socket s = new Socket(SERVER_IP,SERVER_PORT);
+		ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
+		ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
+		
+		oos.writeInt(3);
+		oos.writeObject(sesionIniciada);
+		
+		List<Usuario> cuentasFiltradas = (List<Usuario>)ois.readObject();
 		if (cuentasFiltradas == null || cuentasFiltradas.size() == 0) {
 			JLabel lblNoMatch = new JLabel("No hay cuentas que coincidan con lo que buscas.");
 			lblNoMatch.setHorizontalAlignment(SwingConstants.CENTER);
@@ -186,8 +212,13 @@ class Feed extends JFrame implements ActionListener {
 							}
 							
 							Feed.this.dispose();
-							Feed feed = new Feed(cuenta);
-							feed.setVisible(true);
+							Feed feed;
+							try {
+								feed = new Feed(cuenta);
+								feed.setVisible(true);
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
 							
 							otroPerfil.closed = false;
 							otroPerfil.cambios = false;
@@ -199,13 +230,18 @@ class Feed extends JFrame implements ActionListener {
 		}
 		scrFichas.repaint();
 		scrFichas.revalidate();
+		
+		oos.close();
+		ois.close();
+		s.close();
 	}
 	
 	/**
 	 * Agrega las notificaciones correspondientes.
 	 * @param sesionIniciada {@code Usuario} destinatario de las notificaciones.
+	 * @throws Exception 
 	 */
-	private void agregarNotificaciones(Usuario sesionIniciada) {
+	private void agregarNotificaciones(Usuario sesionIniciada) throws Exception {
 		List<Usuario> contactos = Contacto.listarRemitentes(sesionIniciada.getId());
 		List<Usuario> uniones = Union.listarRemitentes(sesionIniciada.getId());
 		
@@ -228,7 +264,7 @@ class Feed extends JFrame implements ActionListener {
 		scrNotificaciones.revalidate();
 	}
 	
-	private void loopList(List<Usuario> lista, short tipo) {
+	private void loopList(List<Usuario> lista, short tipo) throws Exception {
 		for (Usuario remitente : lista) {
 			System.out.println("notificación");
 			NotifContacto notifContacto = new NotifContacto(remitente, tipo);
@@ -257,8 +293,13 @@ class Feed extends JFrame implements ActionListener {
 							}
 							
 							Feed.this.dispose();
-							Feed feed = new Feed(cuenta);
-							feed.setVisible(true);
+							Feed feed;
+							try {
+								feed = new Feed(cuenta);
+								feed.setVisible(true);
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
 							
 							otroPerfil.closed = false;
 							otroPerfil.cambios = false;
