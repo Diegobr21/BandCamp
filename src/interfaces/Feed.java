@@ -221,8 +221,7 @@ class Feed extends JFrame implements ActionListener {
 		
 		for (Usuario remitente : remitentes) {
 			System.out.println("notificación");
-			
-			NotifContacto notifContacto = new NotifContacto(remitente);
+			NotifContacto notifContacto = new NotifContacto(remitente, NotifContacto.CONTACTO);
 			notifContacto.addMouseListener(
 				new MouseAdapter() {
 					Perfil otroPerfil = new Perfil(cuenta.getId(), remitente);

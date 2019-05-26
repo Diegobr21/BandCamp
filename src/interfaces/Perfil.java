@@ -165,21 +165,20 @@ public class Perfil extends JFrame implements WindowListener, ActionListener {
 				btnContactar.setText("Unirse");
 				btnContactar.setActionCommand("unirse");
 				btnContactar.setVisible(true);
-				btnContactar.setEnabled(true);	
-			}
-			
-			if (Union.alreadyContacted(scuenta.getId(), id_iniciada, Contacto.PENDING)) {
-				// si la cuenta vista le envió solicitud de unión a la sesión iniciada
-				btnContactar.setVisible(false);
-				btnAceptar.setVisible(true);
-				btnAceptar.setActionCommand("aceptar_uni");
-				btnRechazar.setVisible(true);
-				btnRechazar.setActionCommand("rechazar_uni");
+				btnContactar.setEnabled(true);
 				
-			} else if (Union.alreadyContacted(id_iniciada, scuenta.getId(), Contacto.PENDING)) {
-				// si la sesión iniciada le envió solicitud de unión a la cuenta vista
-				btnContactar.setText("Unirse");
-				btnContactar.setEnabled(false);	
+				if (Union.alreadyContacted(scuenta.getId(), id_iniciada, Contacto.PENDING)) {
+					// si la cuenta vista le envió solicitud de unión a la sesión iniciada
+					btnContactar.setVisible(false);
+					btnAceptar.setVisible(true);
+					btnAceptar.setActionCommand("aceptar_uni");
+					btnRechazar.setVisible(true);
+					btnRechazar.setActionCommand("rechazar_uni");
+					
+				} else if (Union.alreadyContacted(id_iniciada, scuenta.getId(), Contacto.PENDING)) {
+					// si la sesión iniciada le envió solicitud de unión a la cuenta vista
+					btnContactar.setEnabled(false);	
+				}
 			}
 			
 			else {
