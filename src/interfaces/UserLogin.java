@@ -19,8 +19,16 @@ import javax.swing.border.BevelBorder;
 import sistema.Login;
 import sistema.Usuario;
 
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+
 @SuppressWarnings("serial")
 public class UserLogin extends JFrame implements ActionListener, KeyListener {
+	
+	public static final String SERVER_IP = "localhost";
+	public static final int SERVER_PORT = 9000;
+	
 	private JTextField txtCorreo;
 	private JPasswordField passwordField;
 	
@@ -89,7 +97,11 @@ public class UserLogin extends JFrame implements ActionListener, KeyListener {
 		//---botones
 		String command = event.getActionCommand();
 		if (command.contentEquals("Inicio")) {
-			tryLogIn();
+			try {
+				tryLogIn();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		else if(command.contentEquals("Registro")) {
 		    Registro frameregistro = new Registro(null);
@@ -104,7 +116,11 @@ public class UserLogin extends JFrame implements ActionListener, KeyListener {
 	public void keyPressed(KeyEvent event) {
 		int key = event.getKeyCode();
 		if (key == KeyEvent.VK_ENTER) {
-			tryLogIn();
+			try {
+				tryLogIn();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	@Override public void keyTyped(KeyEvent e) {}
@@ -112,12 +128,28 @@ public class UserLogin extends JFrame implements ActionListener, KeyListener {
 	
 	/**
 	 * Hace un intento de inicio de sesión.
+	 * @throws Exception 
 	 */
-	private void tryLogIn() {
+	private void tryLogIn() throws Exception {
+		
+		Socket s = new Socket(SERVER_IP,SERVER_PORT);
+		ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
+		ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
+		
+		oos.writeInt(1);
+		
 		String correo = txtCorreo.getText();
 		String password = String.valueOf(passwordField.getPassword());
 		
-		Usuario sesionIniciada = Login.ingresar(correo, password);
+		oos.writeObject(correo);
+		oos.writeObject(password);
+		
+		String respuesta = (String)ois.readObject();
+		
+		System.out.println(respuesta);
+		
+		Usuario sesionIniciada = (Usuario)ois.readObject();
+		
 		if (sesionIniciada != null) {
 			Feed framefeed = new Feed(sesionIniciada);
 			framefeed.setVisible(true);

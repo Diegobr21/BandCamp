@@ -10,7 +10,7 @@ class DBInfo {
     // static final String PASSWORD = "Avion123";
 	// static final String URL = "jdbc:sqlserver://localhost:1433;databaseName=Server;sendStringParametersAsUnicode=false";
 	
-	static final String USER = "sa";
-	static final String PASSWORD = "123";
+	static final String USER = "DanielSal";
+	static final String PASSWORD = "Admin1205";
 	static final String URL = "jdbc:sqlserver://localhost:1433;databaseName=Servidor;sendStringParametersAsUnicode=false";
 }

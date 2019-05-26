@@ -22,8 +22,15 @@ import componentes.ComboBoxes;
 import sistema.Registrar;
 import sistema.Usuario;
 
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+
 @SuppressWarnings("serial")
 class Registro extends JFrame implements ActionListener, KeyListener {
+	
+	public static final String SERVER_IP = "localhost";
+	public static final int SERVER_PORT = 9000;
 
 	private JTextField txtCorreo, txtNombre;
 	private JPasswordField pswdPassword, pswdDuplicate;
@@ -191,22 +198,31 @@ class Registro extends JFrame implements ActionListener, KeyListener {
 	
 	private int tipo;
 	
-	private void continuarRegistro() {
+	private void continuarRegistro() throws Exception {
+		Socket s = new Socket(SERVER_IP,SERVER_PORT);
+		ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
+		ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
+		
+		oos.writeInt(2);
+		
 		String[] passwords = new String[2];
 		passwords[0] = String.valueOf(pswdPassword.getPassword());
 		passwords[1] = String.valueOf(pswdDuplicate.getPassword());
 		
-		nuevaCuenta.setCor_usu(txtCorreo.getText());
-		nuevaCuenta.setTip_usu(tipo);
-		nuevaCuenta.setNom_usu(txtNombre.getText());
-		nuevaCuenta.setGen_usu(registroCmbs.cmbGeneros.getSelectedItem().toString());
-		nuevaCuenta.setIns_usu(registroCmbs.cmbInstrumentos.getSelectedItem().toString());
-		nuevaCuenta.setFac_usu(registroCmbs.cmbFacultades.getSelectedItem().toString());
+		oos.writeObject(txtCorreo.getText());
+		oos.writeInt(tipo);
+		oos.writeObject(txtNombre.getText());
+		oos.writeObject(registroCmbs.cmbGeneros.getSelectedItem().toString());
+		oos.writeObject(registroCmbs.cmbInstrumentos.getSelectedItem().toString());
+		oos.writeObject(registroCmbs.cmbFacultades.getSelectedItem().toString());
+		
+		nuevaCuenta = (Usuario)ois.readObject();
 		
 		boolean cuentaValida = Registrar.checkAccount(nuevaCuenta, passwords);
 		
 		if (cuentaValida) {
-			nuevaCuenta.setPas_usu(passwords[0]);
+			
+			oos.writeObject(passwords[0]);
 			
 			Registro2 registro2 = new Registro2(nuevaCuenta);
 			Point punto = this.getLocation();
@@ -240,7 +256,11 @@ class Registro extends JFrame implements ActionListener, KeyListener {
 			
 			lblInstrumento.setText(askInstrument + "buscas?");
 		} else if (command.contentEquals("Crear")) {
-			continuarRegistro();
+			try {
+				continuarRegistro();
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
 		} else if (command.contentEquals("Regresar")) {
 			UserLogin frameLogin = new UserLogin();
 			Point punto = this.getLocation();
@@ -254,7 +274,11 @@ class Registro extends JFrame implements ActionListener, KeyListener {
 	public void keyPressed(KeyEvent event) {
 		int key = event.getKeyCode();
 		if (key == KeyEvent.VK_ENTER) {
-			continuarRegistro();
+			try {
+				continuarRegistro();
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
 		}
 	}
 	@Override public void keyTyped(KeyEvent e) {}
