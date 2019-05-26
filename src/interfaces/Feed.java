@@ -206,10 +206,12 @@ class Feed extends JFrame implements ActionListener {
 	 * @param sesionIniciada {@code Usuario} destinatario de las notificaciones.
 	 */
 	private void agregarNotificaciones(Usuario sesionIniciada) {
-		List<Usuario> remitentes = new ArrayList<Usuario>();
-		remitentes.addAll(Contacto.listarRemitentes(sesionIniciada.getId()));
-		remitentes.addAll(Union.listarRemitentes(sesionIniciada.getId()));
+		List<Usuario> contactos = Contacto.listarRemitentes(sesionIniciada.getId());
+		List<Usuario> uniones = Union.listarRemitentes(sesionIniciada.getId());
 		
+		List<Usuario> remitentes = new ArrayList<Usuario>();
+		remitentes.addAll(contactos);
+		remitentes.addAll(uniones);
 		if (remitentes == null || remitentes.size() == 0) {
 			JLabel lblNoNotifs = new JLabel("No tienes notificaciones.");
 			lblNoNotifs.setHorizontalAlignment(SwingConstants.CENTER);
@@ -219,9 +221,17 @@ class Feed extends JFrame implements ActionListener {
 			return;
 		}
 		
-		for (Usuario remitente : remitentes) {
+		loopList(uniones, NotifContacto.UNION);
+		loopList(contactos, NotifContacto.CONTACTO);
+		
+		scrNotificaciones.repaint();
+		scrNotificaciones.revalidate();
+	}
+	
+	private void loopList(List<Usuario> lista, short tipo) {
+		for (Usuario remitente : lista) {
 			System.out.println("notificación");
-			NotifContacto notifContacto = new NotifContacto(remitente, NotifContacto.CONTACTO);
+			NotifContacto notifContacto = new NotifContacto(remitente, tipo);
 			notifContacto.addMouseListener(
 				new MouseAdapter() {
 					Perfil otroPerfil = new Perfil(cuenta.getId(), remitente);
@@ -258,7 +268,5 @@ class Feed extends JFrame implements ActionListener {
 			);
 			pnlNotificaciones.add(notifContacto);
 		}
-		scrNotificaciones.repaint();
-		scrNotificaciones.revalidate();
 	}
 }
