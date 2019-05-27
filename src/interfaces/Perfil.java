@@ -231,7 +231,6 @@ public class Perfil extends JFrame implements WindowListener, ActionListener {
 		String actionCommand = event.getActionCommand();
 		
 		if (actionCommand.contentEquals("Bannear")){
-
 			int y = JOptionPane.showConfirmDialog(this,
 					"Seguro que quieres bloquear a este usuario?", 
 					actionCommand, JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
