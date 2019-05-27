@@ -40,7 +40,7 @@ public class Perfil extends JFrame implements WindowListener, ActionListener {
 	protected JLabel lblFacultad, lblGenero, lblInstrumento, lblNombre, UserPic;
 	protected JTextArea txtDescripcion, txtContacto;
 	protected JPanel contentPane;
-	protected JButton btnContactar, btnAceptar, btnRechazar;
+	protected JButton btnContactar, btnAceptar, btnRechazar, btnBannear;
 	
 	public boolean closed = false;
 	public boolean cambios = false;
@@ -142,6 +142,23 @@ public class Perfil extends JFrame implements WindowListener, ActionListener {
 		lblInstrumento.setBounds(391, 112, 88, 27);
 		contentPane.add(lblInstrumento);
 		
+		btnBannear = new JButton("Bloquear");
+		if(id_iniciada==0) {
+			btnBannear.setVisible(true);
+			btnContactar.setVisible(false);
+			btnAceptar.setVisible(false);
+			btnRechazar.setVisible(false);
+		}
+		else {
+			btnBannear.setVisible(false);
+		}
+		btnBannear.setBackground(Color.WHITE);
+		btnBannear.setFont(new Font("Verdana", Font.BOLD, 12));
+		btnBannear.setBounds(479, 112, 104, 34);
+		contentPane.add(btnBannear);
+		btnBannear.addActionListener(this);
+		btnBannear.setActionCommand("Bannear");
+		
 		btnContactar = new JButton("Contactar");
 		btnContactar.setForeground(Color.BLACK);
 		btnContactar.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -214,6 +231,19 @@ public class Perfil extends JFrame implements WindowListener, ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		String actionCommand = event.getActionCommand();
+		
+		if (actionCommand.contentEquals("Bannear")){
+
+			int y = JOptionPane.showConfirmDialog(this,
+					"Seguro que quieres bloquear a este usuario?", 
+					actionCommand, JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+			if (y == JOptionPane.YES_OPTION) {
+				int usubloqueado = scuenta.getId(); //Revisar bien esto
+				//DELETE From Usuarios WHERE id_usu=usubloqueado;
+				this.dispose();
+				}
+		}
+
 		
 		if (actionCommand.contentEquals("contactar")) {
 			Contacto.crearNotificacion("Notificaciones", id_iniciada, scuenta.getId());

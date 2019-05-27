@@ -49,6 +49,8 @@ class Feed extends JFrame implements ActionListener {
 	 */
 	Feed(Usuario sesion) throws Exception {
 		cuenta = sesion;
+		
+		int id_iniciada= cuenta.getId();
 	
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -72,6 +74,11 @@ class Feed extends JFrame implements ActionListener {
 		menuBar.add(btnAyuda);
 		btnAyuda.setActionCommand("Ayuda");
 		btnAyuda.addActionListener(this);
+		
+		if(id_iniciada==0) {			
+			btnNotificaciones.setVisible(false);			
+		}
+
 		
 		btnNotificaciones = new JButton("Notificaciones");
 		btnNotificaciones.setActionCommand("abrirNots");

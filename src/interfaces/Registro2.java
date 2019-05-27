@@ -9,6 +9,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -35,6 +36,8 @@ class Registro2 extends JFrame implements ActionListener {
 	
 	private JTextArea txtDescripcion, txtContacto;
 	private Usuario nuevaCuenta;
+	
+	private JButton btnRegresar;
 	/**
 	 * Create the frame.
 	 */
@@ -51,7 +54,8 @@ class Registro2 extends JFrame implements ActionListener {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 				
-		JButton btnRegresar = new JButton("<----");
+		btnRegresar = new JButton();
+		btnRegresar.setIcon(new ImageIcon(Perfil.class.getResource("/com/sun/javafx/scene/web/skin/Undo_16x16_JFX.png")));
 		btnRegresar.setForeground(Color.RED);
 		btnRegresar.setBackground(Color.LIGHT_GRAY);
 		btnRegresar.setFont(new Font("Palatino Linotype", Font.BOLD, 15));
