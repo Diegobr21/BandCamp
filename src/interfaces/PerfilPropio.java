@@ -5,6 +5,9 @@ import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -32,7 +35,7 @@ class PerfilPropio extends Perfil implements ActionListener{
 	private boolean disponible;
 	private Usuario cuenta;
 	
-	PerfilPropio(Usuario sesion) {
+	PerfilPropio(Usuario sesion) throws Exception {
 		super(sesion.getId(), sesion);
 		btnContactar.setVisible(false);
 		btnContactar.setEnabled(false);
@@ -106,25 +109,44 @@ class PerfilPropio extends Perfil implements ActionListener{
 	public void actionPerformed(ActionEvent o) {
 		String command = o.getActionCommand();
 		
+		try {
+		Socket s = new Socket(SERVER_IP,SERVER_PORT);
+		ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
+		ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
+		
+		oos.writeInt(5);
+		oos.writeObject(cuenta);
+		
+		String cor = (String)ois.readObject();
+		String pas = (String)ois.readObject();
+		int tip = ois.readInt();
+		String nom = (String)ois.readObject();
+		String gen = (String)ois.readObject();
+		String ins = (String)ois.readObject();
+		String fac = (String)ois.readObject();
+		String des = (String)ois.readObject();
+		boolean dis = ois.readBoolean();
+		String con = (String)ois.readObject();
+		
 		if (command.contentEquals("Editar")){
 			lblNombre.setVisible(false);
 			txtNombre.setVisible(true);
-			String nombre = cuenta.getNom_usu();
+			String nombre = nom;
 			txtNombre.setText(nombre);
 			
 			lblFacultad.setVisible(false);
 			perfilCmbs.cmbFacultades.setVisible(true);
-			String facultad = cuenta.getFac_usu();
+			String facultad = fac;
 			perfilCmbs.cmbFacultades.setSelectedItem(facultad);
 			
 			lblGenero.setVisible(false);
 			perfilCmbs.cmbGeneros.setVisible(true);
-			String genero = cuenta.getGen_usu();
+			String genero = gen;
 			perfilCmbs.cmbGeneros.setSelectedItem(genero);
 			
 			lblInstrumento.setVisible(false);
 			perfilCmbs.cmbInstrumentos.setVisible(true);
-			String instrumento = cuenta.getIns_usu();
+			String instrumento = ins;
 			perfilCmbs.cmbInstrumentos.setSelectedItem(instrumento);
 			
 			txtDescripcion.setEditable(true);
@@ -184,9 +206,14 @@ class PerfilPropio extends Perfil implements ActionListener{
 				cuenta = editado;
 			}
 		} else if (command.contentEquals("Regresar")) {
-			Feed feedframe = new Feed(cuenta);
-			feedframe.setVisible(true);
-			PerfilPropio.this.dispose();
+			Feed feedframe;
+			try {
+				feedframe = new Feed(cuenta);
+				feedframe.setVisible(true);
+				PerfilPropio.this.dispose();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			
 		} else if(command.contentEquals("Cerrar")) {
 			UserLogin inicio = new UserLogin();
@@ -208,6 +235,9 @@ class PerfilPropio extends Perfil implements ActionListener{
 		} else if (command.contentEquals("Habilitar")) {
 			disponible = true;
 			btnDisponibilidad = modificarBoton(btnDisponibilidad);
+		}
+		} catch(Exception ex) {
+			ex.printStackTrace();
 		}
 	}
 	

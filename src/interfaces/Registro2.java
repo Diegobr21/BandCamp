@@ -5,7 +5,11 @@ import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -24,11 +28,16 @@ import sistema.Usuario;
  * Solicita llenar la descripción de la cuenta e ingresar un código para verificar el correo electrónico ingresado.
  */
 class Registro2 extends JFrame implements ActionListener {
+	public static final String SERVER_IP = "localhost";
+	public static final int SERVER_PORT = 9000;
+	
 	private JPanel contentPane;
 	private JTextField txtcodigo;
 	
 	private JTextArea txtDescripcion, txtContacto;
 	private Usuario nuevaCuenta;
+	
+	private JButton btnRegresar;
 	/**
 	 * Create the frame.
 	 */
@@ -46,6 +55,7 @@ class Registro2 extends JFrame implements ActionListener {
 		contentPane.setLayout(null);
 				
 		btnRegresar = new JButton();
+		btnRegresar.setIcon(new ImageIcon(Perfil.class.getResource("/com/sun/javafx/scene/web/skin/Undo_16x16_JFX.png")));
 		btnRegresar.setIcon(new ImageIcon(Perfilusu.class.getResource("/com/sun/javafx/scene/web/skin/Undo_16x16_JFX.png")));
 		btnRegresar.setForeground(Color.RED);
 		btnRegresar.setBackground(Color.WHITE);
@@ -115,17 +125,26 @@ class Registro2 extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String command= e.getActionCommand();
+		try {
+		Socket s = new Socket(SERVER_IP,SERVER_PORT);
+		ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
+		ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
 		
 		if (command.contentEquals("Crear")){
 			nuevaCuenta.setDes_usu(txtDescripcion.getText());
 			nuevaCuenta.setCon_usu(txtContacto.getText());
 			String codigo = txtcodigo.getText();
+
+
+			oos.writeInt(2);
+			oos.writeObject(nuevaCuenta);
+			oos.writeObject(codigo);
+			boolean cuentaCreada = ois.readBoolean();
 			
-			boolean cuentaCreada = new Registrar().createAccount(nuevaCuenta, codigo);
 			if (cuentaCreada) {
 				Point punto = this.getLocation();
 				
-				Usuario sesionIniciada = Login.ingresar(nuevaCuenta.getCor_usu(), nuevaCuenta.getPas_usu());
+				Usuario sesionIniciada = (Usuario)ois.readObject();
 				
 				Feed framefeed = new Feed(sesionIniciada);
 				framefeed.setLocation(punto);
@@ -134,14 +153,21 @@ class Registro2 extends JFrame implements ActionListener {
 				Ayuda ayuda = new Ayuda();
 				ayuda.setLocationRelativeTo(null);
 				ayuda.setVisible(true);
-			}
+				}
 			
 		} else if(command.contentEquals("Regresar")){
-			Registro reg = new Registro(nuevaCuenta);
-			Point punto = this.getLocation();
-			reg.setLocation(punto);
-			reg.setVisible(true);
-			Registro2.this.dispose();
+				Registro reg = new Registro(nuevaCuenta);
+				Point punto = this.getLocation();
+				reg.setLocation(punto);
+				reg.setVisible(true);
+				Registro2.this.dispose();
+			}
+		oos.close();
+		ois.close();
+		s.close();
+		
+		} catch(Exception ex) {
+			ex.printStackTrace();
 		}
 	}
 }

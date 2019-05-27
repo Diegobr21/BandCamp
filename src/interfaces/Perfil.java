@@ -6,6 +6,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -30,11 +34,13 @@ import sistema.Usuario;
  */
 @SuppressWarnings("serial")
 public class Perfil extends JFrame implements WindowListener, ActionListener {
+	public static final String SERVER_IP = "localhost";
+	public static final int SERVER_PORT = 9000;
 	
 	protected JLabel lblFacultad, lblGenero, lblInstrumento, lblNombre, UserPic;
 	protected JTextArea txtDescripcion, txtContacto;
 	protected JPanel contentPane;
-	protected JButton btnContactar, btnAceptar, btnRechazar;
+	protected JButton btnContactar, btnAceptar, btnRechazar, btnBannear;
 	
 	public boolean closed = false;
 	public boolean cambios = false;
@@ -44,12 +50,28 @@ public class Perfil extends JFrame implements WindowListener, ActionListener {
 	private int id_iniciada;
 	/**
 	 * Create the frame.
+	 * @throws Exception 
 	 */
-	public Perfil(int id_propia, Usuario sesion) {
+	public Perfil(int id_propia, Usuario sesion) throws Exception {
 		scuenta = sesion;
 		id_iniciada = id_propia;
 		
-		setTitle(scuenta.getNom_usu());
+		Socket s = new Socket(SERVER_IP,SERVER_PORT);
+		ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
+		ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
+		
+		oos.writeInt(4);
+		oos.writeObject(sesion);
+		
+		String nombre = (String)ois.readObject();
+		String descripcion = (String)ois.readObject();
+		String facultad = (String)ois.readObject();
+		String genero = (String)ois.readObject();
+		String instrumento = (String)ois.readObject();
+		int id = ois.readInt();
+		String contacto = (String)ois.readObject();
+		
+		setTitle(nombre);
 		setSize(630, 520);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -75,7 +97,7 @@ public class Perfil extends JFrame implements WindowListener, ActionListener {
 		
 		txtDescripcion = new JTextArea();
 //		txtDescripcion.setFont(null);
-		txtDescripcion.setText(scuenta.getDes_usu());
+		txtDescripcion.setText(descripcion);
 		txtDescripcion.setEditable(false);
 		txtDescripcion.setLineWrap(true);
 		txtDescripcion.setWrapStyleWord(true);
@@ -95,31 +117,32 @@ public class Perfil extends JFrame implements WindowListener, ActionListener {
 		txtContacto.setEditable(false);
 		scrContacto.setViewportView(txtContacto);
 		
-		lblNombre = new JLabel(scuenta.getNom_usu());
+		lblNombre = new JLabel(nombre);
 		lblNombre.setFont(new Font("Verdana", Font.BOLD, 16));
 		lblNombre.setBackground(Color.WHITE);
 		lblNombre.setForeground(Color.YELLOW);
 		lblNombre.setBounds(158, 11, 128, 21);
 		contentPane.add(lblNombre);
 		
-		lblFacultad = new JLabel(scuenta.getFac_usu());
+		lblFacultad = new JLabel(facultad);
 		lblFacultad.setForeground(Color.LIGHT_GRAY);
 		lblFacultad.setFont(new Font("Tahoma", Font.ITALIC, 12));
 		lblFacultad.setBounds(158, 119, 62, 14);
 		contentPane.add(lblFacultad);
 		
-		lblGenero = new JLabel(scuenta.getGen_usu());
+		lblGenero = new JLabel(genero);
 		lblGenero.setForeground(Color.WHITE);
 		lblGenero.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblGenero.setBounds(391, 80, 88, 21);
 		contentPane.add(lblGenero);
 		
-		lblInstrumento = new JLabel(scuenta.getIns_usu());
+		lblInstrumento = new JLabel(instrumento);
 		lblInstrumento.setForeground(Color.WHITE);
 		lblInstrumento.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblInstrumento.setBounds(391, 112, 88, 27);
 		contentPane.add(lblInstrumento);
 		
+		btnBannear = new JButton("Bloquear");
 		if(id_iniciada==0) {
 			btnBannear.setVisible(true);
 			btnContactar.setVisible(false);
@@ -136,7 +159,6 @@ public class Perfil extends JFrame implements WindowListener, ActionListener {
 		contentPane.add(btnBannear);
 		btnBannear.addActionListener(this);
 		btnBannear.setActionCommand("Bannear");
-		
 		
 		btnContactar = new JButton("Contactar");
 		btnContactar.setForeground(Color.BLACK);
@@ -161,6 +183,9 @@ public class Perfil extends JFrame implements WindowListener, ActionListener {
 		btnRechazar.addActionListener(this);
 		contentPane.add(btnRechazar);
 		
+		if (id_iniciada != id) {
+			if (Contacto.alreadyContacted(id, id_iniciada, Contacto.PENDING)) {
+				// si la cuenta vista le envi� una notificaci�n a la sesi�n iniciada
 		if (id_iniciada != scuenta.getId()) {
 			if (Contacto.alreadyContacted(scuenta.getId(), id_iniciada, Contacto.PENDING)) {
 				// si la cuenta vista le envió una notificación a la sesión iniciada
@@ -170,21 +195,25 @@ public class Perfil extends JFrame implements WindowListener, ActionListener {
 				btnRechazar.setVisible(true);
 				btnRechazar.setActionCommand("rechazar_not");
 				
+			} else if (Contacto.alreadyContacted(id_iniciada, id, Contacto.PENDING)) {
+				// si la sesi�n iniciada le envi� una notificaci�n a la cuenta vista
 			} else if (Contacto.alreadyContacted(id_iniciada, scuenta.getId(), Contacto.PENDING)) {
 				// si la sesión iniciada le envió una notificación a la cuenta vista
 				btnContactar.setEnabled(false);
 				
-			} else if (Contacto.alreadyContacted(id_iniciada, scuenta.getId(), Contacto.ACCEPT)
-					|| Contacto.alreadyContacted(scuenta.getId(), id_iniciada, Contacto.ACCEPT)) {
+			} else if (Contacto.alreadyContacted(id_iniciada, id, Contacto.ACCEPT)
+					|| Contacto.alreadyContacted(id, id_iniciada, Contacto.ACCEPT)) {
 				// si ambos aceptaron el contacto
 				txtContacto.setFont(null);
-				txtContacto.setText(scuenta.getCon_usu());
+				txtContacto.setText(contacto);
 				
 				btnContactar.setText("Unirse");
 				btnContactar.setActionCommand("unirse");
 				btnContactar.setVisible(true);
 				btnContactar.setEnabled(true);
 				
+				if (Union.alreadyContacted(id, id_iniciada, Contacto.PENDING)) {
+					// si la cuenta vista le envi� solicitud de uni�n a la sesi�n iniciada
 				if (Union.alreadyContacted(scuenta.getId(), id_iniciada, Contacto.PENDING)) {
 					// si la cuenta vista le envió solicitud de unión a la sesión iniciada
 					btnContactar.setVisible(false);
@@ -193,6 +222,8 @@ public class Perfil extends JFrame implements WindowListener, ActionListener {
 					btnRechazar.setVisible(true);
 					btnRechazar.setActionCommand("rechazar_uni");
 					
+				} else if (Union.alreadyContacted(id, id, Contacto.PENDING)) {
+					// si la sesi�n iniciada le envi� solicitud de uni�n a la cuenta vista
 				} else if (Union.alreadyContacted(id_iniciada, scuenta.getId(), Contacto.PENDING)) {
 					// si la sesión iniciada le envió solicitud de unión a la cuenta vista
 					btnContactar.setEnabled(false);	
@@ -211,6 +242,13 @@ public class Perfil extends JFrame implements WindowListener, ActionListener {
 	public void actionPerformed(ActionEvent event) {
 		String actionCommand = event.getActionCommand();
 		
+		if (actionCommand.contentEquals("Bannear")){
+
+			int y = JOptionPane.showConfirmDialog(this,
+					"Seguro que quieres bloquear a este usuario?", 
+					actionCommand, JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+			if (y == JOptionPane.YES_OPTION) {
+				int usubloqueado = scuenta.getId(); //Revisar bien esto
 		if (command.contentEquals("Bannear")){
 			
 			int y = JOptionPane.showConfirmDialog(this,
@@ -222,7 +260,6 @@ public class Perfil extends JFrame implements WindowListener, ActionListener {
 				this.dispose();
 				}
 		}
-			 
 		
 		if (actionCommand.contentEquals("contactar")) {
 			Contacto.crearNotificacion("Notificaciones", id_iniciada, scuenta.getId());
