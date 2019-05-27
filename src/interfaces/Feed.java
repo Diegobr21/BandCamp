@@ -26,14 +26,13 @@ import javax.swing.border.EmptyBorder;
 import componentes.Ficha;
 import componentes.NotifContacto;
 import sistema.Contacto;
+import sistema.Credenciales;
 import sistema.Muro;
 import sistema.Union;
 import sistema.Usuario;
 
 @SuppressWarnings("serial")
 class Feed extends JFrame implements ActionListener {
-	public static final String SERVER_IP = "localhost";
-	public static final int SERVER_PORT = 9000;
 	
 	private JPanel pnlFichas, pnlNotificaciones;
 	private JScrollPane scrFichas, scrNotificaciones;
@@ -73,11 +72,11 @@ class Feed extends JFrame implements ActionListener {
 		btnAyuda.setActionCommand("Ayuda");
 		btnAyuda.addActionListener(this);
 		
-		if(id_iniciada==0) {			
-			btnNotificaciones.setVisible(false);			
-		}
-		
 		btnNotificaciones = new JButton("Notificaciones");
+		if(id_iniciada == Credenciales.ID_ADMIN) {			
+			btnNotificaciones.setVisible(false);
+		}
+
 		btnNotificaciones.setActionCommand("abrirNots");
 		btnNotificaciones.addActionListener(this);
 		menuBar.add(btnNotificaciones);
@@ -165,9 +164,11 @@ class Feed extends JFrame implements ActionListener {
 	
 	/**
 	 * Agrega las fichas de las cuentas que se filtraron al {@code JScrollPane} del muro.
+	 * @param sesionIniciada {@code Usuario} de la sesi�n iniciada para filtrar las cuentas.
+	 * @throws Exception 
 	 */
 	private void agregarFichas(Usuario sesionIniciada) throws Exception {
-		Socket s = new Socket(SERVER_IP,SERVER_PORT);
+		Socket s = new Socket(Credenciales.SERVER_IP, Credenciales.SERVER_PORT);
 		ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
 		ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
 		
@@ -186,7 +187,7 @@ class Feed extends JFrame implements ActionListener {
 		}
 		
 		for (Usuario usuario : cuentasFiltradas) {
-			System.out.println("añadiendo");
+			System.out.println("a�adiendo");
 			
 			Ficha ficha = new Ficha(usuario);
 			ficha.addMouseListener(
@@ -275,7 +276,7 @@ class Feed extends JFrame implements ActionListener {
 	
 	private void loopList(List<Usuario> lista, short tipo) throws Exception {
 		for (Usuario remitente : lista) {
-			System.out.println("notificación");
+			System.out.println("notificaci�n");
 			NotifContacto notifContacto = new NotifContacto(remitente, tipo);
 			notifContacto.addMouseListener(
 				new MouseAdapter() {

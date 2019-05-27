@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -22,6 +21,7 @@ import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
 import sistema.Contacto;
+import sistema.Credenciales;
 import sistema.Union;
 import sistema.Usuario;
 
@@ -34,8 +34,6 @@ import sistema.Usuario;
  */
 @SuppressWarnings("serial")
 public class Perfil extends JFrame implements WindowListener, ActionListener {
-	public static final String SERVER_IP = "localhost";
-	public static final int SERVER_PORT = 9000;
 	
 	protected JLabel lblFacultad, lblGenero, lblInstrumento, lblNombre, UserPic;
 	protected JTextArea txtDescripcion, txtContacto;
@@ -56,7 +54,7 @@ public class Perfil extends JFrame implements WindowListener, ActionListener {
 		scuenta = sesion;
 		id_iniciada = id_propia;
 		
-		Socket s = new Socket(SERVER_IP,SERVER_PORT);
+		Socket s = new Socket(Credenciales.SERVER_IP, Credenciales.SERVER_PORT);
 		ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
 		ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
 		
@@ -142,8 +140,11 @@ public class Perfil extends JFrame implements WindowListener, ActionListener {
 		lblInstrumento.setBounds(391, 112, 88, 27);
 		contentPane.add(lblInstrumento);
 		
+		btnContactar = new JButton("Contactar");
+		btnAceptar = new JButton("Aceptar");
+		btnRechazar = new JButton("Rechazar");
 		btnBannear = new JButton("Bloquear");
-		if(id_iniciada==0) {
+		if(id_iniciada == Credenciales.ID_ADMIN) {
 			btnBannear.setVisible(true);
 			btnContactar.setVisible(false);
 			btnAceptar.setVisible(false);
@@ -152,7 +153,6 @@ public class Perfil extends JFrame implements WindowListener, ActionListener {
 		else {
 			btnBannear.setVisible(false);
 		}
-		btnBannear = new JButton("Bloquear");
 		btnBannear.setBackground(Color.WHITE);
 		btnBannear.setFont(new Font("Verdana", Font.BOLD, 12));
 		btnBannear.setBounds(479, 112, 104, 34);
@@ -160,7 +160,6 @@ public class Perfil extends JFrame implements WindowListener, ActionListener {
 		btnBannear.addActionListener(this);
 		btnBannear.setActionCommand("Bannear");
 		
-		btnContactar = new JButton("Contactar");
 		btnContactar.setForeground(Color.BLACK);
 		btnContactar.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnContactar.setBounds(244, 455, 110, 25);
@@ -168,7 +167,6 @@ public class Perfil extends JFrame implements WindowListener, ActionListener {
 		btnContactar.addActionListener(this);
 		contentPane.add(btnContactar);
 		
-		btnAceptar = new JButton("Aceptar");
 		btnAceptar.setVisible(false);
 		btnAceptar.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnAceptar.setBounds(134, 455, 110, 25);
@@ -176,16 +174,15 @@ public class Perfil extends JFrame implements WindowListener, ActionListener {
 		btnAceptar.addActionListener(this);
 		contentPane.add(btnAceptar);
 		
-		btnRechazar = new JButton("Rechazar");
 		btnRechazar.setVisible(false);
 		btnRechazar.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnRechazar.setBounds(352, 455, 110, 25);
 		btnRechazar.addActionListener(this);
 		contentPane.add(btnRechazar);
-																																		
+		
 		if (id_iniciada != id) {
 			if (Contacto.alreadyContacted(id, id_iniciada, Contacto.PENDING)) {
-				// si la cuenta vista le envió una notificación a la sesión iniciada
+				// si la cuenta vista le enviÃ³ una notificaciÃ³n a la sesiÃ³n iniciada
 				btnContactar.setVisible(false);
 				btnAceptar.setVisible(true);
 				btnAceptar.setActionCommand("aceptar_not");
@@ -193,7 +190,7 @@ public class Perfil extends JFrame implements WindowListener, ActionListener {
 				btnRechazar.setActionCommand("rechazar_not");
 				
 			} else if (Contacto.alreadyContacted(id_iniciada, id, Contacto.PENDING)) {
-				// si la sesión iniciada le envió una notificación a la cuenta vista
+				// si la sesiÃ³n iniciada le enviÃ³ una notificaciÃ³n a la cuenta vista
 				btnContactar.setEnabled(false);
 				
 			} else if (Contacto.alreadyContacted(id_iniciada, id, Contacto.ACCEPT)
@@ -208,25 +205,25 @@ public class Perfil extends JFrame implements WindowListener, ActionListener {
 				btnContactar.setEnabled(true);
 				
 				if (Union.alreadyContacted(id, id_iniciada, Contacto.PENDING)) {
-					// si la cuenta vista le envió solicitud de unión a la sesión iniciada
+					// si la cuenta vista le enviÃ³ solicitud de uniÃ³n a la sesiÃ³n iniciada
 					btnContactar.setVisible(false);
 					btnAceptar.setVisible(true);
 					btnAceptar.setActionCommand("aceptar_uni");
 					btnRechazar.setVisible(true);
 					btnRechazar.setActionCommand("rechazar_uni");
 					
-				} else if (Union.alreadyContacted(id, id, Contacto.PENDING)) {
-					// si la sesión iniciada le envió solicitud de unión a la cuenta vista
+				} else if (Union.alreadyContacted(id_iniciada, id, Contacto.PENDING)) {
+					// si la sesiÃ³n iniciada le enviÃ³ solicitud de uniÃ³n a la cuenta vista
 					btnContactar.setEnabled(false);	
 				}
 			}
 			
 			else {
-				// si no hay ningún contacto
+				// si no hay ningÃºn contacto
 				btnContactar.setVisible(true);
 				btnContactar.setEnabled(true);
 			}
-}
+		}
 	}
 	
 	@Override
@@ -239,8 +236,9 @@ public class Perfil extends JFrame implements WindowListener, ActionListener {
 					"Seguro que quieres bloquear a este usuario?", 
 					actionCommand, JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
 			if (y == JOptionPane.YES_OPTION) {
-				int usubloqueado = scuenta.getId(); //Revisar bien esto
-						this.dispose();
+//				int usubloqueado = scuenta.getId(); Revisar bien esto
+				//DELETE From Usuarios WHERE id_usu=usubloqueado;
+				this.dispose();
 				}
 		}
 

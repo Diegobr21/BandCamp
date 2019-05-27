@@ -19,12 +19,11 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
 
+import sistema.Credenciales;
 import sistema.Usuario;
 
 @SuppressWarnings("serial")
 public class UserLogin extends JFrame implements ActionListener, KeyListener {
-	public static final String SERVER_IP = "localhost";
-	public static final int SERVER_PORT = 9000;
 	
 	private JTextField txtCorreo;
 	private JPasswordField passwordField;
@@ -128,7 +127,7 @@ public class UserLogin extends JFrame implements ActionListener, KeyListener {
 	 * @throws Exception 
 	 */
 	private void tryLogIn() throws Exception {
-		Socket s = new Socket(SERVER_IP,SERVER_PORT);
+		Socket s = new Socket(Credenciales.SERVER_IP, Credenciales.SERVER_PORT);
 		ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
 		ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
 		

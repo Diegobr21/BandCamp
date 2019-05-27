@@ -21,7 +21,7 @@ public class Union {
 	 * @see {@link Usuario}
 	 */
 	public static boolean alreadyContacted(int id_remitente, int id_destinatario, short estado) {
-		try (Connection connection = DriverManager.getConnection(DBInfo.URL, DBInfo.USER, DBInfo.PASSWORD)) {
+		try (Connection connection = DriverManager.getConnection(Credenciales.DB_URL, Credenciales.DB_USER, Credenciales.DB_PASSWORD)) {
 			System.out.println("conectado notif");
 			
 			String selectNotifQuery = "SELECT * FROM Uniones "
@@ -55,7 +55,7 @@ public class Union {
 	 * @see {@link Usuario}
 	 */
 	public static void replyContact(int id_remitente, int id_destinatario, short estado) {
-		try (Connection connection = DriverManager.getConnection(DBInfo.URL, DBInfo.USER, DBInfo.PASSWORD)) {
+		try (Connection connection = DriverManager.getConnection(Credenciales.DB_URL, Credenciales.DB_USER, Credenciales.DB_PASSWORD)) {
 			System.out.println("conectado");
 			
 			String updateNotifQuery = "UPDATE Uniones SET est_uni = ? "
@@ -84,7 +84,7 @@ public class Union {
 	 * @param id_cuenta2 {@code int} del ID del otro.
 	 */
 	public static void deshabilitarCuentas(int id_cuenta1, int id_cuenta2) {
-		try (Connection connection = DriverManager.getConnection(DBInfo.URL, DBInfo.USER, DBInfo.PASSWORD)) {
+		try (Connection connection = DriverManager.getConnection(Credenciales.DB_URL, Credenciales.DB_USER, Credenciales.DB_PASSWORD)) {
 			String updateUserString = "UPDATE Usuarios SET dis_usu = 0 "
 									+ "WHERE id_usu IN (?, ?);";
 			try (PreparedStatement updateUserStatement = connection.prepareStatement(updateUserString)) {
@@ -137,7 +137,7 @@ public class Union {
 	public static List<Usuario> listarRemitentes (int id_destinatario) {
 		String selectUserString = "SELECT * FROM Usuarios WHERE id_usu IN "
 				+ "(SELECT orig_uni FROM Uniones WHERE dest_uni = ? AND est_uni = 1) ;";
-		try ( Connection connection = DriverManager.getConnection(DBInfo.URL, DBInfo.USER, DBInfo.PASSWORD);
+		try ( Connection connection = DriverManager.getConnection(Credenciales.DB_URL, Credenciales.DB_USER, Credenciales.DB_PASSWORD);
 				PreparedStatement selectUserStatement = connection.prepareStatement(selectUserString) ) {
 			System.out.println("Conectado");
 			

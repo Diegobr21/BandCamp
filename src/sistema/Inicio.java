@@ -16,8 +16,8 @@ import interfaces.UserLogin;
 class Inicio {
 	public static void main(String[] args) {
 		
-		// test de conexión al servidor
-		try ( Connection connection = DriverManager.getConnection(DBInfo.URL, DBInfo.USER, DBInfo.PASSWORD) ) {
+		// test de conexión a la BD
+		try ( Connection connection = DriverManager.getConnection(Credenciales.DB_URL, Credenciales.DB_USER, Credenciales.DB_PASSWORD) ) {
 			System.out.println("Conexión establecida");
 			
 			UserLogin logIn = new UserLogin();

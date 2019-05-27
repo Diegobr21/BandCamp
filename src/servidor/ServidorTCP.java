@@ -1,13 +1,18 @@
 package servidor;
 
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.List;
 
+<<<<<<< HEAD
 import sistema.Contacto;
+=======
+import javax.swing.JOptionPane;
+
+import sistema.Credenciales;
+>>>>>>> a5fac26576f770464ecec806bd33fcf22fbc341b
 import sistema.Login;
 import sistema.Muro;
 import sistema.Registrar;
@@ -23,25 +28,24 @@ public class ServidorTCP {
 	public static final int VER_NOTIFICACIONES = 6;
 	
 	
-	public static final int SERVER_PORT = 9000;
-	
 	private Socket socket = null;
 	private ObjectInputStream ois = null;
 	private ObjectOutputStream oos = null;
-	
-	private Usuario nuevaCuenta;
 	
 	public ServidorTCP(Socket s) {
 		this.socket = s;
 	}
 	
-	public static void main(String[] args) throws Exception {
-		ServerSocket serverSocket = new ServerSocket(SERVER_PORT);
-		Socket s;
-		
-		while(true) {
-			s = serverSocket.accept();
-			new ServidorTCP(s).run();
+	public static void main(String[] args) {
+		try (ServerSocket serverSocket = new ServerSocket(Credenciales.SERVER_PORT)) {
+			while(true) {
+				Socket s = serverSocket.accept();
+				new ServidorTCP(s).run();
+			}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "El servidor falló.", "Error de servidor", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	

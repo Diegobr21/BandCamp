@@ -16,6 +16,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import componentes.ComboBoxes;
+import sistema.Credenciales;
 import sistema.EditarPerfil;
 import sistema.Usuario;
 
@@ -110,7 +111,7 @@ class PerfilPropio extends Perfil implements ActionListener{
 		String command = o.getActionCommand();
 		
 		try {
-		Socket s = new Socket(SERVER_IP,SERVER_PORT);
+		Socket s = new Socket(Credenciales.SERVER_IP, Credenciales.SERVER_PORT);
 		ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
 		ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
 		
