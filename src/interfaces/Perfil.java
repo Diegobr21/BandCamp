@@ -152,7 +152,6 @@ public class Perfil extends JFrame implements WindowListener, ActionListener {
 		else {
 			btnBannear.setVisible(false);
 		}
-		btnBannear = new JButton("Bloquear");
 		btnBannear.setBackground(Color.WHITE);
 		btnBannear.setFont(new Font("Verdana", Font.BOLD, 12));
 		btnBannear.setBounds(479, 112, 104, 34);
@@ -182,10 +181,10 @@ public class Perfil extends JFrame implements WindowListener, ActionListener {
 		btnRechazar.setBounds(352, 455, 110, 25);
 		btnRechazar.addActionListener(this);
 		contentPane.add(btnRechazar);
-																																		
+		
 		if (id_iniciada != id) {
 			if (Contacto.alreadyContacted(id, id_iniciada, Contacto.PENDING)) {
-				// si la cuenta vista le envió una notificación a la sesión iniciada
+				// si la cuenta vista le enviÃ³ una notificaciÃ³n a la sesiÃ³n iniciada
 				btnContactar.setVisible(false);
 				btnAceptar.setVisible(true);
 				btnAceptar.setActionCommand("aceptar_not");
@@ -193,7 +192,7 @@ public class Perfil extends JFrame implements WindowListener, ActionListener {
 				btnRechazar.setActionCommand("rechazar_not");
 				
 			} else if (Contacto.alreadyContacted(id_iniciada, id, Contacto.PENDING)) {
-				// si la sesión iniciada le envió una notificación a la cuenta vista
+				// si la sesiÃ³n iniciada le enviÃ³ una notificaciÃ³n a la cuenta vista
 				btnContactar.setEnabled(false);
 				
 			} else if (Contacto.alreadyContacted(id_iniciada, id, Contacto.ACCEPT)
@@ -208,7 +207,7 @@ public class Perfil extends JFrame implements WindowListener, ActionListener {
 				btnContactar.setEnabled(true);
 				
 				if (Union.alreadyContacted(id, id_iniciada, Contacto.PENDING)) {
-					// si la cuenta vista le envió solicitud de unión a la sesión iniciada
+					// si la cuenta vista le enviÃ³ solicitud de uniÃ³n a la sesiÃ³n iniciada
 					btnContactar.setVisible(false);
 					btnAceptar.setVisible(true);
 					btnAceptar.setActionCommand("aceptar_uni");
@@ -216,17 +215,17 @@ public class Perfil extends JFrame implements WindowListener, ActionListener {
 					btnRechazar.setActionCommand("rechazar_uni");
 					
 				} else if (Union.alreadyContacted(id, id, Contacto.PENDING)) {
-					// si la sesión iniciada le envió solicitud de unión a la cuenta vista
+					// si la sesiÃ³n iniciada le enviÃ³ solicitud de uniÃ³n a la cuenta vista
 					btnContactar.setEnabled(false);	
 				}
 			}
 			
 			else {
-				// si no hay ningún contacto
+				// si no hay ningÃºn contacto
 				btnContactar.setVisible(true);
 				btnContactar.setEnabled(true);
 			}
-}
+		}
 	}
 	
 	@Override
@@ -240,7 +239,8 @@ public class Perfil extends JFrame implements WindowListener, ActionListener {
 					actionCommand, JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
 			if (y == JOptionPane.YES_OPTION) {
 				int usubloqueado = scuenta.getId(); //Revisar bien esto
-						this.dispose();
+				//DELETE From Usuarios WHERE id_usu=usubloqueado;
+				this.dispose();
 				}
 		}
 
