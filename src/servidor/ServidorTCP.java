@@ -6,6 +6,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.List;
 
+import sistema.Credenciales;
 import sistema.Login;
 import sistema.Muro;
 import sistema.Registrar;
@@ -18,20 +19,16 @@ public class ServidorTCP {
 	public static final int VER_PERFIL = 4;
 	public static final int VER_PERFIL_PROPIO = 5;
 	
-	public static final int SERVER_PORT = 9000;
-	
 	private Socket socket = null;
 	private ObjectInputStream ois = null;
 	private ObjectOutputStream oos = null;
-	
-	private Usuario nuevaCuenta;
 	
 	public ServidorTCP(Socket s) {
 		this.socket = s;
 	}
 	
 	public static void main(String[] args) throws Exception {
-		ServerSocket serverSocket = new ServerSocket(SERVER_PORT);
+		ServerSocket serverSocket = new ServerSocket(Credenciales.SERVER_PORT);
 		Socket s;
 		
 		while(true) {

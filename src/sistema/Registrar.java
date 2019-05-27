@@ -34,7 +34,7 @@ public class Registrar {
 		}
 		else return false;
 		
-		try (Connection con = DriverManager.getConnection(DBInfo.URL, DBInfo.USER, DBInfo.PASSWORD)) {
+		try (Connection con = DriverManager.getConnection(Credenciales.DB_URL, Credenciales.DB_USER, Credenciales.DB_PASSWORD)) {
 			
 			System.out.println("Conexion establecida");
 			
@@ -79,7 +79,7 @@ public class Registrar {
 		
 		String insertDatos = "INSERT INTO Usuarios(cor_usu, pas_usu, tip_usu, nom_usu, gen_usu, ins_usu, fac_usu, des_usu, dis_usu, con_usu)";
 		insertDatos += "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-		try ( Connection con = DriverManager.getConnection(DBInfo.URL, DBInfo.USER, DBInfo.PASSWORD);
+		try ( Connection con = DriverManager.getConnection(Credenciales.DB_URL, Credenciales.DB_USER, Credenciales.DB_PASSWORD);
 				PreparedStatement statement = con.prepareStatement(insertDatos) ) {
 			
 			System.out.println("Conexion establecida");

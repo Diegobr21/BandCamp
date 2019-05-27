@@ -31,7 +31,7 @@ public class Login {
 		}
 		
 		String selectUsuarios = "SELECT * FROM Usuarios WHERE cor_usu = ? ;";
-		try ( Connection con = DriverManager.getConnection(DBInfo.URL, DBInfo.USER, DBInfo.PASSWORD);
+		try ( Connection con = DriverManager.getConnection(Credenciales.DB_URL, Credenciales.DB_USER, Credenciales.DB_PASSWORD);
 				PreparedStatement selectUsu = con.prepareStatement(selectUsuarios) ) {
 			
 			System.out.println("Conexión establecida");

@@ -4,10 +4,12 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+import sistema.Credenciales;
+
 public class Cliente {
 
 	public static void main(String[] args) throws Exception {
-		Socket s = new Socket("localhost",8888);
+		Socket s = new Socket(Credenciales.SERVER_IP, Credenciales.SERVER_PORT);
 		ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
 		ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
 		

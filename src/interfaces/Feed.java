@@ -26,14 +26,13 @@ import javax.swing.border.EmptyBorder;
 import componentes.Ficha;
 import componentes.NotifContacto;
 import sistema.Contacto;
+import sistema.Credenciales;
 import sistema.Muro;
 import sistema.Union;
 import sistema.Usuario;
 
 @SuppressWarnings("serial")
 class Feed extends JFrame implements ActionListener {
-	public static final String SERVER_IP = "localhost";
-	public static final int SERVER_PORT = 9000;
 	
 	private JPanel pnlFichas, pnlNotificaciones;
 	private JScrollPane scrFichas, scrNotificaciones;
@@ -170,7 +169,7 @@ class Feed extends JFrame implements ActionListener {
 	 * @throws Exception 
 	 */
 	private void agregarFichas(Usuario sesionIniciada) throws Exception {
-		Socket s = new Socket(SERVER_IP,SERVER_PORT);
+		Socket s = new Socket(Credenciales.SERVER_IP, Credenciales.SERVER_PORT);
 		ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
 		ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
 		

@@ -19,6 +19,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import sistema.Credenciales;
 import sistema.Usuario;
 
 @SuppressWarnings("serial")
@@ -26,8 +27,6 @@ import sistema.Usuario;
  * Solicita llenar la descripción de la cuenta e ingresar un código para verificar el correo electrónico ingresado.
  */
 class Registro2 extends JFrame implements ActionListener {
-	public static final String SERVER_IP = "localhost";
-	public static final int SERVER_PORT = 9000;
 	
 	private JPanel contentPane;
 	private JTextField txtcodigo;
@@ -124,7 +123,7 @@ class Registro2 extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		String command= e.getActionCommand();
 		try {
-		Socket s = new Socket(SERVER_IP,SERVER_PORT);
+		Socket s = new Socket(Credenciales.SERVER_IP, Credenciales.SERVER_PORT);
 		ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
 		ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
 		

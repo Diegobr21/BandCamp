@@ -40,7 +40,7 @@ public class Contacto {
 	 * @see {@link Usuario}
 	 */
 	public static void crearNotificacion(String tabla, int id_remitente, int id_destinatario) {
-		try (Connection connection = DriverManager.getConnection(DBInfo.URL, DBInfo.USER, DBInfo.PASSWORD)) {
+		try (Connection connection = DriverManager.getConnection(Credenciales.DB_URL, Credenciales.DB_USER, Credenciales.DB_PASSWORD)) {
 			System.out.println("conectado notif");
 			
 			String insertNotifQuery = "INSERT INTO " + tabla + " VALUES(?, ?, 1, ?);";
@@ -73,7 +73,7 @@ public class Contacto {
 	 * @see {@link Usuario}
 	 */
 	public static boolean alreadyContacted(int id_remitente, int id_destinatario, short estado) {
-		try (Connection connection = DriverManager.getConnection(DBInfo.URL, DBInfo.USER, DBInfo.PASSWORD)) {
+		try (Connection connection = DriverManager.getConnection(Credenciales.DB_URL, Credenciales.DB_USER, Credenciales.DB_PASSWORD)) {
 			System.out.println("conectado notif");
 			
 			String selectNotifQuery = "SELECT * FROM Notificaciones "
@@ -107,7 +107,7 @@ public class Contacto {
 	 * @see {@link Usuario}
 	 */
 	public static void replyContact(int id_remitente, int id_destinatario, short estado) {
-		try (Connection connection = DriverManager.getConnection(DBInfo.URL, DBInfo.USER, DBInfo.PASSWORD)) {
+		try (Connection connection = DriverManager.getConnection(Credenciales.DB_URL, Credenciales.DB_USER, Credenciales.DB_PASSWORD)) {
 			System.out.println("conectado");
 			
 			String updateNotifQuery = "UPDATE Notificaciones SET est_not = ? "
@@ -139,7 +139,7 @@ public class Contacto {
 	public static List<Usuario> listarRemitentes (int id_destinatario) {
 		String selectUserString = "SELECT * FROM Usuarios WHERE id_usu IN "
 				+ "(SELECT orig_not FROM Notificaciones WHERE dest_not = ? AND est_not = 1) ;";
-		try ( Connection connection = DriverManager.getConnection(DBInfo.URL, DBInfo.USER, DBInfo.PASSWORD);
+		try ( Connection connection = DriverManager.getConnection(Credenciales.DB_URL, Credenciales.DB_USER, Credenciales.DB_PASSWORD);
 				PreparedStatement selectUserStatement = connection.prepareStatement(selectUserString) ) {
 			System.out.println("Conectado");
 			

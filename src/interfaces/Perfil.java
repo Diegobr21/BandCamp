@@ -21,6 +21,7 @@ import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
 import sistema.Contacto;
+import sistema.Credenciales;
 import sistema.Union;
 import sistema.Usuario;
 
@@ -33,8 +34,6 @@ import sistema.Usuario;
  */
 @SuppressWarnings("serial")
 public class Perfil extends JFrame implements WindowListener, ActionListener {
-	public static final String SERVER_IP = "localhost";
-	public static final int SERVER_PORT = 9000;
 	
 	protected JLabel lblFacultad, lblGenero, lblInstrumento, lblNombre, UserPic;
 	protected JTextArea txtDescripcion, txtContacto;
@@ -55,7 +54,7 @@ public class Perfil extends JFrame implements WindowListener, ActionListener {
 		scuenta = sesion;
 		id_iniciada = id_propia;
 		
-		Socket s = new Socket(SERVER_IP,SERVER_PORT);
+		Socket s = new Socket(Credenciales.SERVER_IP, Credenciales.SERVER_PORT);
 		ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
 		ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
 		
@@ -237,7 +236,7 @@ public class Perfil extends JFrame implements WindowListener, ActionListener {
 					"Seguro que quieres bloquear a este usuario?", 
 					actionCommand, JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
 			if (y == JOptionPane.YES_OPTION) {
-				int usubloqueado = scuenta.getId(); //Revisar bien esto
+//				int usubloqueado = scuenta.getId(); Revisar bien esto
 				//DELETE From Usuarios WHERE id_usu=usubloqueado;
 				this.dispose();
 				}

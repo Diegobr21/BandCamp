@@ -23,7 +23,7 @@ public class Muro {
 	public static List<Usuario> filtrarCuentas(Usuario sesionIniciada) {
 		String selectUserString = "SELECT * FROM Usuarios WHERE "
 				+ "tip_usu = ? AND gen_usu = ? AND ins_usu = ? AND dis_usu = ?;";
-		try( Connection connection = DriverManager.getConnection(DBInfo.URL, DBInfo.USER, DBInfo.PASSWORD);
+		try( Connection connection = DriverManager.getConnection(Credenciales.DB_URL, Credenciales.DB_USER, Credenciales.DB_PASSWORD);
 				PreparedStatement selectUsersPreparedStatement = connection.prepareStatement(selectUserString) ) {
 			
 			System.out.println("Conectado");
@@ -74,7 +74,7 @@ public class Muro {
 	 */
 	public static int countMatches() {
 		String selectAcceptedString = "SELECT * FROM Uniones WHERE est_uni = ? ;";
-		try ( Connection connection = DriverManager.getConnection(DBInfo.URL, DBInfo.USER, DBInfo.PASSWORD);
+		try ( Connection connection = DriverManager.getConnection(Credenciales.DB_URL, Credenciales.DB_USER, Credenciales.DB_PASSWORD);
 				PreparedStatement selectAcceptedPreparedStatement = connection.prepareStatement(selectAcceptedString) ) {
 			System.out.println("Conectado");
 			
