@@ -114,25 +114,39 @@ class PerfilPropio extends Perfil implements ActionListener{
 		ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
 		ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
 		
+		oos.writeInt(5);
+		oos.writeObject(cuenta);
+		
+		String cor = (String)ois.readObject();
+		String pas = (String)ois.readObject();
+		int tip = ois.readInt();
+		String nom = (String)ois.readObject();
+		String gen = (String)ois.readObject();
+		String ins = (String)ois.readObject();
+		String fac = (String)ois.readObject();
+		String des = (String)ois.readObject();
+		boolean dis = ois.readBoolean();
+		String con = (String)ois.readObject();
+		
 		if (command.contentEquals("Editar")){
 			lblNombre.setVisible(false);
 			txtNombre.setVisible(true);
-			String nombre = (String)ois.readObject();
+			String nombre = nom;
 			txtNombre.setText(nombre);
 			
 			lblFacultad.setVisible(false);
 			perfilCmbs.cmbFacultades.setVisible(true);
-			String facultad = (String)ois.readObject();
+			String facultad = fac;
 			perfilCmbs.cmbFacultades.setSelectedItem(facultad);
 			
 			lblGenero.setVisible(false);
 			perfilCmbs.cmbGeneros.setVisible(true);
-			String genero = (String)ois.readObject();
+			String genero = gen;
 			perfilCmbs.cmbGeneros.setSelectedItem(genero);
 			
 			lblInstrumento.setVisible(false);
 			perfilCmbs.cmbInstrumentos.setVisible(true);
-			String instrumento = (String)ois.readObject();
+			String instrumento = ins;
 			perfilCmbs.cmbInstrumentos.setSelectedItem(instrumento);
 			
 			txtDescripcion.setEditable(true);
@@ -146,10 +160,6 @@ class PerfilPropio extends Perfil implements ActionListener{
 			btnDisponibilidad = modificarBoton(btnDisponibilidad);
 			btnDisponibilidad.setVisible(true);
 			btnDisponibilidad.setEnabled(true);
-			
-			oos.close();
-			ois.close();
-			s.close();
 			
 		} else if (command.contentEquals("Guardar")) {
 			String nombre = txtNombre.getText();

@@ -141,10 +141,16 @@ public class ServidorTCP {
 	private void _verPerfilPropio(ObjectInputStream ois, ObjectOutputStream oos) {
 		try {
 			Usuario perfil = (Usuario)ois.readObject();
+			oos.writeObject(perfil.getCor_usu());
+			oos.writeObject(perfil.getPas_usu());
+			oos.writeInt(perfil.getTip_usu());
 			oos.writeObject(perfil.getNom_usu());
-			oos.writeObject(perfil.getFac_usu());
 			oos.writeObject(perfil.getGen_usu());
 			oos.writeObject(perfil.getIns_usu());
+			oos.writeObject(perfil.getFac_usu());
+			oos.writeObject(perfil.getDes_usu());
+			oos.writeBoolean(perfil.isDis_usu());
+			oos.writeObject(perfil.getCon_usu());
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
