@@ -245,7 +245,7 @@ class Feed extends JFrame implements ActionListener {
 	 * @throws Exception 
 	 */
 	private void agregarNotificaciones(Usuario sesionIniciada) throws Exception {
-		Socket s = new Socket(SERVER_IP,SERVER_PORT);
+		Socket s = new Socket(Credenciales.SERVER_IP, Credenciales.SERVER_PORT);
 		ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
 		ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
 		

@@ -9,7 +9,7 @@ import java.sql.SQLException;
 public class ImagenPerfil {
 
 	public static String asignarImagen() throws SQLException{
-		Connection con = DriverManager.getConnection(DBInfo.URL, DBInfo.USER, DBInfo.PASSWORD);
+		Connection con = DriverManager.getConnection(Credenciales.DB_URL, Credenciales.DB_USER, Credenciales.DB_PASSWORD);
 		String Imagen1 = "SELECT * FROM Imagenes WHERE id_img = 6";
 		PreparedStatement selectImagenes = con.prepareStatement(Imagen1);
 		ResultSet imagenes = selectImagenes.executeQuery();
