@@ -22,7 +22,7 @@ import sistema.Union;
 import sistema.Usuario;
 
 /**
- * Interfaz de los componentes visibles y no editables de un perfil ajeno al de la sesión iniciada y 
+ * Interfaz de los componentes visibles y no editables de un perfil ajeno al de la sesiÃ³n iniciada y 
  * se construye a partir de una instancia de {@code Usuario}. <p>
  * La hereda {@code PerfilPropio}.
  * @see {@link PerfilPropio} <i>(subclase)</i>
@@ -91,7 +91,7 @@ public class Perfil extends JFrame implements WindowListener, ActionListener {
 		txtContacto.setLineWrap(true);
 		txtContacto.setForeground(Color.DARK_GRAY);
 		txtContacto.setFont(new Font("Georgia", Font.BOLD | Font.ITALIC, 11));
-		txtContacto.setText("Esta información es privada.");
+		txtContacto.setText("Esta informaciÃ³n es privada.");
 		txtContacto.setEditable(false);
 		scrContacto.setViewportView(txtContacto);
 		
@@ -120,6 +120,24 @@ public class Perfil extends JFrame implements WindowListener, ActionListener {
 		lblInstrumento.setBounds(391, 112, 88, 27);
 		contentPane.add(lblInstrumento);
 		
+		if(id_iniciada==0) {
+			btnBannear.setVisible(true);
+			btnContactar.setVisible(false);
+			btnAceptar.setVisible(false);
+			btnRechazar.setVisible(false);
+		}
+		else {
+			btnBannear.setVisible(false);
+		}
+		btnBannear = new JButton("Bloquear");
+		btnBannear.setBackground(Color.WHITE);
+		btnBannear.setFont(new Font("Verdana", Font.BOLD, 12));
+		btnBannear.setBounds(479, 112, 104, 34);
+		contentPane.add(btnBannear);
+		btnBannear.addActionListener(this);
+		btnBannear.setActionCommand("Bannear");
+		
+		
 		btnContactar = new JButton("Contactar");
 		btnContactar.setForeground(Color.BLACK);
 		btnContactar.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -145,7 +163,7 @@ public class Perfil extends JFrame implements WindowListener, ActionListener {
 		
 		if (id_iniciada != scuenta.getId()) {
 			if (Contacto.alreadyContacted(scuenta.getId(), id_iniciada, Contacto.PENDING)) {
-				// si la cuenta vista le envió una notificación a la sesión iniciada
+				// si la cuenta vista le enviÃ³ una notificaciÃ³n a la sesiÃ³n iniciada
 				btnContactar.setVisible(false);
 				btnAceptar.setVisible(true);
 				btnAceptar.setActionCommand("aceptar_not");
@@ -153,7 +171,7 @@ public class Perfil extends JFrame implements WindowListener, ActionListener {
 				btnRechazar.setActionCommand("rechazar_not");
 				
 			} else if (Contacto.alreadyContacted(id_iniciada, scuenta.getId(), Contacto.PENDING)) {
-				// si la sesión iniciada le envió una notificación a la cuenta vista
+				// si la sesiÃ³n iniciada le enviÃ³ una notificaciÃ³n a la cuenta vista
 				btnContactar.setEnabled(false);
 				
 			} else if (Contacto.alreadyContacted(id_iniciada, scuenta.getId(), Contacto.ACCEPT)
@@ -168,7 +186,7 @@ public class Perfil extends JFrame implements WindowListener, ActionListener {
 				btnContactar.setEnabled(true);
 				
 				if (Union.alreadyContacted(scuenta.getId(), id_iniciada, Contacto.PENDING)) {
-					// si la cuenta vista le envió solicitud de unión a la sesión iniciada
+					// si la cuenta vista le enviÃ³ solicitud de uniÃ³n a la sesiÃ³n iniciada
 					btnContactar.setVisible(false);
 					btnAceptar.setVisible(true);
 					btnAceptar.setActionCommand("aceptar_uni");
@@ -176,13 +194,13 @@ public class Perfil extends JFrame implements WindowListener, ActionListener {
 					btnRechazar.setActionCommand("rechazar_uni");
 					
 				} else if (Union.alreadyContacted(id_iniciada, scuenta.getId(), Contacto.PENDING)) {
-					// si la sesión iniciada le envió solicitud de unión a la cuenta vista
+					// si la sesiÃ³n iniciada le enviÃ³ solicitud de uniÃ³n a la cuenta vista
 					btnContactar.setEnabled(false);	
 				}
 			}
 			
 			else {
-				// si no hay ningún contacto
+				// si no hay ningÃºn contacto
 				btnContactar.setVisible(true);
 				btnContactar.setEnabled(true);
 			}
@@ -193,6 +211,19 @@ public class Perfil extends JFrame implements WindowListener, ActionListener {
 	public void actionPerformed(ActionEvent event) {
 		String actionCommand = event.getActionCommand();
 		
+		if (command.contentEquals("Bannear")){
+			
+			int y = JOptionPane.showConfirmDialog(this,
+					"Seguro que quieres bloquear a este usuario?", 
+					JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+			if (y == JOptionPane.YES_OPTION) {
+				int usubloqueado=scuenta.getId;
+				//DELETE From Usuarios WHERE id_usu=usubloqueado;
+				this.dispose();
+				}
+		}
+			 
+		
 		if (actionCommand.contentEquals("contactar")) {
 			Contacto.crearNotificacion("Notificaciones", id_iniciada, scuenta.getId());
 			btnContactar.setEnabled(false);
@@ -200,9 +231,9 @@ public class Perfil extends JFrame implements WindowListener, ActionListener {
 		} else if (actionCommand.contentEquals("aceptar_not")) {
 			int dialog = JOptionPane.showConfirmDialog(this,
 					"<html><center>"
-					+ "Al aceptar a este usuario, ambos tendrán un periodo de 7 días para contactarse <br>"
-					+ "y posteriormente estar de acuerdo sobre la asociación.<br>"
-					+ "¿Continuar?</center></html>", 
+					+ "Al aceptar a este usuario, ambos tendrÃ¡n un periodo de 7 dÃ­as para contactarse <br>"
+					+ "y posteriormente estar de acuerdo sobre la asociaciÃ³n.<br>"
+					+ "Â¿Continuar?</center></html>", 
 					"Aceptar contacto", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
 			if (dialog == JOptionPane.YES_OPTION) {
 				Contacto.replyContact(scuenta.getId(), id_iniciada, Contacto.ACCEPT);
@@ -225,9 +256,9 @@ public class Perfil extends JFrame implements WindowListener, ActionListener {
 			int dialog = JOptionPane.showConfirmDialog(this,
 					"<html><center>"
 					+ "Al aceptar a este usuario confirmas que lograron asociarse, por lo tanto,<br>"
-					+ "el resto de notificaciones que tengas pendientes pasarán a ser rechazadas.<br>"
-					+ "¿Unirse?</center></html>", 
-					"Aceptar unión", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+					+ "el resto de notificaciones que tengas pendientes pasarÃ¡n a ser rechazadas.<br>"
+					+ "Â¿Unirse?</center></html>", 
+					"Aceptar uniÃ³n", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
 			if (dialog == JOptionPane.YES_OPTION) {
 				this.deshab = true;
 				this.cambios = true;
