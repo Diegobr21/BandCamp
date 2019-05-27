@@ -7,9 +7,11 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.List;
 
+import sistema.Contacto;
 import sistema.Login;
 import sistema.Muro;
 import sistema.Registrar;
+import sistema.Union;
 import sistema.Usuario;
 
 public class ServidorTCP {
@@ -18,6 +20,8 @@ public class ServidorTCP {
 	public static final int OBTENER_RESULTADOS = 3;
 	public static final int VER_PERFIL = 4;
 	public static final int VER_PERFIL_PROPIO = 5;
+	public static final int VER_NOTIFICACIONES = 6;
+	
 	
 	public static final int SERVER_PORT = 9000;
 	
@@ -62,6 +66,9 @@ public class ServidorTCP {
 					break;
 				case VER_PERFIL_PROPIO:
 					_verPerfilPropio(ois, oos);
+					break;
+				case VER_NOTIFICACIONES:
+					_verNotificaciones(ois, oos);
 					break;
 			}
 		} catch(Exception ex) {
@@ -151,6 +158,18 @@ public class ServidorTCP {
 			oos.writeObject(perfil.getDes_usu());
 			oos.writeBoolean(perfil.isDis_usu());
 			oos.writeObject(perfil.getCon_usu());
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	
+	private void _verNotificaciones(ObjectInputStream ois, ObjectOutputStream oos) {
+		try {
+			Usuario perfil = (Usuario)ois.readObject();
+			List<Usuario> contactos = Contacto.listarRemitentes(perfil.getId());
+			oos.writeObject(contactos);
+			List<Usuario> uniones = Union.listarRemitentes(perfil.getId());
+			oos.writeObject(uniones);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}

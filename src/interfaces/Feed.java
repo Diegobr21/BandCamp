@@ -244,8 +244,15 @@ class Feed extends JFrame implements ActionListener {
 	 * @throws Exception 
 	 */
 	private void agregarNotificaciones(Usuario sesionIniciada) throws Exception {
-		List<Usuario> contactos = Contacto.listarRemitentes(sesionIniciada.getId());
-		List<Usuario> uniones = Union.listarRemitentes(sesionIniciada.getId());
+		Socket s = new Socket(SERVER_IP,SERVER_PORT);
+		ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
+		ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
+		
+		oos.writeInt(6);
+		oos.writeObject(sesionIniciada);
+		
+		List<Usuario> contactos = (List<Usuario>) ois.readObject();
+		List<Usuario> uniones = (List<Usuario>) ois.readObject();
 		
 		List<Usuario> remitentes = new ArrayList<Usuario>();
 		remitentes.addAll(contactos);
