@@ -1,12 +1,14 @@
 package sistema;
 
+import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
  * Clase que contiene los atributos de una cuenta. Cuenta con métodos de acceso.
  */
-public class Usuario {
+@SuppressWarnings("serial")
+public class Usuario implements Serializable {
 	private int id;
 	private String cor_usu;
 	private String pas_usu;
