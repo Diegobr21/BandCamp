@@ -140,6 +140,9 @@ public class Perfil extends JFrame implements WindowListener, ActionListener {
 		lblInstrumento.setBounds(391, 112, 88, 27);
 		contentPane.add(lblInstrumento);
 		
+		btnContactar = new JButton("Contactar");
+		btnAceptar = new JButton("Aceptar");
+		btnRechazar = new JButton("Rechazar");
 		btnBannear = new JButton("Bloquear");
 		if(id_iniciada == Credenciales.ID_ADMIN) {
 			btnBannear.setVisible(true);
@@ -157,7 +160,6 @@ public class Perfil extends JFrame implements WindowListener, ActionListener {
 		btnBannear.addActionListener(this);
 		btnBannear.setActionCommand("Bannear");
 		
-		btnContactar = new JButton("Contactar");
 		btnContactar.setForeground(Color.BLACK);
 		btnContactar.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnContactar.setBounds(244, 455, 110, 25);
@@ -165,7 +167,6 @@ public class Perfil extends JFrame implements WindowListener, ActionListener {
 		btnContactar.addActionListener(this);
 		contentPane.add(btnContactar);
 		
-		btnAceptar = new JButton("Aceptar");
 		btnAceptar.setVisible(false);
 		btnAceptar.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnAceptar.setBounds(134, 455, 110, 25);
@@ -173,7 +174,6 @@ public class Perfil extends JFrame implements WindowListener, ActionListener {
 		btnAceptar.addActionListener(this);
 		contentPane.add(btnAceptar);
 		
-		btnRechazar = new JButton("Rechazar");
 		btnRechazar.setVisible(false);
 		btnRechazar.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnRechazar.setBounds(352, 455, 110, 25);
