@@ -6,6 +6,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import sistema.Credenciales;
 import sistema.Login;
 import sistema.Muro;
@@ -27,13 +29,16 @@ public class ServidorTCP {
 		this.socket = s;
 	}
 	
-	public static void main(String[] args) throws Exception {
-		ServerSocket serverSocket = new ServerSocket(Credenciales.SERVER_PORT);
-		Socket s;
-		
-		while(true) {
-			s = serverSocket.accept();
-			new ServidorTCP(s).run();
+	public static void main(String[] args) {
+		try (ServerSocket serverSocket = new ServerSocket(Credenciales.SERVER_PORT)) {
+			while(true) {
+				Socket s = serverSocket.accept();
+				new ServidorTCP(s).run();
+			}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "El servidor falló.", "Error de servidor", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	

@@ -15,7 +15,7 @@ public class Credenciales {
 //	public static final String DB_URL = "jdbc:sqlserver://localhost:1433;databaseName=Servidor;sendStringParametersAsUnicode=false";
 	 
 	public static final String SERVER_IP = "localhost";
-	public static final int SERVER_PORT = 9001;
+	public static final int SERVER_PORT = 9000;
 	
 	public static final int ID_ADMIN = 2045;
 }
