@@ -7,9 +7,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,6 +78,7 @@ class Feed extends JFrame implements ActionListener {
 		if(id_iniciada==0) {			
 			btnNotificaciones.setVisible(false);			
 		}
+
 		
 		btnNotificaciones = new JButton("Notificaciones");
 		btnNotificaciones.setActionCommand("abrirNots");
@@ -165,6 +168,8 @@ class Feed extends JFrame implements ActionListener {
 	
 	/**
 	 * Agrega las fichas de las cuentas que se filtraron al {@code JScrollPane} del muro.
+	 * @param sesionIniciada {@code Usuario} de la sesi�n iniciada para filtrar las cuentas.
+	 * @throws Exception 
 	 */
 	private void agregarFichas(Usuario sesionIniciada) throws Exception {
 		Socket s = new Socket(SERVER_IP,SERVER_PORT);
@@ -186,7 +191,7 @@ class Feed extends JFrame implements ActionListener {
 		}
 		
 		for (Usuario usuario : cuentasFiltradas) {
-			System.out.println("añadiendo");
+			System.out.println("a�adiendo");
 			
 			Ficha ficha = new Ficha(usuario);
 			ficha.addMouseListener(
@@ -268,7 +273,7 @@ class Feed extends JFrame implements ActionListener {
 	
 	private void loopList(List<Usuario> lista, short tipo) throws Exception {
 		for (Usuario remitente : lista) {
-			System.out.println("notificación");
+			System.out.println("notificaci�n");
 			NotifContacto notifContacto = new NotifContacto(remitente, tipo);
 			notifContacto.addMouseListener(
 				new MouseAdapter() {
