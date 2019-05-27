@@ -40,6 +40,7 @@ class Feed extends JFrame implements ActionListener {
 	 */
 	Feed(Usuario sesion) {
 		cuenta = sesion;
+		int id_iniciada= cuenta.getId;
 	
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -63,6 +64,11 @@ class Feed extends JFrame implements ActionListener {
 		menuBar.add(btnAyuda);
 		btnAyuda.setActionCommand("Ayuda");
 		btnAyuda.addActionListener(this);
+		
+		if(id_iniciada==0) {			
+			btnNotificaciones.setVisible(false);			
+		}
+		
 		
 		btnNotificaciones = new JButton("Notificaciones");
 		btnNotificaciones.setActionCommand("abrirNots");
@@ -143,7 +149,7 @@ class Feed extends JFrame implements ActionListener {
 	
 	/**
 	 * Agrega las fichas de las cuentas que se filtraron al {@code JScrollPane} del muro.
-	 * @param sesionIniciada {@code Usuario} de la sesión iniciada para filtrar las cuentas.
+	 * @param sesionIniciada {@code Usuario} de la sesiÃ³n iniciada para filtrar las cuentas.
 	 */
 	private void agregarFichas(Usuario sesionIniciada) {
 		List<Usuario> cuentasFiltradas = Muro.filtrarCuentas(sesionIniciada);
@@ -158,7 +164,7 @@ class Feed extends JFrame implements ActionListener {
 		}
 		
 		for (Usuario usuario : cuentasFiltradas) {
-			System.out.println("añadiendo");
+			System.out.println("aÃ±adiendo");
 			
 			Ficha ficha = new Ficha(usuario);
 			ficha.addMouseListener(
@@ -230,7 +236,7 @@ class Feed extends JFrame implements ActionListener {
 	
 	private void loopList(List<Usuario> lista, short tipo) {
 		for (Usuario remitente : lista) {
-			System.out.println("notificación");
+			System.out.println("notificaciÃ³n");
 			NotifContacto notifContacto = new NotifContacto(remitente, tipo);
 			notifContacto.addMouseListener(
 				new MouseAdapter() {
