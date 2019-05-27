@@ -72,7 +72,7 @@ class Feed extends JFrame implements ActionListener {
 		btnAyuda.setActionCommand("Ayuda");
 		btnAyuda.addActionListener(this);
 		
-		if(id_iniciada==0) {			
+		if(id_iniciada == Credenciales.ID_ADMIN) {			
 			btnNotificaciones.setVisible(false);			
 		}
 

@@ -141,7 +141,7 @@ public class Perfil extends JFrame implements WindowListener, ActionListener {
 		contentPane.add(lblInstrumento);
 		
 		btnBannear = new JButton("Bloquear");
-		if(id_iniciada == 0) {
+		if(id_iniciada == Credenciales.ID_ADMIN) {
 			btnBannear.setVisible(true);
 			btnContactar.setVisible(false);
 			btnAceptar.setVisible(false);
@@ -212,7 +212,7 @@ public class Perfil extends JFrame implements WindowListener, ActionListener {
 					btnRechazar.setVisible(true);
 					btnRechazar.setActionCommand("rechazar_uni");
 					
-				} else if (Union.alreadyContacted(id, id, Contacto.PENDING)) {
+				} else if (Union.alreadyContacted(id_iniciada, id, Contacto.PENDING)) {
 					// si la sesión iniciada le envió solicitud de unión a la cuenta vista
 					btnContactar.setEnabled(false);	
 				}
