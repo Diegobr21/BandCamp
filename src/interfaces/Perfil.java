@@ -249,17 +249,10 @@ public class Perfil extends JFrame implements WindowListener, ActionListener {
 					actionCommand, JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
 			if (y == JOptionPane.YES_OPTION) {
 				int usubloqueado = scuenta.getId(); //Revisar bien esto
-		if (command.contentEquals("Bannear")){
-			
-			int y = JOptionPane.showConfirmDialog(this,
-					"Seguro que quieres bloquear a este usuario?", 
-					JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
-			if (y == JOptionPane.YES_OPTION) {
-				int usubloqueado=scuenta.getId;
-				//DELETE From Usuarios WHERE id_usu=usubloqueado;
-				this.dispose();
+						this.dispose();
 				}
 		}
+
 		
 		if (actionCommand.contentEquals("contactar")) {
 			Contacto.crearNotificacion("Notificaciones", id_iniciada, scuenta.getId());
