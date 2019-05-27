@@ -4,8 +4,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.SQLException;
 import java.util.List;
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 import sistema.Contacto;
 =======
@@ -13,6 +15,10 @@ import javax.swing.JOptionPane;
 
 import sistema.Credenciales;
 >>>>>>> a5fac26576f770464ecec806bd33fcf22fbc341b
+=======
+import sistema.Contacto;
+import sistema.ImagenPerfil;
+>>>>>>> Realizando cambios
 import sistema.Login;
 import sistema.Muro;
 import sistema.Registrar;
@@ -26,6 +32,10 @@ public class ServidorTCP {
 	public static final int VER_PERFIL = 4;
 	public static final int VER_PERFIL_PROPIO = 5;
 	public static final int VER_NOTIFICACIONES = 6;
+<<<<<<< HEAD
+=======
+	
+>>>>>>> Realizando cambios
 	
 	
 	private Socket socket = null;
@@ -178,6 +188,13 @@ public class ServidorTCP {
 			ex.printStackTrace();
 		}
 	}
+<<<<<<< HEAD
+=======
+	
+	private void _asignarImagen(ObjectInputStream ois, ObjectOutputStream oos) throws SQLException {
+		String imagen = ImagenPerfil.asignarImagen();
+	}
+>>>>>>> Realizando cambios
 }
 
 
