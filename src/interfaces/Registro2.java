@@ -21,7 +21,7 @@ import sistema.Usuario;
 
 @SuppressWarnings("serial")
 /**
- * Solicita llenar la descripción de la cuenta e ingresar un código para verificar el correo electrónico ingresado.
+ * Solicita llenar la descripciÃ³n de la cuenta e ingresar un cÃ³digo para verificar el correo electrÃ³nico ingresado.
  */
 class Registro2 extends JFrame implements ActionListener {
 	private JPanel contentPane;
@@ -45,11 +45,12 @@ class Registro2 extends JFrame implements ActionListener {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 				
-		JButton btnRegresar = new JButton("<----");
+		btnRegresar = new JButton();
+		btnRegresar.setIcon(new ImageIcon(Perfilusu.class.getResource("/com/sun/javafx/scene/web/skin/Undo_16x16_JFX.png")));
 		btnRegresar.setForeground(Color.RED);
-		btnRegresar.setBackground(Color.LIGHT_GRAY);
+		btnRegresar.setBackground(Color.WHITE);
 		btnRegresar.setFont(new Font("Palatino Linotype", Font.BOLD, 15));
-		btnRegresar.setBounds(10, 11, 67, 27);
+		btnRegresar.setBounds(10, 11, 67, 21);
 		contentPane.add(btnRegresar);
 		btnRegresar.setActionCommand("Regresar");
 		btnRegresar.addActionListener(this);
