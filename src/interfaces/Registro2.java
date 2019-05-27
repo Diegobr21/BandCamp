@@ -19,8 +19,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import sistema.Login;
-import sistema.Registrar;
 import sistema.Usuario;
 
 @SuppressWarnings("serial")
@@ -56,7 +54,7 @@ class Registro2 extends JFrame implements ActionListener {
 				
 		btnRegresar = new JButton();
 		btnRegresar.setIcon(new ImageIcon(Perfil.class.getResource("/com/sun/javafx/scene/web/skin/Undo_16x16_JFX.png")));
-		btnRegresar.setIcon(new ImageIcon(Perfilusu.class.getResource("/com/sun/javafx/scene/web/skin/Undo_16x16_JFX.png")));
+		btnRegresar.setIcon(new ImageIcon(Perfil.class.getResource("/com/sun/javafx/scene/web/skin/Undo_16x16_JFX.png")));
 		btnRegresar.setForeground(Color.RED);
 		btnRegresar.setBackground(Color.WHITE);
 		btnRegresar.setFont(new Font("Palatino Linotype", Font.BOLD, 15));
